@@ -16,9 +16,9 @@ class Item extends Model
     }
 
     // カテゴリー
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsToMany(Category::class, 'category_item');
     }
 
     // いいね

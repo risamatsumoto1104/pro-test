@@ -10,8 +10,8 @@ class Category extends Model
     use HasFactory;
 
     // アイテム
-    public function items()
+    public function categories()
     {
-        return $this->hasMany(Item::class, 'category_id');
+        return $this->belongsToMany(Category::class, 'category_item');
     }
 }

@@ -20,15 +20,9 @@ class CreateItemsTable extends Migration
             $table->string('brand_name')->nullable();
             $table->decimal('price', 10, 0);
             $table->text('description');
-            $table->foreignId('category_id')->constrained('categories', 'category_id')->cascadeOnDelete();
             $table->string('condition');
             $table->string('item_image');
             $table->timestamp('created_at')->useCurrent()->nullable();
-        });
-
-        // 外部キー制約を削除
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropForeign(['seller_user_id']); // ここで 'seller_user_id' に関連する外部キーを削除
         });
     }
 
@@ -40,10 +34,5 @@ class CreateItemsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('items');
-
-        // 必要に応じて外部キーを再追加する
-        Schema::table('items', function (Blueprint $table) {
-            $table->foreign('seller_user_id')->references('user_id')->on('users')->onDelete('cascade');
-        });
     }
 }
