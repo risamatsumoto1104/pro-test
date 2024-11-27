@@ -8,7 +8,7 @@ class PurchaseController extends Controller
 {
     public function confirm($item_id)
     {
-        return view('purchases.confirm', compact('item_id'));
+        return view('purchase.confirm', compact('item_id'));
     }
 
     public function store($item_id)

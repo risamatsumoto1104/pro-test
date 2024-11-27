@@ -8,7 +8,7 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        return view('mypages.profiles.show');
+        return view('mypage.profiles.show');
     }
 
     public function edit(Request $request)
@@ -19,11 +19,11 @@ class ProfileController extends Controller
 
     public function showBoughtItems()
     {
-        return view('mypages.profiles.show', ['tab' => 'buy']);
+        return view('mypage.profiles.show', ['tab' => 'buy']);
     }
 
     public function showSoldItems()
     {
-        return view('mypages.profiles.show', ['tab' => 'sell']);
+        return view('mypage.profiles.show', ['tab' => 'sell']);
     }
 }

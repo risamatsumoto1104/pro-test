@@ -1,0 +1,141 @@
+/* デスクトップパソコンのスタイル */
+@media (min-width: 1400px) and (max-width: 1540px) {
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 680px;
+        margin: 2% auto;
+        font-family: Inter;
+    }
+
+    /* contentタイトル */
+    .login-title {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* フォーム枠組み */
+    .login-form {
+        width: 100%;
+    }
+
+    /* フォームラベル */
+    .form-label {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* フォーム入力欄 */
+    .form-input {
+        width: 100%;
+        height: 59px;
+        font-size: 24px;
+        padding-left: 20px;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 16px;
+        text-align: center;
+        margin: 0 0 20px;
+        color: red;
+    }
+
+    /* 登録ボタン */
+    .submit-button {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: 65.25px;
+        font-family: Inter;
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+        border: none;
+        background-color: #ff5555;
+        border-radius: 5px;
+    }
+
+    /* ログインリンク */
+    .register-link {
+        font-size: 20px;
+        font-weight: 400;
+        color: #0073cc;
+        text-decoration: none;
+        margin: 20px 0 0;
+    }
+}
+
+/* タブレットのスタイル */
+@media (min-width: 768px) and (max-width: 850px) {
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 344px;
+        margin: 2% auto;
+        font-family: Inter;
+    }
+
+    /* contentタイトル */
+    .login-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* フォーム枠組み */
+    .login-form {
+        width: 100%;
+    }
+
+    /* フォームラベル */
+    .form-label {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* フォーム入力欄 */
+    .form-input {
+        width: 100%;
+        height: 42.24px;
+        font-size: 14px;
+        padding-left: 20px;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 12px;
+        text-align: center;
+        margin: 0 0 20px;
+        color: red;
+    }
+
+    /* 登録ボタン */
+    .submit-button {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        height: 46.84px;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 700;
+        color: #ffffff;
+        border: none;
+        background-color: #ff5555;
+        border-radius: 5px;
+    }
+
+    /* ログインリンク */
+    .register-link {
+        font-size: 14px;
+        font-weight: 400;
+        color: #0073cc;
+        text-decoration: none;
+        margin: 20px 0 0;
+    }
+}

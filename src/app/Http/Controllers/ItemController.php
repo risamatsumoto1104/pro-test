@@ -8,26 +8,26 @@ class ItemController extends Controller
 {
     public function index()
     {
-        return view('items.index');
+        return view('item.index');
     }
 
     public function search(Request $request)
     {
-        return view('items.search');
+        return view('item.search');
     }
 
     public function show(Request $request)
     {
-        return view('items.index'); // マイリストの表示
+        return view('item.index'); // マイリストの表示
     }
 
     public function create()
     {
-        return view('sells.create');
+        return view('sell.create');
     }
 
     public function showItem($item_id)
     {
-        return view('items.show', compact('item_id'));
+        return view('item.show', ['item_id' => $item_id]);
     }
 }

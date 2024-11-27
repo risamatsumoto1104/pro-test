@@ -23,7 +23,7 @@ Route::get('/search', [ItemController::class, 'search']);
 Route::get('/?tab=mylist', [ItemController::class, 'show']);
 
 // 商品詳細画面
-Route::get('/item/{item_id}', [ItemController::class, 'show']);
+Route::get('/item/{item_id}', [ItemController::class, 'showItem']);
 
 // 商品購入画面
 Route::post('/purchase/{item_id}', [PurchaseController::class, 'confirm']);
