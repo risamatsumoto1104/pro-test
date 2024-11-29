@@ -1,7 +1,319 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    .header-search-form {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 50px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 26px;
+        border-radius: 4px;
+    }
+
+    .item-content {
+        display: flex;
+    }
+
+    /* 左列 */
+    .item-image {
+        width: 50%;
+        margin: 5% 0;
+    }
+
+    /* 商品画像 */
+    .item-image-img {
+        display: block;
+        width: 600px;
+        height: 600px;
+        margin: 0 auto;
+    }
+
+    /* 右列 */
+    .item-details {
+        width: 50%;
+        margin: 5% 0;
+    }
+
+    .item-overview-container,
+    .item-purchase-submit,
+    .item-description-container,
+    .item-info-container,
+    .item-comment-container {
+        width: 570px;
+        margin: 0 auto;
+        font-family: Inter;
+        font-weight: 400;
+    }
+
+    /* 商品名 */
+    .item-overview-title {
+        margin: 0;
+        font-size: 45px;
+        font-weight: 700;
+    }
+
+    /* ブランド名 */
+    .item-overview-brand {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    /* 価格 */
+    .item-overview-price {
+        font-size: 40px;
+        margin: 30px 0;
+    }
+
+    .item-overview-price::before {
+        content: "￥";
+    }
+
+    .item-overview-price::after {
+        content: "（税込）";
+    }
+
+    .item-overview-icon-container {
+        display: flex;
+        justify-content: space-between;
+        width: 144px;
+        height: 67px;
+        margin: 0 0 20px 5%;
+    }
+
+    /* 星アイコン、ふきだしのアイコン */
+    .item-overview-like-icon,
+    .item-overview-comment-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* いいね数、コメント数 */
+    .item-overview-like-count,
+    .item-overview-comment-count {
+        margin: 0;
+        text-align: center;
+    }
+
+    /* 購入手続きへ　ボタン、コメントを送信する　ボタン */
+    .item-purchase-button,
+    .item-comment-submit-button {
+        width: 100%;
+        height: 56px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    /* 商品説明　タイトル、商品の情報　タイトル */
+    .item-description-title,
+    .item-info-title {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 30px 0;
+    }
+
+    /* 商品説明　内容 */
+    .item-description-text {
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .item-info-category,
+    .item-info-condition {
+        display: flex;
+        align-items: center;
+    }
+
+    /* カテゴリー　タイトル、商品の状態　タイトル */
+    .item-info-category-title,
+    .item-info-condition-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 5% 0 0;
+        white-space: nowrap;
+    }
+
+    .item-info-category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    /* カテゴリー内容 */
+    .item-info-category-item {
+        flex: 0 0 auto;
+        background-color: #d9d9d9;
+        border-radius: 15px;
+        padding: 4px 8px;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    /* コメント（数） */
+    .item-comment-count {
+        font-size: 36px;
+        font-weight: 700;
+        color: #5f5f5f;
+        margin: 30px 0;
+    }
+
+    .item-comment-user {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    /* プロフィール画像 */
+    .item-comment-user-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        margin-right: 5%;
+        background-color: #d9d9d9;
+    }
+
+    /* ユーザー名 */
+    .item-comment-user-name {
+        font-size: 30px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    /* 送信済み　コメント内容 */
+    .item-comment-text {
+        width: 100%;
+        height: 70px;
+        border: none;
+        border-radius: 5px;
+        background-color: #e5e5e5;
+        font-size: 20px;
+        font-weight: 300;
+        color: #000000;
+        padding: 20px 10px;
+    }
+
+    /* 商品へのコメント */
+    .item-comment-label {
+        font-size: 28px;
+        font-weight: 700;
+        margin: 30px 0 0 0;
+    }
+
+    /* 送信未済み　コメント内容 */
+    .item-comment-input-text {
+        width: 100%;
+        height: 246px;
+        resize: vertical;
+        border: solid 2px #5f5f5f;
+        border-radius: 5px;
+        padding-top: 20px;
+        font-size: 20px;
+        font-weight: 300;
+        margin-bottom: 30px;
+    }
 }
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
+    .header-search-form {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 42px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 16px;
+        border-radius: 4px;
+    }
 }

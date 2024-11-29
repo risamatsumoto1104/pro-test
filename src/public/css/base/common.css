@@ -1,39 +1,59 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
-    /* ヘッダー行 */
-    .header-logo-container {
+    .page-wrapper {
+        overflow-x: hidden;
+    }
+
+    .header-container {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         width: 100%;
         height: 82px;
-        margin: 0 auto;
-        padding-left: 25px;
         background-color: black;
+    }
+
+    .header-logo-container {
+        width: 33.3%;
+        height: 82px;
+        margin: 0;
+        padding-left: 15px;
     }
 
     /* ヘッダーロゴ */
     .header-logo {
-        width: 24.4%;
+        display: block;
+        width: 370px;
         height: 36px;
+        margin: 23px 0;
     }
 }
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
-    /* ヘッダー行 */
-    .header-logo-container {
+    .page-wrapper {
+        overflow-x: hidden;
+    }
+
+    .header-container {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         width: 100%;
-        height: 58.37px;
-        margin: 0 auto;
-        padding-left: 25px;
+        height: 69px;
         background-color: black;
+    }
+
+    .header-logo-container {
+        width: 33.3%;
+        height: 69px;
+        margin: 0;
+        padding-left: 15px;
     }
 
     /* ヘッダーロゴ */
     .header-logo {
-        width: 24.4%;
-        height: 44%;
+        display: block;
+        width: 188px;
+        height: 36px;
+        margin: 16.5px 0;
     }
 }
