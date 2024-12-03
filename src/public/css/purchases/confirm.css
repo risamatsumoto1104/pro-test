@@ -1,8 +1,289 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    .header-search-form {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 50px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 26px;
+        border-radius: 4px;
+    }
+
+    /* 全体コンテナ */
+    .purchase-container {
+        font-family: Inter;
+        display: flex;
+        margin: 5% 5% 7%;
+    }
+
+    /* 左列 */
+    .purchase-left {
+        width: 66.6%;
+    }
+
+    /* 左列　1行目 */
+    .purchase-item-info {
+        display: flex;
+        border-bottom: solid 1px #000000;
+        padding-bottom: 3%;
+    }
+
+    /* 商品画像 */
+    .purchase-item-image {
+        width: 177.53px;
+        height: 177.53px;
+    }
+
+    /* 商品名、価格　コンテナ */
+    .purchase-item-details {
+        margin-left: 4%;
+    }
+
+    /* 商品名 */
+    .purchase-item-name {
+        font-size: 30px;
+        font-weight: 700;
+        margin-top: 0;
+    }
+
+    /* 価格 */
+    .purchase-item-price {
+        font-size: 27px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .purchase-item-price::before {
+        content: "￥";
+    }
+
+    /* 左列　2行目 */
+    .purchase-payment {
+        border-bottom: solid 1px #000000;
+    }
+
+    /* 支払方法タイトル、配送先タイトル */
+    .purchase-payment-title,
+    .purchase-address-title {
+        margin-left: 4%;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .purchase-payment-select-container {
+        margin: 0 0 3% 8%;
+        width: 265px;
+        position: relative;
+    }
+
+    .purchase-payment-select-container::after {
+        content: "▼";
+        width: 13px;
+        height: 14px;
+        text-align: center;
+        color: #5f5f5f;
+        position: absolute;
+        right: 10px;
+        top: 38%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 支払方法選択 */
+    .purchase-payment-select {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 265px;
+        height: 31px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    /* 左列　3行目 */
+    .purchase-address {
+        border-bottom: solid 1px #000000;
+    }
+
+    .purchase-address-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* 住所変更リンク */
+    .purchase-address-link {
+        margin-right: 4%;
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 400;
+        color: #0073cc;
+    }
+
+    /* 住所内容 */
+    .purchase-address-postal,
+    .purchase-address-main,
+    .purchase-address-building {
+        font-size: 20px;
+        font-weight: 600;
+        margin: 0 0 3% 8%;
+    }
+
+    /* 右列 */
+    .purchase-right {
+        width: 33.4%;
+        margin-left: 5%;
+    }
+
+    /* テーブルコンテナ */
+    .purchase-summary {
+        width: 100%;
+        height: 230px;
+        border-top: solid 1px #000000;
+        border-left: solid 1px #000000;
+        border-right: solid 1px #000000;
+    }
+
+    /* テーブル行 */
+    .purchase-summary-row {
+        border-bottom: solid 1px #000000;
+    }
+
+    /* 商品代金ラベル、支払方法ラベル */
+    .purchase-summary-label {
+        font-size: 20px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* 商品代金内容、支払方法内容 */
+    .purchase-summary-value {
+        font-size: 24px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .purchase-form {
+        margin-top: 10%;
+    }
+
+    /* 購入するボタン */
+    .purchase-button {
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-family: Inter;
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+    }
 }
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
-}
+    .header-search-form {
+        width: 33.3%;
+        height: 69px;
+    }
 
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 42px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 16px;
+        border-radius: 4px;
+    }
+}

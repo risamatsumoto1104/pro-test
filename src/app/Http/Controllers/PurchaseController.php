@@ -11,9 +11,9 @@ class PurchaseController extends Controller
         return view('purchase.confirm', compact('item_id'));
     }
 
+    // 購入処理
     public function store($item_id)
     {
-        // 購入処理
         return view('/mypage?tab=buy');
     }
 }

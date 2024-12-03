@@ -25,11 +25,13 @@
 
 @section('content')
     <div class="item-content">
-        <article class="item-image">
+        {{-- 左列 --}}
+        <div class="item-image">
             <img class="item-image-img" src="{{ asset('images/コーヒーミル.jpg') }}" alt="商品名">
-        </article>
+        </div>
 
-        <aside class="item-details">
+        {{-- 右列 --}}
+        <div class="item-details">
             <div class="item-overview-container">
                 <h2 class="item-overview-title">商品名がここに入る</h2>
                 <p class="item-overview-brand">ブランド名</p>
@@ -45,7 +47,8 @@
                     </div>
                 </div>
             </div>
-            <form class="item-purchase-submit">
+            <form class="item-purchase-submit" action="">
+                @csrf
                 <input class="item-purchase-button" type="submit" value="購入手続きへ">
             </form>
 
@@ -99,6 +102,6 @@
                     <input class="item-comment-submit-button" type="submit" value="コメントを送信する">
                 </form>
             </div>
-        </aside>
+        </div>
     </div>
 @endsection
