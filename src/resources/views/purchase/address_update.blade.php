@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/items/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/purchases/address.css') }}">
 @endsection
 
 @section('header')
@@ -24,5 +24,26 @@
 @endsection
 
 @section('content')
-    <p>address_updateページ</p>
-@endsection
+    <div class="purchase-address-container">
+        <h2 class="purchase-address-title">住所の変更</h2>
+        <form class="purchase-address-form" action="">
+            <div class="form-group">
+                <p class="form-label">郵便番号</p>
+                <input class="form-input" type="text" placeholder="田中 太郎">
+                <p class="error-message">エラーメッセージの表示</p>
+            </div>
+            <div class="form-group">
+                <p class="form-label">住所</p>
+                <input class="form-input" type="text">
+                <p class="error-message">エラーメッセージの表示</p>
+            </div>
+            <div class="form-group">
+                <p class="form-label">建物名</p>
+                <input class="form-input" type="text">
+                <p class="error-message">エラーメッセージの表示</p>
+            </div>
+            <div class="form-submit">
+                <input class="submit-button" type="submit" value="更新する">
+            </div>
+        </form>
+    @endsection

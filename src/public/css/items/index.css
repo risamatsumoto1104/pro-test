@@ -116,8 +116,7 @@
 
     /* 商品名 */
     .item-name {
-        text-decoration: none;
-        color: #000000;
+        margin: 0;
     }
 }
 
@@ -240,7 +239,6 @@
 
     /* 商品名 */
     .item-name {
-        text-decoration: none;
-        color: #000000;
+        margin: 0;
     }
 }

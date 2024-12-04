@@ -30,29 +30,39 @@
     </div>
     <form class="items-form" action="">
         <div class="item">
-            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            <a href="{{ url('/item/' . 1) }}">
+                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            </a>
             <p class="item-name-sold">Sold</p>
-            <a class="item-name" href="{{ url('/item/' . 1) }}">商品名1</a>
+            <p class="item-name">商品名1</p>
         </div>
         <div class="item">
-            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            <a href="{{ url('/item/' . 1) }}">
+                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            </a>
             <p class="item-name-sold">Sold</p>
-            <a class="item-name" href="{{ url('/item/' . 1) }}">商品名1</a>
+            <p class="item-name">商品名1</p>
         </div>
         <div class="item">
-            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            <a href="{{ url('/item/' . 1) }}">
+                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            </a>
             <p class="item-name-sold">Sold</p>
-            <a class="item-name" href="{{ url('/item/' . 1) }}">商品名1</a>
+            <p class="item-name">商品名1</p>
         </div>
         <div class="item">
-            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            <a href="{{ url('/item/' . 1) }}">
+                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            </a>
             <p class="item-name-sold">Sold</p>
-            <a class="item-name" href="{{ url('/item/' . 1) }}">商品名1</a>
+            <p class="item-name">商品名1</p>
         </div>
         <div class="item">
-            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            <a href="{{ url('/item/' . 1) }}">
+                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+            </a>
             <p class="item-name-sold">Sold</p>
-            <a class="item-name" href="{{ url('/item/' . 1) }}">商品名1</a>
+            <p class="item-name">商品名1</p>
         </div>
     </form>
 @endsection

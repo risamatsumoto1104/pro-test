@@ -1,6 +1,7 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
-    .page-wrapper {
+    html,
+    body {
         overflow-x: hidden;
     }
 
@@ -30,7 +31,8 @@
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
-    .page-wrapper {
+    html,
+    body {
         overflow-x: hidden;
     }
 

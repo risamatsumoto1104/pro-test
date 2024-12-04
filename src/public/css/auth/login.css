@@ -44,10 +44,10 @@
         color: red;
     }
 
-    /* 登録ボタン */
+    /* ログインボタン */
     .submit-button {
         display: block;
-        margin: 0 auto;
+        margin: 8% auto 0;
         width: 100%;
         height: 65.25px;
         font-family: Inter;
@@ -115,10 +115,10 @@
         color: red;
     }
 
-    /* 登録ボタン */
+    /* ログインボタン */
     .submit-button {
         display: block;
-        margin: 0 auto;
+        margin: 15% auto 0;
         width: 100%;
         height: 46.84px;
         font-family: Inter;

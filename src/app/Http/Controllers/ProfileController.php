@@ -8,13 +8,13 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        return view('mypage.profiles.show');
+        return view('mypage.profile.show');
     }
 
+    // プロフィール編集処理
     public function edit(Request $request)
     {
-        // プロフィール編集処理
-        return view('/mypage');
+        return view('mypage.profile.edit');
     }
 
     public function showBoughtItems()

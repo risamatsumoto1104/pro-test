@@ -118,7 +118,7 @@
     /* 登録ボタン */
     .submit-button {
         display: block;
-        margin: 0 auto;
+        margin: 15% auto 0;
         width: 100%;
         height: 46.84px;
         font-family: Inter;

@@ -229,6 +229,13 @@
         font-weight: 700;
         color: #ffffff;
     }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 15px;
+        margin: 0 0 2% 8%;
+        color: red;
+    }
 }
 
 /* タブレットのスタイル */
@@ -285,5 +292,193 @@
         background-color: #ffffff;
         padding: 7px 16px;
         border-radius: 4px;
+    }
+
+    /* 全体コンテナ */
+    .purchase-container {
+        font-family: Inter;
+        display: flex;
+        margin: 3% 3% 7%;
+    }
+
+    /* 左列 */
+    .purchase-left {
+        width: 66.6%;
+    }
+
+    /* 左列　1行目 */
+    .purchase-item-info {
+        display: flex;
+        border-bottom: solid 1px #000000;
+        padding-bottom: 3%;
+    }
+
+    /* 商品画像 */
+    .purchase-item-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    /* 商品名、価格　コンテナ */
+    .purchase-item-details {
+        margin-left: 4%;
+    }
+
+    /* 商品名 */
+    .purchase-item-name {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 0;
+    }
+
+    /* 価格 */
+    .purchase-item-price {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .purchase-item-price::before {
+        content: "￥";
+    }
+
+    /* 左列　2行目 */
+    .purchase-payment {
+        border-bottom: solid 1px #000000;
+    }
+
+    /* 支払方法タイトル、配送先タイトル */
+    .purchase-payment-title,
+    .purchase-address-title {
+        margin-left: 4%;
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .purchase-payment-select-container {
+        margin: 0 0 3% 8%;
+        width: 265px;
+        position: relative;
+    }
+
+    .purchase-payment-select-container::after {
+        content: "▼";
+        width: 13px;
+        height: 14px;
+        text-align: center;
+        color: #5f5f5f;
+        position: absolute;
+        right: 10px;
+        top: 38%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 支払方法選択 */
+    .purchase-payment-select {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 265px;
+        height: 31px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* 左列　3行目 */
+    .purchase-address {
+        border-bottom: solid 1px #000000;
+    }
+
+    .purchase-address-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* 住所変更リンク */
+    .purchase-address-link {
+        margin-right: 4%;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 400;
+        color: #0073cc;
+    }
+
+    /* 住所内容 */
+    .purchase-address-postal,
+    .purchase-address-main,
+    .purchase-address-building {
+        font-size: 12px;
+        font-weight: 600;
+        margin: 0 0 3% 8%;
+    }
+
+    /* 右列 */
+    .purchase-right {
+        width: 33.4%;
+        margin-left: 3%;
+    }
+
+    /* テーブルコンテナ */
+    .purchase-summary {
+        width: 100%;
+        height: 230px;
+        border-top: solid 1px #000000;
+        border-left: solid 1px #000000;
+        border-right: solid 1px #000000;
+    }
+
+    /* テーブル行 */
+    .purchase-summary-row {
+        border-bottom: solid 1px #000000;
+    }
+
+    /* 商品代金ラベル、支払方法ラベル */
+    .purchase-summary-label {
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* 商品代金内容、支払方法内容 */
+    .purchase-summary-price,
+    .purchase-summary-payment {
+        font-size: 18px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    .purchase-summary-price::before {
+        content: "￥";
+    }
+
+    .purchase-form {
+        margin-top: 10%;
+    }
+
+    /* 購入するボタン */
+    .purchase-button {
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-family: Inter;
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 11px;
+        margin: 0 0 2% 8%;
+        color: red;
     }
 }

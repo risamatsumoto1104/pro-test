@@ -42,6 +42,7 @@
                             <option value="">選択してください</option>
                         </select>
                     </div>
+                    <p class="error-message">エラーメッセージの表示</p>
                 </div>
                 <div class="purchase-address">
                     <div class="purchase-address-header">
@@ -49,8 +50,11 @@
                         <a class="purchase-address-link" href="{{ url('/purchase/address/' . 1) }}">変更する</a>
                     </div>
                     <p class="purchase-address-postal">郵便番号を表示する</p>
+                    <p class="error-message">エラーメッセージの表示</p>
                     <p class="purchase-address-main">住所を表示する</p>
+                    <p class="error-message">エラーメッセージの表示</p>
                     <p class="purchase-address-building">建物名を表示する</p>
+                    <p class="error-message">エラーメッセージの表示</p>
                 </div>
             </div>
 
@@ -60,11 +64,11 @@
             <table class="purchase-summary">
                 <tr class="purchase-summary-row">
                     <th class="purchase-summary-label">商品代金</th>
-                    <td class="purchase-summary-value">47,000</td>
+                    <td class="purchase-summary-price">47,000</td>
                 </tr>
                 <tr class="purchase-summary-row">
                     <th class="purchase-summary-label">支払方法</th>
-                    <td class="purchase-summary-value">コンビニ払い</td>
+                    <td class="purchase-summary-payment">コンビニ払い</td>
                 </tr>
             </table>
             <form class="purchase-form">
