@@ -137,9 +137,8 @@
         text-align: center;
     }
 
-    /* 購入手続きへ　ボタン、コメントを送信する　ボタン */
-    .item-purchase-button,
-    .item-comment-submit-button {
+    /* 購入手続きへ　ボタン */
+    .item-purchase-button {
         width: 100%;
         height: 56px;
         border: none;
@@ -262,7 +261,27 @@
         padding-top: 20px;
         font-size: 20px;
         font-weight: 300;
-        margin-bottom: 30px;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 16px;
+        text-align: center;
+        margin: 0;
+        color: red;
+    }
+
+    /* コメントを送信するボタン */
+    .item-comment-submit-button {
+        width: 100%;
+        height: 56px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-size: 30px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-top: 30px;
     }
 }
 
@@ -405,9 +424,8 @@
         text-align: center;
     }
 
-    /* 購入手続きへ　ボタン、コメントを送信する　ボタン */
-    .item-purchase-button,
-    .item-comment-submit-button {
+    /* 購入手続きへ　ボタン */
+    .item-purchase-button {
         width: 100%;
         height: 29px;
         border: none;
@@ -530,6 +548,26 @@
         padding-top: 20px;
         font-size: 12px;
         font-weight: 300;
-        margin-bottom: 20px;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 12px;
+        text-align: center;
+        margin: 0;
+        color: red;
+    }
+
+    /* コメントを送信する　ボタン */
+    .item-comment-submit-button {
+        width: 100%;
+        height: 29px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-size: 15px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-top: 20px;
     }
 }

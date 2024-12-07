@@ -24,56 +24,59 @@
 @endsection
 
 @section('content')
-    <div class="purchase-container">
-        {{-- 左列 --}}
-        <div class="purchase-left">
-            <div class="purchase-item">
-                <div class="purchase-item-info">
-                    <img class="purchase-item-image" src="{{ asset('images/コーヒーミル.jpg') }}" alt="商品名">
-                    <div class="purchase-item-details">
-                        <h2 class="purchase-item-name">商品名</h2>
-                        <p class="purchase-item-price">47,000</p>
+    <form action="{{ url('/purchase/{item_id}') }}" method="post">
+        @csrf
+        <div class="purchase-container">
+            {{-- 左列 --}}
+            <div class="purchase-left">
+                <div class="purchase-item">
+                    <div class="purchase-item-info">
+                        <img class="purchase-item-image" src="{{ asset('images/コーヒーミル.jpg') }}" alt="商品名">
+                        <div class="purchase-item-details">
+                            <h2 class="purchase-item-name">商品名</h2>
+                            <p class="purchase-item-price">47,000</p>
+                        </div>
+                    </div>
+                    <div class="purchase-payment">
+                        <h3 class="purchase-payment-title">支払方法</h3>
+                        <div class="purchase-payment-select-container">
+                            <select class="purchase-payment-select" name="payment-method">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                        @error('payment-method')
+                            <p class="error-message">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="purchase-address">
+                        <div class="purchase-address-header">
+                            <h3 class="purchase-address-title">配送先</h3>
+                            <a class="purchase-address-link" href="{{ url('/purchase/address/' . 1) }}">変更する</a>
+                        </div>
+                        <p class="purchase-address-postal">郵便番号を表示する</p>
+                        <p class="purchase-address-main">住所を表示する</p>
+                        <p class="purchase-address-building">建物名を表示する</p>
+                        @error('shipping-address')
+                            <p class="error-message">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
-                <div class="purchase-payment">
-                    <h3 class="purchase-payment-title">支払方法</h3>
-                    <div class="purchase-payment-select-container">
-                        <select class="purchase-payment-select" name="">
-                            <option value="">選択してください</option>
-                        </select>
-                    </div>
-                    <p class="error-message">エラーメッセージの表示</p>
-                </div>
-                <div class="purchase-address">
-                    <div class="purchase-address-header">
-                        <h3 class="purchase-address-title">配送先</h3>
-                        <a class="purchase-address-link" href="{{ url('/purchase/address/' . 1) }}">変更する</a>
-                    </div>
-                    <p class="purchase-address-postal">郵便番号を表示する</p>
-                    <p class="error-message">エラーメッセージの表示</p>
-                    <p class="purchase-address-main">住所を表示する</p>
-                    <p class="error-message">エラーメッセージの表示</p>
-                    <p class="purchase-address-building">建物名を表示する</p>
-                    <p class="error-message">エラーメッセージの表示</p>
-                </div>
-            </div>
 
-        </div>
-        {{-- 右列 --}}
-        <div class="purchase-right">
-            <table class="purchase-summary">
-                <tr class="purchase-summary-row">
-                    <th class="purchase-summary-label">商品代金</th>
-                    <td class="purchase-summary-price">47,000</td>
-                </tr>
-                <tr class="purchase-summary-row">
-                    <th class="purchase-summary-label">支払方法</th>
-                    <td class="purchase-summary-payment">コンビニ払い</td>
-                </tr>
-            </table>
-            <form class="purchase-form">
+            </div>
+            {{-- 右列 --}}
+            <div class="purchase-right">
+                <table class="purchase-summary">
+                    <tr class="purchase-summary-row">
+                        <th class="purchase-summary-label">商品代金</th>
+                        <td class="purchase-summary-price">47,000</td>
+                    </tr>
+                    <tr class="purchase-summary-row">
+                        <th class="purchase-summary-label">支払方法</th>
+                        <td class="purchase-summary-payment">コンビニ払い</td>
+                    </tr>
+                </table>
                 <input class="purchase-button" type="submit" value="購入する">
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 @endsection

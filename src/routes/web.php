@@ -24,23 +24,23 @@ Route::get('/?tab=mylist', [ItemController::class, 'show']);
 
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'showItem']);
-
-// 商品購入画面
-Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm']);
-// Route::post('/purchase/{item_id}', [PurchaseController::class, 'confirm']);
-Route::post('/purchase/{item_id}/store', [PurchaseController::class, 'store']);
-
-// 送付先住所変更ページ
-Route::get('/purchase/address/{item_id}', [AddressController::class, 'update']);
-// Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update']);
+Route::post('/item/{item_id}', [ItemController::class, 'storeComment']);
 
 // 商品出品画面
 Route::get('/sell', [ItemController::class, 'create']);
+Route::post('/sell', [ItemController::class, 'storeItem']);
+
+// 商品購入画面
+Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm']);
+Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
+
+// 送付先住所変更ページ
+Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit']);
+Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update']);
 
 // プロフィール関連画面
 Route::get('/mypage', [ProfileController::class, 'show']);
-Route::get('/mypage/profile', [ProfileController::class, 'edit']);
-// Route::patch('/mypage/profile', [ProfileController::class, 'edit']);
+Route::patch('/mypage/profile', [ProfileController::class, 'edit']);
 Route::get('/mypage?tab=buy', [ProfileController::class, 'showBoughtItems']);
 Route::get('/mypage?tab=sell', [ProfileController::class, 'showSoldItems']);
 

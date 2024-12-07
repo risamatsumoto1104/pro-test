@@ -10,12 +10,12 @@
         <form class="login-form" action="">
             <div class="form-group">
                 <p class="form-label">ユーザー名/メールアドレス</p>
-                <input class="form-input" type="text" placeholder="田中 太郎">
+                <input class="form-input" name="email" type="text" placeholder="田中 太郎">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-group">
                 <p class="form-label">パスワード</p>
-                <input class="form-input" type="text">
+                <input class="form-input" name="password" type="text">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-submit">

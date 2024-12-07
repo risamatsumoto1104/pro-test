@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    // 住所更新処理
-    public function update(Request $request, $item_id)
+    public function edit($item_id)
     {
-        return view('purchase.address_update', compact('item_id'));
+        return view('purchase.edit', compact('item_id'));
+    }
+
+    // 住所更新処理
+    public function update(AddressRequest $request, $item_id)
+    {
+        return redirect('/purchase/address/' . $item_id);
     }
 }

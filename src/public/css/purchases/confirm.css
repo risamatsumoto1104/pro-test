@@ -213,10 +213,6 @@
         text-align: center;
     }
 
-    .purchase-form {
-        margin-top: 10%;
-    }
-
     /* 購入するボタン */
     .purchase-button {
         width: 100%;
@@ -228,6 +224,7 @@
         font-size: 26px;
         font-weight: 700;
         color: #ffffff;
+        margin-top: 10%;
     }
 
     /* エラーメッセージ */
@@ -458,10 +455,6 @@
         content: "￥";
     }
 
-    .purchase-form {
-        margin-top: 10%;
-    }
-
     /* 購入するボタン */
     .purchase-button {
         width: 100%;
@@ -473,6 +466,7 @@
         font-size: 20px;
         font-weight: 700;
         color: #ffffff;
+        margin-top: 10%;
     }
 
     /* エラーメッセージ */

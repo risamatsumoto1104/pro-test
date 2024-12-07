@@ -91,14 +91,16 @@
                     <img class="item-comment-user-img" src="{{ asset('images/ショルダーバッグ.jpg') }}" alt="プロフィール画像">
                     <p class="item-comment-user-name">ユーザー名</p>
                 </div>
-                <form class="item-comment-form" action="">
-                    <textarea class="item-comment-text" name="" id="" cols="" rows="">こちらにコメントが入ります。</textarea>
+                <form class="item-comment-form" action="{{ url('/item/{item_id}') }}" method="post">
+                    @csrf
+                    <p class="item-comment-text">こちらにコメントが入ります。</p>
                     <div class="item-comment-input">
                         <p class="item-comment-label">商品へのコメント</p>
-                        <textarea class="item-comment-input-text" name="" id="" cols="" rows=""></textarea>
+                        <textarea class="item-comment-input-text" name="comment"></textarea>
                     </div>
-                </form>
-                <form class="item-comment-submit">
+                    @error('comment')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
                     <input class="item-comment-submit-button" type="submit" value="コメントを送信する">
                 </form>
             </div>

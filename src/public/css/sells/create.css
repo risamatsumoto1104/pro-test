@@ -1,7 +1,521 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    .header-search-form {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 50px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 26px;
+        border-radius: 4px;
+    }
+
+    .sell-container {
+        width: 680px;
+        margin: 3% auto;
+        font-family: Inter;
+    }
+
+    /* contentタイトル */
+    .sell-title {
+        font-size: 36px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    /* ラベル */
+    .sell-image-label,
+    .sell-category-label,
+    .sell-condition-label,
+    .sell-info-label {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* 商品の詳細タイトル、商品名と説明タイトル */
+    .sell-details-title,
+    .sell-info-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #5f5f5f;
+        border-bottom: solid 1px #5f5f5f;
+        margin: 10% 0 5%;
+    }
+
+    /* 画像表示部分のスタイル */
+    .sell-image-wrapper {
+        width: 100%;
+        height: 150px;
+        border: dotted 1px #5f5f5f;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    /* 商品画像 */
+    .sell-item-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 画像を選択するボタン */
+    .sell-image-button {
+        padding: 7.73px 24.5px;
+        border: solid 2px #ff5555;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #ff5555;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+    .sell-image-input {
+        display: none;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 16px;
+        text-align: center;
+        margin: 0;
+        color: red;
+    }
+
+    .sell-category-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .sell-category-item {
+        display: flex;
+        align-items: center;
+    }
+
+    /* チェックボックスを非表示 */
+    .sell-category-input {
+        display: none;
+    }
+
+    .sell-category-item span {
+        display: inline-block;
+        padding: 5px 15px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #ff5655;
+        border: solid 2px #ff5655;
+        border-radius: 15px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    /* チェックボックスが選択された場合 */
+    .sell-category-input:checked + span {
+        background-color: #ff5655;
+        color: #ffffff;
+        border-color: #ff5655;
+        border-radius: 15px;
+    }
+
+    .sell-condition-select-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    .sell-condition-select-wrapper::after {
+        content: "▼";
+        height: 15px;
+        text-align: center;
+        color: #5f5f5f;
+        position: absolute;
+        right: 10px;
+        top: 38%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 支払方法選択 */
+    .sell-condition-select {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        height: 45px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-family: Inter;
+        color: #5f5f5f;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    /* 商品名入力欄、販売価格入力欄 */
+    .sell-info-input {
+        width: 100%;
+        height: 45px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    /* 販売価格入力欄 */
+    .sell-info-input:last-child {
+        padding-left: 8%;
+    }
+
+    /* 商品の説明入力欄 */
+    .sell-info-textarea {
+        width: 100%;
+        height: 125px;
+        padding-top: 2%;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .sell-info-input-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    .sell-info-input-wrapper::before {
+        content: "￥";
+        font-size: 24px;
+        font-weight: 700;
+        height: 15px;
+        text-align: center;
+        color: #000000;
+        position: absolute;
+        left: 10px;
+        top: 35%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 出品するボタン */
+    .submit-button {
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-family: Inter;
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-top: 10%;
+    }
 }
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
+    .header-search-form {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 42px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 16px;
+        border-radius: 4px;
+    }
+
+    .sell-container {
+        width: 680px;
+        margin: 3% auto;
+        font-family: Inter;
+    }
+
+    /* contentタイトル */
+    .sell-title {
+        font-size: 36px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    /* ラベル */
+    .sell-image-label,
+    .sell-category-label,
+    .sell-condition-label,
+    .sell-info-label {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 20px 0 0;
+    }
+
+    /* 商品の詳細タイトル、商品名と説明タイトル */
+    .sell-details-title,
+    .sell-info-title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #5f5f5f;
+        border-bottom: solid 1px #5f5f5f;
+        margin: 10% 0 5%;
+    }
+
+    /* 画像表示部分のスタイル */
+    .sell-image-wrapper {
+        width: 100%;
+        height: 150px;
+        border: dotted 1px #5f5f5f;
+        border-radius: 4px;
+        position: relative;
+    }
+
+    /* 商品画像 */
+    .sell-item-image {
+        width: 100%;
+        height: 100%;
+    }
+
+    /* 画像を選択するボタン */
+    .sell-image-button {
+        padding: 7.73px 24.5px;
+        border: solid 2px #ff5555;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: 700;
+        color: #ff5555;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+    .sell-image-input {
+        display: none;
+    }
+
+    /* エラーメッセージ */
+    .error-message {
+        font-size: 16px;
+        text-align: center;
+        margin: 0;
+        color: red;
+    }
+
+    .sell-category-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .sell-category-item {
+        display: flex;
+        align-items: center;
+    }
+
+    /* チェックボックスを非表示 */
+    .sell-category-input {
+        display: none;
+    }
+
+    .sell-category-item span {
+        display: inline-block;
+        padding: 5px 15px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #ff5655;
+        border: solid 2px #ff5655;
+        border-radius: 15px;
+        white-space: nowrap;
+        cursor: pointer;
+    }
+
+    /* チェックボックスが選択された場合 */
+    .sell-category-input:checked + span {
+        background-color: #ff5655;
+        color: #ffffff;
+        border-color: #ff5655;
+        border-radius: 15px;
+    }
+
+    .sell-condition-select-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    .sell-condition-select-wrapper::after {
+        content: "▼";
+        height: 15px;
+        text-align: center;
+        color: #5f5f5f;
+        position: absolute;
+        right: 10px;
+        top: 38%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 支払方法選択 */
+    .sell-condition-select {
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        width: 100%;
+        height: 45px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-family: Inter;
+        color: #5f5f5f;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    /* 商品名入力欄、販売価格入力欄 */
+    .sell-info-input {
+        width: 100%;
+        height: 45px;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    /* 販売価格入力欄 */
+    .sell-info-input:last-child {
+        padding-left: 8%;
+    }
+
+    /* 商品の説明入力欄 */
+    .sell-info-textarea {
+        width: 100%;
+        height: 125px;
+        padding-top: 2%;
+        padding-left: 4%;
+        border: solid 1px #5f5f5f;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .sell-info-input-wrapper {
+        width: 100%;
+        position: relative;
+    }
+
+    .sell-info-input-wrapper::before {
+        content: "￥";
+        font-size: 24px;
+        font-weight: 700;
+        height: 15px;
+        text-align: center;
+        color: #000000;
+        position: absolute;
+        left: 10px;
+        top: 35%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    /* 出品するボタン */
+    .submit-button {
+        width: 100%;
+        height: 60px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ff5555;
+        font-family: Inter;
+        font-size: 26px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-top: 10%;
+    }
 }

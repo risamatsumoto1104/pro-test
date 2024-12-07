@@ -35,25 +35,25 @@
                 <label class="profile-image-button" for="profile-image-input">
                     画像を選択する
                 </label>
-                <input class="profile-image-input" id="profile-image-input" type="file">
+                <input class="profile-image-input" name="profile-image" id="profile-image-input" type="file">
             </form>
         </div>
         <form class="purchase-address-form" action="">
             <div class="form-group">
                 <p class="form-label">ユーザー名</p>
-                <input class="form-input" type="text" placeholder="田中 太郎">
+                <input class="form-input" name="name" type="text" placeholder="田中 太郎">
             </div>
             <div class="form-group">
                 <p class="form-label">郵便番号</p>
-                <input class="form-input" type="text">
+                <input class="form-input" name="postal-code" type="text">
             </div>
             <div class="form-group">
                 <p class="form-label">住所</p>
-                <input class="form-input" type="text">
+                <input class="form-input" name="address" type="text">
             </div>
             <div class="form-group">
                 <p class="form-label">建物名</p>
-                <input class="form-input" type="text">
+                <input class="form-input" name="building" type="text">
             </div>
             <div class="form-submit">
                 <input class="submit-button" type="submit" value="更新する">

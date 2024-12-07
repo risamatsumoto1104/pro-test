@@ -223,8 +223,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 514px;
-        height: 124px;
+        width: 680px;
         margin: 5% auto;
     }
 
@@ -235,8 +234,8 @@
 
     /* ユーザー画像 */
     .profile-image {
-        width: 124px;
-        height: 124px;
+        width: 150px;
+        height: 150px;
         background-color: #d9d9d9;
         border-radius: 50%;
     }
@@ -253,11 +252,11 @@
     .profile-edit-link {
         text-decoration: none;
         text-align: center;
-        width: 157px;
-        height: 49px;
-        font-size: 15px;
+        width: 250px;
+        height: 59px;
+        font-size: 22px;
         font-weight: 700;
-        padding: 12px 5px;
+        padding: 13px 0;
         color: #ff5555;
         border: solid 2px #ff5555;
         border-radius: 10px;

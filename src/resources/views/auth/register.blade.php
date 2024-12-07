@@ -10,22 +10,22 @@
         <form class="register-form" action="">
             <div class="form-group">
                 <p class="form-label">ユーザー名</p>
-                <input class="form-input" type="text" placeholder="田中 太郎">
+                <input class="form-input" name="name" type="text" placeholder="田中 太郎">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-group">
                 <p class="form-label">メールアドレス</p>
-                <input class="form-input" type="text">
+                <input class="form-input" name="email" type="text">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-group">
                 <p class="form-label">パスワード</p>
-                <input class="form-input" type="password" name="password">
+                <input class="form-input" name="password" type="password" name="password">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-group">
                 <p class="form-label">確認用パスワード</p>
-                <input class="form-input" type="password" name="password_confirmation">
+                <input class="form-input" name="password-confirmation" type="password" name="password_confirmation">
                 <p class="error-message">エラーメッセージの表示</p>
             </div>
             <div class="form-submit">
