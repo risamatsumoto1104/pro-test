@@ -9,9 +9,20 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     // プロフィール画面の表示
-    public function show()
+    public function show(Request $request)
     {
-        return view('mypage.profile.show');
+        // クエリパラメータ 'tab' を取得（デフォルトで 'buy' を設定）
+        $tab = $request->query('tab', 'buy');  // 'tab' がない場合は 'buy' をデフォルトに
+
+        // 取得した 'tab' に基づいて処理を分ける
+        if ($tab == 'buy') {
+            return $this->showBoughtItems(); // 購入したアイテムを表示
+        } elseif ($tab == 'sell') {
+            return $this->showSoldItems(); // 出品したアイテムを表示
+        }
+
+        // デフォルトの表示処理（エラーハンドリング等もここで行うことが可能）
+        return redirect('/mypage');
     }
 
     // プロフィール編集処理
@@ -23,12 +34,14 @@ class ProfileController extends Controller
     // 購入したもののみ表示
     public function showBoughtItems()
     {
-        return view('mypage.profiles.show', ['tab' => 'buy']);
+        // 購入したアイテムを表示する処理
+        return view('mypage.bought');
     }
 
     // 出品したもののみ表示
     public function showSoldItems()
     {
-        return view('mypage.profiles.show', ['tab' => 'sell']);
+        // 出品したアイテムを表示する処理
+        return view('mypage.sold');
     }
 }

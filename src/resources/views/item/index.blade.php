@@ -11,7 +11,10 @@
     <nav class="header-nav">
         <ul class="nav-list">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/login') }}">ログアウト</a>
+                <form action="/logout" method="post">
+                    @csrf
+                    <button class="nav-link" type="submit">ログアウト</button>
+                </form>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/mypage') }}">マイページ</a>

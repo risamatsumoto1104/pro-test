@@ -32,44 +32,47 @@
         <a class="profile-edit-link" href="{{ url('/mypage/profile') }}">プロフィールを編集</a>
     </div>
     <div class="content-list-container">
-        <a class="mypage-link-sell" href="{{ url('/mypage?tab=sell') }}">出品した商品</a>
-        <a class="mypage-link-buy" href="{{ url('/mypage?tab=buy') }}">購入した商品</a>
+        <a class="mypage-link-sell" href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
+        <a class="mypage-link-buy" href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
     </div>
-    <form class="items-form" action="">
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-    </form>
+
+    {{-- 出品したアイテムの表示 --}}
+    @if ($tab == 'sell')
+        <h2>出品したアイテム</h2>
+        @if ($soldItems->isEmpty())
+            <p>出品したアイテムはありません。</p>
+        @else
+            <ul>
+                @foreach ($soldItems as $item)
+                    <div class="item">
+                        <a href="{{ url('/item/' . 1) }}">
+                            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+                        </a>
+                        <p class="item-name-sold">Sold</p>
+                        <p class="item-name">商品名1</p>
+                    </div>
+                @endforeach
+            </ul>
+        @endif
+    @endif
+
+    {{-- 購入したアイテムの表示 --}}
+    @if ($tab == 'buy')
+        <h2>購入したアイテム</h2>
+        @if ($boughtItems->isEmpty())
+            <p>購入したアイテムはありません。</p>
+        @else
+            <ul>
+                @foreach ($boughtItems as $item)
+                    <div class="item">
+                        <a href="{{ url('/item/' . 1) }}">
+                            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+                        </a>
+                        <p class="item-name-sold">Sold</p>
+                        <p class="item-name">商品名1</p>
+                    </div>
+                @endforeach
+            </ul>
+        @endif
+    @endif
 @endsection

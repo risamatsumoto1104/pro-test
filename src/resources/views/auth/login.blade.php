@@ -7,16 +7,21 @@
 @section('content')
     <div class="login-container">
         <h2 class="login-title">ログイン</h2>
-        <form class="login-form" action="">
+        <form class="login-form" action="{{ url('/login') }}" method="POST">
+            @csrf
             <div class="form-group">
                 <p class="form-label">ユーザー名/メールアドレス</p>
-                <input class="form-input" name="email" type="text" placeholder="田中 太郎">
-                <p class="error-message">エラーメッセージの表示</p>
+                <input class="form-input" name="email" type="text" value="{{ old('email') }}">
+                @error('email')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
             <div class="form-group">
                 <p class="form-label">パスワード</p>
-                <input class="form-input" name="password" type="text">
-                <p class="error-message">エラーメッセージの表示</p>
+                <input class="form-input" name="password" type="password">
+                @error('password')
+                    <p class="error-message">{{ $message }}</p>
+                @enderror
             </div>
             <div class="form-submit">
                 <input class="submit-button" type="submit" value="ログインする">
