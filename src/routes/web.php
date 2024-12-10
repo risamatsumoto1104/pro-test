@@ -9,7 +9,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 
 // 未認証ユーザーがアクセスできるルート
 // 商品一覧画面
-Route::get('/', [ItemController::class, 'index']);
+Route::get('/', [ItemController::class, 'index'])->name('home');
 // 商品検索
 Route::get('/search', [ItemController::class, 'search']);
 // 商品詳細画面

@@ -28,44 +28,67 @@
 
 @section('content')
     <div class="content-list-container">
-        <p class="recommend-title">おすすめ</p>
-        <a class="mylist-link" href="{{ url('/?tab=mylist') }}">マイリスト</a>
+        <a class="recommend-link" href="{{ route('home') }}">おすすめ</a>
+        <a class="mylist-link" href="{{ route('home', ['tab' => 'mylist']) }}">マイリスト</a>
     </div>
-    <form class="items-form" action="">
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-        <div class="item">
-            <a href="{{ url('/item/' . 1) }}">
-                <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
-            </a>
-            <p class="item-name-sold">Sold</p>
-            <p class="item-name">商品名1</p>
-        </div>
-    </form>
+
+    {{-- おすすめを表示 --}}
+    <div class="items-container">
+        @foreach ($items as $item)
+            <div class="item">
+                <a href="{{ url('item/' . $item->item_id) }}">
+                    <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}" alt="{{ $item->item_name }}">
+                </a>
+                @if ($item->is_sold)
+                    <p class="item-name-sold">Sold</p>
+                @endif
+                <p class="item-name">{{ $item->item_name }}</p>
+            </div>
+        @endforeach
+    </div>
+
+    {{-- マイリストを表示 --}}
+    {{-- マイリストを表示 --}}
+    @if (auth()->check() && $tab == 'mylist')
+        {{-- 「いいね」した商品がない場合は表示メッセージを出す --}}
+        @if ($items->isEmpty())
+            <p>「いいね」した商品はありません。</p>
+        @else
+            {{-- いいねされた商品がある場合 --}}
+            @foreach ($items as $item)
+                <div class="item">
+                    <a href="{{ url('item/' . $item->item_id) }}">
+                        <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            alt="{{ $item->item_name }}">
+                    </a>
+                    @if ($item->status == 'sold')
+                        <p class="item-name-sold">Sold</p>
+                    @endif
+                    <p class="item-name">{{ $item->item_name }}</p>
+                </div>
+            @endforeach
+        @endif
+    @elseif (!auth()->check())
+        {{-- 未認証の場合は表示メッセージ --}}
+        <p>ログインしてください。</p>
+    @endif
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const recommendLink = document.querySelector('.recommend-link');
+            const mylistLink = document.querySelector('.mylist-link');
+
+            // URLのクエリパラメータに基づいてアクティブリンクを設定
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('tab') === 'mylist') {
+                mylistLink.classList.add('active-link');
+                recommendLink.classList.remove('active-link');
+            } else {
+                recommendLink.classList.add('active-link');
+                mylistLink.classList.remove('active-link');
+            }
+        });
+    </script>
 @endsection

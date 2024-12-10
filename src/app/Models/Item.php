@@ -9,6 +9,11 @@ class Item extends Model
 {
     use HasFactory;
 
+    public function getIsSoldAttribute()
+    {
+        return $this->sold_at !== null;
+    }
+
     // 出品者
     public function user()
     {
