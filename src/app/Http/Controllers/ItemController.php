@@ -6,6 +6,7 @@ use App\Http\Requests\ExhibitionRequest;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Like;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
@@ -17,35 +18,25 @@ class ItemController extends Controller
         $user = Auth::user();
 
         // 'recommend'がデフォルト
-        $tab = $request->get('tab', 'recommend');
+        $tab = $request->query('tab', 'recommend');
 
-        // 商品一覧を取得
-        $items = Item::when($user, function ($query) use ($user) {
-            // ログインしている場合、自分の出品した商品を除外
-            $query->where('user_id', '!=', $user->user_id);
-        })
-            ->when($tab == 'sold', function ($query) {
-                // "Sold"タブの場合、購入済みの商品も含む処理を追加
-                $query->where('status', '!=', 'sold');
+        $items = Item::query()
+            ->when($tab === 'mylist', function ($query) use ($user) {
+                if ($user) {
+                    // ユーザーが「いいね」した商品だけを取得
+                    $likedItemIds = Like::where('user_id', $user->user_id)->pluck('item_id');
+                    return $query->whereIn('id', $likedItemIds);
+                }
+                return $query->whereRaw('1 = 0'); // 未認証の場合は空の結果
+            })
+            ->when($tab === 'recommend', function ($query) use ($user) {
+                if ($user) {
+                    // ユーザーが出品した商品を除外
+                    return $query->where('seller_user_id', '!=', $user->seller_user_id);
+                }
+                return $query; // 未認証の場合は全商品
             })
             ->get();
-
-        // 商品に対する「いいね」や購入済み状態などを設定
-        $items->map(function ($item) use ($user) {
-            // 購入済み商品は "Sold" と表示
-            if ($item->status == 'sold') {
-                $item->status_label = 'Sold';
-            } else {
-                $item->status_label = null;
-            }
-
-            // ログインしているユーザーが「いいね」したかどうかを判定
-            if ($user) {
-                $item->is_liked = $item->likes()->where('user_id', $user->id)->exists();
-            }
-
-            return $item;
-        });
 
         return view('item.index', compact('items', 'tab'));
     }

@@ -28,50 +28,45 @@
 
 @section('content')
     <div class="content-list-container">
-        <a class="recommend-link" href="{{ route('home') }}">おすすめ</a>
+        <a class="recommend-link" href="{{ route('home', ['tab' => 'recommend']) }}">おすすめ</a>
         <a class="mylist-link" href="{{ route('home', ['tab' => 'mylist']) }}">マイリスト</a>
     </div>
 
-    {{-- おすすめを表示 --}}
     <div class="items-container">
-        @foreach ($items as $item)
-            <div class="item">
-                <a href="{{ url('item/' . $item->item_id) }}">
-                    <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}" alt="{{ $item->item_name }}">
-                </a>
-                @if ($item->is_sold)
-                    <p class="item-name-sold">Sold</p>
-                @endif
-                <p class="item-name">{{ $item->item_name }}</p>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- マイリストを表示 --}}
-    {{-- マイリストを表示 --}}
-    @if (auth()->check() && $tab == 'mylist')
-        {{-- 「いいね」した商品がない場合は表示メッセージを出す --}}
-        @if ($items->isEmpty())
-            <p>「いいね」した商品はありません。</p>
-        @else
-            {{-- いいねされた商品がある場合 --}}
+        @if ($tab === 'recommend')
+            {{-- おすすめを表示 --}}
             @foreach ($items as $item)
                 <div class="item">
                     <a href="{{ url('item/' . $item->item_id) }}">
                         <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
                             alt="{{ $item->item_name }}">
                     </a>
-                    @if ($item->status == 'sold')
+                    @if ($item->status === 'sold')
                         <p class="item-name-sold">Sold</p>
                     @endif
                     <p class="item-name">{{ $item->item_name }}</p>
                 </div>
             @endforeach
+        @elseif ($tab === 'mylist' && auth()->check())
+            {{-- マイリストを表示 --}}
+            @if ($items->isNotEmpty())
+                @foreach ($items as $item)
+                    <div class="item">
+                        <a href="{{ url('item/' . $item->item_id) }}">
+                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                                alt="{{ $item->item_name }}">
+                        </a>
+                        @if ($item->status === 'sold')
+                            <p class="item-name-sold">Sold</p>
+                        @endif
+                        <p class="item-name">{{ $item->item_name }}</p>
+                    </div>
+                @endforeach
+            @else
+                <p class="no-items-message">「いいね」した商品はありません。</p>
+            @endif
         @endif
-    @elseif (!auth()->check())
-        {{-- 未認証の場合は表示メッセージ --}}
-        <p>ログインしてください。</p>
-    @endif
+    </div>
 @endsection
 
 @section('scripts')
