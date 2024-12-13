@@ -9,6 +9,9 @@ class Like extends Model
 {
     use HasFactory;
 
+    // 主キー名を変更
+    protected $primaryKey = 'like_id';
+
     // ユーザー
     public function user()
     {

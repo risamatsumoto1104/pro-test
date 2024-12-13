@@ -9,6 +9,9 @@ class Item extends Model
 {
     use HasFactory;
 
+    // 主キー名を変更
+    protected $primaryKey = 'item_id';
+
     public function getIsSoldAttribute()
     {
         return $this->sold_at !== null;
@@ -20,19 +23,19 @@ class Item extends Model
         return $this->belongsTo(User::class, 'seller_user_id');
     }
 
-    // カテゴリー
+    // 「商品」対「カテゴリー」（多対多）
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item');
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
     }
 
-    // いいね
+    // 「商品」対「いいね」（1対多）
     public function likes()
     {
         return $this->hasMany(Like::class, 'item_id');
     }
 
-    // コメント
+    // 「商品」対「コメント」（1対多）
     public function comments()
     {
         return $this->hasMany(Comment::class, 'item_id');

@@ -215,13 +215,20 @@
         margin-bottom: 20px;
     }
 
-    /* プロフィール画像 */
-    .item-comment-user-img {
+    /* 画像表示部分のスタイル */
+    .item-comment-image-wrapper {
         width: 70px;
         height: 70px;
         border-radius: 50%;
         margin-right: 5%;
         background-color: #d9d9d9;
+    }
+
+    /* プロフィール画像 */
+    .item-comment-user-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
     }
 
     /* ユーザー名 */
@@ -502,13 +509,20 @@
         margin-bottom: 20px;
     }
 
-    /* プロフィール画像 */
-    .item-comment-user-img {
+    /* 画像表示部分のスタイル */
+    .item-comment-image-wrapper {
         width: 36px;
         height: 36px;
         border-radius: 50%;
         margin-right: 5%;
         background-color: #d9d9d9;
+    }
+
+    /* プロフィール画像 */
+    .item-comment-user-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
     }
 
     /* ユーザー名 */

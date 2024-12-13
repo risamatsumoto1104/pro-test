@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/sell', [ItemController::class, 'storeItem']);
 
     // 商品購入画面
-    Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm']);
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm'])->name('item.purchase');
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store']);
 
     // 送付先住所変更ページ

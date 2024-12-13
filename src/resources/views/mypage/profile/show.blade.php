@@ -26,7 +26,10 @@
 @section('content')
     <div class="profile-container">
         <div class="profile-info">
-            <img class="profile-image" src="{{ asset('images/コーヒーミル.jpg') }}" alt="ユーザー画像">
+            <div class="profile-image-wrapper">
+                <img class="profile-image" src="" alt="ユーザー画像"
+                    onerror="this.style.display='none'; this.parentElement.classList.add('profile-image-placeholder');">
+            </div>
             <p class="profile-username">ユーザー名</p>
         </div>
         <a class="profile-edit-link" href="{{ url('/mypage/profile') }}">プロフィールを編集</a>

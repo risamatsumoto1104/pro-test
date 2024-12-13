@@ -9,6 +9,9 @@ class Address extends Model
 {
     use HasFactory;
 
+    // 主キー名を変更
+    protected $primaryKey = 'addresses_id';
+
     // ユーザー
     public function user()
     {

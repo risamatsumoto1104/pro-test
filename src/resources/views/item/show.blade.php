@@ -27,41 +27,34 @@
     <div class="item-content">
         {{-- 左列 --}}
         <div class="item-image">
-            <img class="item-image-img" src="{{ asset('images/コーヒーミル.jpg') }}" alt="商品名">
+            <img class="item-image-img" src="{{ asset('storage/' . $item->item_image) }}" alt="商品名">
         </div>
 
         {{-- 右列 --}}
         <div class="item-details">
             <div class="item-overview-container">
-                <h2 class="item-overview-title">商品名がここに入る</h2>
-                <p class="item-overview-brand">ブランド名</p>
-                <p class="item-overview-price">47,000</p>
+                <h2 class="item-overview-title">{{ $item->item_name }}</h2>
+                <p class="item-overview-brand">{{ $item->brand_name }}</p>
+                <p class="item-overview-price">{{ number_format($item->price) }}</p>
                 <div class="item-overview-icon-container">
                     <div class="item-overview-like">
-                        <img class="item-overview-like-icon" src="{{ asset('images/星アイコン8.png') }}" alt="星アイコン">
-                        <p class="item-overview-like-count">3</p>
+                        <img class="item-overview-like-icon" src="{{ asset('storage/星アイコン8.png') }}" alt="星アイコン">
+                        <p class="item-overview-like-count">{{ $item->likes_count }}</p>
                     </div>
                     <div class="item-overview-comment">
-                        <img class="item-overview-comment-icon" src="{{ asset('images/ふきだしのアイコン.png') }}" alt="ふきだしアイコン">
-                        <p class="item-overview-comment-count">1</p>
+                        <img class="item-overview-comment-icon" src="{{ asset('storage/ふきだしのアイコン.png') }}" alt="ふきだしアイコン">
+                        <p class="item-overview-comment-count">{{ $item->comments_count }}</p>
                     </div>
                 </div>
             </div>
-            <form class="item-purchase-submit" action="">
-                @csrf
+            <form class="item-purchase-submit" action="{{ route('item.purchase', ['item_id' => $item->item_id]) }}"
+                method="GET">
                 <input class="item-purchase-button" type="submit" value="購入手続きへ">
             </form>
 
             <div class="item-description-container">
                 <h3 class="item-description-title">商品説明</h3>
-                <p class="item-description-text">
-                    カラー：グレー<br>
-                    <br>
-                    新品<br>
-                    商品の状態は良好です。傷もありません。<br>
-                    <br>
-                    購入後、即発送いたします。
-                </p>
+                <p class="item-description-text">{{ $item->description }}</p>
             </div>
 
             <div class="item-info-container">
@@ -69,31 +62,32 @@
                 <div class="item-info-category">
                     <h4 class="item-info-category-title">カテゴリー</h4>
                     <div class="item-info-category-list">
-                        <p class="item-info-category-item">ファッション</p>
-                        <p class="item-info-category-item">家電</p>
-                        <p class="item-info-category-item">インテリア</p>
-                        <p class="item-info-category-item">レディース</p>
-                        <p class="item-info-category-item">メンズ</p>
-                        <p class="item-info-category-item">コスメ</p>
-                        <p class="item-info-category-item">本</p>
-                        <p class="item-info-category-item">ゲーム</p>
+                        @foreach ($item->categories as $category)
+                            <p class="item-info-category-item">{{ $category->content }}</p>
+                        @endforeach
                     </div>
                 </div>
                 <div class="item-info-condition">
                     <h4 class="item-info-condition-title">商品の状態</h4>
-                    <p class="item-info-condition-value">良好</p>
+                    <p class="item-info-condition-value">{{ $item->condition }}</p>
                 </div>
             </div>
 
             <div class="item-comment-container">
-                <p class="item-comment-count">コメント（1）</p>
-                <div class="item-comment-user">
-                    <img class="item-comment-user-img" src="{{ asset('images/ショルダーバッグ.jpg') }}" alt="プロフィール画像">
-                    <p class="item-comment-user-name">ユーザー名</p>
-                </div>
-                <form class="item-comment-form" action="{{ url('/item/{item_id}') }}" method="post">
+                <p class="item-comment-count">コメント（{{ $item->comments_count }}）</p>
+                @foreach ($item->comments as $comment)
+                    <div class="item-comment-user">
+                        <div class="item-comment-image-wrapper">
+                            <img class="item-comment-user-img"
+                                src="{{ asset('storage/' . $comment->userProfile->profile_image) }}" alt="ユーザー画像"
+                                onerror="this.style.display='none'; this.parentElement.classList.add('item-comment-user-img-placeholder');">
+                        </div>
+                        <p class="item-comment-user-name">{{ $comment->userProfile->name }}</p>
+                    </div>
+                    <p class="item-comment-text">{{ $comment->content }}</p>
+                @endforeach
+                <form class="item-comment-form" action="" method="post">
                     @csrf
-                    <p class="item-comment-text">こちらにコメントが入ります。</p>
                     <div class="item-comment-input">
                         <p class="item-comment-label">商品へのコメント</p>
                         <textarea class="item-comment-input-text" name="comment"></textarea>

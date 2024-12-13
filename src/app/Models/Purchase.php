@@ -9,6 +9,9 @@ class Purchase extends Model
 {
     use HasFactory;
 
+    // 主キー名を変更
+    protected $primaryKey = 'purchase_id';
+
     // 購入者
     public function user()
     {

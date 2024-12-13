@@ -9,6 +9,9 @@ class Category extends Model
 {
     use HasFactory;
 
+    // 主キー名を変更
+    protected $primaryKey = 'category_id';
+
     // アイテム
     public function categories()
     {
