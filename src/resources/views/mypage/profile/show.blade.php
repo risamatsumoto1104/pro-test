@@ -11,7 +11,10 @@
     <nav class="header-nav">
         <ul class="nav-list">
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/login') }}">ログアウト</a>
+                <form action="/logout" method="post">
+                    @csrf
+                    <button class="nav-link" type="submit">ログアウト</button>
+                </form>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/mypage') }}">マイページ</a>
@@ -26,56 +29,82 @@
 @section('content')
     <div class="profile-container">
         <div class="profile-info">
-            <div class="profile-image-wrapper">
-                <img class="profile-image" src="" alt="ユーザー画像"
-                    onerror="this.style.display='none'; this.parentElement.classList.add('profile-image-placeholder');">
+            <div class="profile-image-wrapper"
+                style="{{ $profile && $profile->profile_image ? '' : 'background-color: #d9d9d9;' }}">
+                @if ($profile && $profile->profile_image)
+                    <img class="profile-image" src="{{ asset('storage/' . $profile->profile_image) }}" alt="ユーザー画像">
+                @endif
             </div>
-            <p class="profile-username">ユーザー名</p>
+            <div class="profile-name-wrapper">
+                <p class="profile-username">{{ $user->name }}</p>
+            </div>
         </div>
         <a class="profile-edit-link" href="{{ url('/mypage/profile') }}">プロフィールを編集</a>
     </div>
+
+    {{-- タブリンク --}}
     <div class="content-list-container">
-        <a class="mypage-link-sell" href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
-        <a class="mypage-link-buy" href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
+        <a class="mypage-link {{ $tab === 'sell' ? 'active-link' : '' }}"
+            href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
+        <a class="mypage-link {{ $tab === 'buy' ? 'active-link' : '' }}"
+            href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
     </div>
 
-    {{-- 出品したアイテムの表示 --}}
-    @if ($tab == 'sell')
-        <h2>出品したアイテム</h2>
-        @if ($soldItems->isEmpty())
-            <p>出品したアイテムはありません。</p>
-        @else
-            <ul>
+    {{-- アイテムリスト --}}
+    <div class="items-container">
+        @if ($tab === 'sell')
+            @if ($soldItems->isEmpty())
+                <p class="no-items-message">出品したアイテムはありません。</p>
+            @else
                 @foreach ($soldItems as $item)
                     <div class="item">
-                        <a href="{{ url('/item/' . 1) }}">
-                            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+                        <a href="{{ url('item/' . $item->id) }}">
+                            <img class="item-image" src="{{ asset('storage/' . $item->image) }}"
+                                alt="{{ $item->name }}">
                         </a>
-                        <p class="item-name-sold">Sold</p>
-                        <p class="item-name">商品名1</p>
+                        @if ($item->status === 'sold')
+                            <p class="item-name-sold">Sold</p>
+                        @endif
+                        <p class="item-name">{{ $item->name }}</p>
                     </div>
                 @endforeach
-            </ul>
-        @endif
-    @endif
-
-    {{-- 購入したアイテムの表示 --}}
-    @if ($tab == 'buy')
-        <h2>購入したアイテム</h2>
-        @if ($boughtItems->isEmpty())
-            <p>購入したアイテムはありません。</p>
-        @else
-            <ul>
+            @endif
+        @elseif ($tab === 'buy')
+            @if ($boughtItems->isEmpty())
+                <p class="no-items-message">購入したアイテムはありません。</p>
+            @else
                 @foreach ($boughtItems as $item)
                     <div class="item">
-                        <a href="{{ url('/item/' . 1) }}">
-                            <img class="item-image" src="{{ asset('images/HDD.jpg') }}" alt="商品名">
+                        <a href="{{ url('item/' . $item->id) }}">
+                            <img class="item-image" src="{{ asset('storage/' . $item->image) }}"
+                                alt="{{ $item->name }}">
                         </a>
-                        <p class="item-name-sold">Sold</p>
-                        <p class="item-name">商品名1</p>
+                        @if ($item->status === 'sold')
+                            <p class="item-name-sold">Sold</p>
+                        @endif
+                        <p class="item-name">{{ $item->name }}</p>
                     </div>
                 @endforeach
-            </ul>
+            @endif
         @endif
-    @endif
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.mypage-link');
+            const urlParams = new URLSearchParams(window.location.search);
+            const tab = urlParams.get('tab') || 'sell';
+
+            // タブのアクティブ状態を更新
+            links.forEach(link => {
+                if (link.href.includes(`tab=${tab}`)) {
+                    link.classList.add('active-link');
+                } else {
+                    link.classList.remove('active-link');
+                }
+            });
+        });
+    </script>
 @endsection

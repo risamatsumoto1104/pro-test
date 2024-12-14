@@ -7,10 +7,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
+
 
     /**
      * Validate and create a newly registered user.
@@ -51,5 +54,12 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        // ユーザー作成後の処理
+        // ログイン
+        Auth::login($user);
+
+        // プロフィール設定画面にリダイレクト
+        return Redirect::route('mypage.profile');
     }
 }

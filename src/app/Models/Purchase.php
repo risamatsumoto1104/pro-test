@@ -13,7 +13,7 @@ class Purchase extends Model
     protected $primaryKey = 'purchase_id';
 
     // 購入者
-    public function user()
+    public function buyer()
     {
         return $this->belongsTo(User::class, 'buyer_user_id');
     }

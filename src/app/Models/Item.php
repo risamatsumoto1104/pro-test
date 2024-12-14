@@ -18,7 +18,7 @@ class Item extends Model
     }
 
     // 出品者
-    public function user()
+    public function seller()
     {
         return $this->belongsTo(User::class, 'seller_user_id');
     }
@@ -45,5 +45,11 @@ class Item extends Model
     public function purchases()
     {
         return $this->hasMany(Purchase::class, 'item_id');
+    }
+
+    // 「商品」対「送付先」（多対多）
+    public function addresses()
+    {
+        return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id');
     }
 }

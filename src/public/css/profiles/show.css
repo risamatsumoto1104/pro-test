@@ -74,7 +74,6 @@
         width: 150px;
         height: 150px;
         border-radius: 50%;
-        background-color: #d9d9d9;
     }
 
     /* プロフィール画像 */
@@ -88,7 +87,7 @@
     .profile-username {
         font-size: 36px;
         font-weight: 700;
-        margin-left: 10%;
+        margin-left: 20%;
         white-space: nowrap;
     }
 
@@ -119,11 +118,18 @@
     }
 
     /* 出品した商品、購入した商品 */
-    .mypage-link-sell,
-    .mypage-link-buy {
+    .mypage-link {
         margin: 0 0 0 5%;
         text-decoration: none;
         color: #5f5f5f;
+    }
+
+    .no-items-message {
+        font-size: 24px;
+        font-weight: 700;
+        color: #5f5f5f;
+        white-space: nowrap;
+        margin-left: 10%;
     }
 
     .items-form {
@@ -258,7 +264,7 @@
     .profile-username {
         font-size: 22px;
         font-weight: 700;
-        margin-left: 10%;
+        margin-left: 20%;
         white-space: nowrap;
     }
 
@@ -289,11 +295,18 @@
     }
 
     /* 出品した商品、購入した商品 */
-    .mypage-link-sell,
-    .mypage-link-buy {
+    .mypage-link {
         margin: 0 0 0 5%;
         text-decoration: none;
         color: #5f5f5f;
+    }
+
+    .no-items-message {
+        font-size: 20px;
+        font-weight: 700;
+        color: #5f5f5f;
+        white-space: nowrap;
+        margin-left: 10%;
     }
 
     .items-form {

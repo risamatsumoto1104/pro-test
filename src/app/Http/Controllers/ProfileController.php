@@ -5,43 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
 use Illuminate\Http\Request;
+use App\Models\Profile;
+use App\Models\User;
+use App\Models\Item;
+use App\Models\Purchase;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
     // プロフィール画面の表示
     public function show(Request $request)
     {
-        // クエリパラメータ 'tab' を取得（デフォルトで 'buy' を設定）
-        $tab = $request->query('tab', 'buy');  // 'tab' がない場合は 'buy' をデフォルトに
+        $user = auth()->user();
+        $profile = $user->profile;
 
-        // 取得した 'tab' に基づいて処理を分ける
-        if ($tab == 'buy') {
-            return $this->showBoughtItems(); // 購入したアイテムを表示
-        } elseif ($tab == 'sell') {
-            return $this->showSoldItems(); // 出品したアイテムを表示
-        }
+        // 出品した商品一覧
+        $soldItems = Item::where('seller_user_id', $user->id)->get();
 
-        // デフォルトの表示処理（エラーハンドリング等もここで行うことが可能）
-        return redirect('/mypage');
+        // 購入した商品一覧
+        $boughtItems = Purchase::where('buyer_user_id', $user->id)
+            ->join('items', 'purchases.item_id', '=', 'items.item_id')
+            ->get(['items.*']);
+
+        // タブの状態
+        $tab = $request->get('tab', 'sell');
+
+        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'tab'));
     }
 
-    // プロフィール編集処理
-    public function edit(ProfileRequest $request, AddressRequest $addressRequest)
+    // プロフィール設定画面を表示
+    public function edit()
     {
-        return view('mypage.profile.edit');
-    }
-
-    // 購入したもののみ表示
-    public function showBoughtItems()
-    {
-        // 購入したアイテムを表示する処理
-        return view('mypage.bought');
-    }
-
-    // 出品したもののみ表示
-    public function showSoldItems()
-    {
-        // 出品したアイテムを表示する処理
-        return view('mypage.sold');
+        $user = Auth::user();
+        return view('mypage.profile.edit', compact('user'));
     }
 }

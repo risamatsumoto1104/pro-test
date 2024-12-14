@@ -4,37 +4,19 @@
     <link rel="stylesheet" href="{{ asset('css/purchases/confirm.css') }}">
 @endsection
 
-@section('header')
-    <form class="header-search-form" action="">
-        <input class="search-input" type="text" placeholder="なにをお探しですか？">
-    </form>
-    <nav class="header-nav">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/login') }}">ログアウト</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/mypage') }}">マイページ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link-sell" href="{{ url('/sell') }}">出品</a>
-            </li>
-        </ul>
-    </nav>
-@endsection
-
 @section('content')
-    <form action="{{ url('/purchase/{item_id}') }}" method="post">
+    <form action="{{ route('purchase.store', ['item_id' => $item->item_id]) }}" method="post">
         @csrf
         <div class="purchase-container">
             {{-- 左列 --}}
             <div class="purchase-left">
                 <div class="purchase-item">
                     <div class="purchase-item-info">
-                        <img class="purchase-item-image" src="{{ asset('images/コーヒーミル.jpg') }}" alt="商品名">
+                        <img class="purchase-item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            alt="{{ $item->item_name }}">
                         <div class="purchase-item-details">
-                            <h2 class="purchase-item-name">商品名</h2>
-                            <p class="purchase-item-price">47,000</p>
+                            <h2 class="purchase-item-name">{{ $item->item_name }}</h2>
+                            <p class="purchase-item-price">{{ number_format($item->price) }}</p>
                         </div>
                     </div>
                     <div class="purchase-payment">
@@ -42,6 +24,8 @@
                         <div class="purchase-payment-select-container">
                             <select class="purchase-payment-select" name="payment-method">
                                 <option value="">選択してください</option>
+                                <option value="">コンビニ支払い</option>
+                                <option value="">ガード支払い</option>
                             </select>
                         </div>
                         @error('payment-method')
@@ -51,14 +35,19 @@
                     <div class="purchase-address">
                         <div class="purchase-address-header">
                             <h3 class="purchase-address-title">配送先</h3>
-                            <a class="purchase-address-link" href="{{ url('/purchase/address/' . 1) }}">変更する</a>
+                            <a class="purchase-address-link"
+                                href="{{ route('purchase.address', ['item_id' => $item->item_id]) }}">変更する</a>
                         </div>
-                        <p class="purchase-address-postal">郵便番号を表示する</p>
-                        <p class="purchase-address-main">住所を表示する</p>
-                        <p class="purchase-address-building">建物名を表示する</p>
-                        @error('shipping-address')
-                            <p class="error-message">{{ $message }}</p>
-                        @enderror
+                        {{-- 住所情報が空の場合でもバリデーションメッセージを表示 --}}
+                        @if ($address)
+                            <p class="purchase-address-postal">〒{{ $address->postal_code }}</p>
+                            <p class="purchase-address-main">{{ $address->address }}</p>
+                            <p class="purchase-address-building">{{ $address->building }}</p>
+                        @else
+                            @error('shipping-address')
+                                <p class="error-message">{{ $message }}</p>
+                            @enderror
+                        @endif
                     </div>
                 </div>
 
@@ -68,7 +57,7 @@
                 <table class="purchase-summary">
                     <tr class="purchase-summary-row">
                         <th class="purchase-summary-label">商品代金</th>
-                        <td class="purchase-summary-price">47,000</td>
+                        <td class="purchase-summary-price">{{ number_format($item->price) }}</td>
                     </tr>
                     <tr class="purchase-summary-row">
                         <th class="purchase-summary-label">支払方法</th>

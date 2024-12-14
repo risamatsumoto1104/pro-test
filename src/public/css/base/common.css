@@ -27,6 +27,62 @@
         height: 36px;
         margin: 23px 0;
     }
+
+    .header-search-form {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 50px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 82px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #ffffff;
+        background-color: #000000;
+        border: none;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 24px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 26px;
+        border-radius: 4px;
+    }
 }
 
 /* タブレットのスタイル */
@@ -57,5 +113,61 @@
         width: 188px;
         height: 36px;
         margin: 16.5px 0;
+    }
+
+    .header-search-form {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    /* 検索入力欄 */
+    .search-input {
+        width: 100%;
+        height: 42px;
+        margin: 16px 0;
+        padding-left: 15px;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .header-nav {
+        width: 33.3%;
+        height: 69px;
+    }
+
+    .nav-list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100%;
+        margin: 0 10%;
+    }
+
+    /* ログアウト、マイページ、出品リンク */
+    .nav-link,
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #ffffff;
+        background-color: #000000;
+        border: none;
+    }
+
+    /* 出品リンク */
+    .nav-link-sell {
+        text-decoration: none;
+        font-family: Inter;
+        font-size: 12px;
+        font-weight: 400;
+        color: #000000;
+        background-color: #ffffff;
+        padding: 7px 16px;
+        border-radius: 4px;
     }
 }

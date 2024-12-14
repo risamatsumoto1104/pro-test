@@ -10,12 +10,18 @@ class Address extends Model
     use HasFactory;
 
     // 主キー名を変更
-    protected $primaryKey = 'addresses_id';
+    protected $primaryKey = 'address_id';
 
     // ユーザー
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    // Address と Item の多対多
+    public function items()
+    {
+        return $this->belongsToMany(Item::class, 'address_item', 'address_id', 'item_id');
     }
 
     // 購入履歴
