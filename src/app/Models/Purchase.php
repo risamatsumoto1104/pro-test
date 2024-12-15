@@ -9,6 +9,12 @@ class Purchase extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'buyer_user_id',
+        'item_id',
+        'address_id'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'purchase_id';
 

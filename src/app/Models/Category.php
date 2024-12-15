@@ -9,12 +9,16 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'content'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'category_id';
 
-    // アイテム
-    public function categories()
+    // Itemとの関連を定義
+    public function items()
     {
-        return $this->belongsToMany(Category::class, 'category_item');
+        return $this->belongsToMany(Item::class, 'category_item_table', 'category_id', 'item_id');
     }
 }

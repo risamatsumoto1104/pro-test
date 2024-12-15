@@ -27,6 +27,6 @@
                 <input class="submit-button" type="submit" value="ログインする">
             </div>
         </form>
-        <a class="register-link" href="">会計登録はこちら</a>
+        <a class="register-link" href="{{ url('/register') }}">会計登録はこちら</a>
     </div>
 @endsection

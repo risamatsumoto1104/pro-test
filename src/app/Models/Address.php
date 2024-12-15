@@ -9,6 +9,14 @@ class Address extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'item_id',
+        'postal_code',
+        'address',
+        'building'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'address_id';
 
@@ -18,10 +26,10 @@ class Address extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Address と Item の多対多
+    // Itemとの関連を定義
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'address_item', 'address_id', 'item_id');
+        return $this->belongsToMany(Item::class, 'address_item_table', 'address_id', 'item_id');
     }
 
     // 購入履歴

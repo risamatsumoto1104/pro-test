@@ -9,6 +9,16 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'seller_user_id',
+        'item_name',
+        'brand_name',
+        'price',
+        'description',
+        'condition',
+        'item_image'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'item_id';
 
@@ -26,7 +36,8 @@ class Item extends Model
     // 「商品」対「カテゴリー」（多対多）
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id')
+            ->using(CategoryItem::class); // 中間テーブルモデルを指定
     }
 
     // 「商品」対「いいね」（1対多）
@@ -50,6 +61,7 @@ class Item extends Model
     // 「商品」対「送付先」（多対多）
     public function addresses()
     {
-        return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id');
+        return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id')
+            ->using(AddressItem::class); // 中間テーブルモデルを指定
     }
 }

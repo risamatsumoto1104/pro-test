@@ -25,7 +25,7 @@ class AddressRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'postal-code' => 'required|regex:/\A[0-9]{3}-[0-9]{4}\z/',
+            'postal_code' => 'required|regex:/\A[0-9]{3}-[0-9]{4}\z/',
             'address' => 'required',
             'building' => 'required'
         ];
@@ -35,8 +35,8 @@ class AddressRequest extends FormRequest
     {
         return [
             'name.required' => 'お名前は必須です。',
-            'postal-code.required' => '郵便番号は必須です。',
-            'postal-code.regex' => '郵便番号はハイフンありの形式（例: 123-4567）で入力してください。',
+            'postal_code.required' => '郵便番号は必須です。',
+            'postal_code.regex' => '郵便番号はハイフンありの形式（例: 123-4567）で入力してください。',
             'address.required' => '住所は必須です。',
             'building.required' => '建物名は必須です。',
         ];

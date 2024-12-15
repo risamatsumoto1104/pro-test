@@ -4,49 +4,34 @@
     <link rel="stylesheet" href="{{ asset('css/purchases/edit.css') }}">
 @endsection
 
-@section('header')
-    <form class="header-search-form" action="">
-        <input class="search-input" type="text" placeholder="なにをお探しですか？">
-    </form>
-    <nav class="header-nav">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/login') }}">ログアウト</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/mypage') }}">マイページ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link-sell" href="{{ url('/sell') }}">出品</a>
-            </li>
-        </ul>
-    </nav>
-@endsection
-
 @section('content')
     <div class="purchase-address-container">
         <h2 class="purchase-address-title">住所の変更</h2>
-        <form class="purchase-address-form" action="{{ url('/mypage/profile') }}" method="POST">
+        <form class="purchase-address-form" action="{{ route('purchase.address.update', ['item_id' => $item->item_id]) }}"
+            method="POST">
             @csrf
             @method('PATCH')
 
             <div class="form-group">
                 <p class="form-label">郵便番号</p>
-                <input class="form-input" name="postal-code" type="text" placeholder="田中 太郎">
-                @error('postal-code')
+                <input class="form-input" name="postal_code" type="text"
+                    value="{{ old('postal_code', $address->postal_code ?? '') }}">
+                @error('postal_code')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
             <div class="form-group">
                 <p class="form-label">住所</p>
-                <input class="form-input" name="address" type="text">
+                <input class="form-input" name="address" type="text"
+                    value="{{ old('address', $address->address ?? '') }}">
                 @error('address')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
             <div class="form-group">
                 <p class="form-label">建物名</p>
-                <input class="form-input" name="building" type="text">
+                <input class="form-input" name="building" type="text"
+                    value="{{ old('building', $address->building ?? '') }}">
                 @error('building')
                     <p class="error-message">{{ $message }}</p>
                 @enderror

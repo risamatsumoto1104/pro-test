@@ -9,6 +9,14 @@ class Profile extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'profile_image',
+        'postal_code',
+        'address',
+        'building'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'profile_id';
 

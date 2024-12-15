@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
 use Illuminate\Http\Request;
-use App\Models\Profile;
-use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
-use Illuminate\Support\Facades\Auth;
+
 
 class ProfileController extends Controller
 {
@@ -38,5 +38,40 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return view('mypage.profile.edit', compact('user'));
+    }
+
+    public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)
+    {
+        $user = auth()->user();
+
+        // バリデーション済みデータ取得
+        $profileValidated = $profileRequest->validated();
+        $addressValidated = $addressRequest->validated();
+
+        // 画像処理
+        if ($profileRequest->hasFile('profile_image')) {
+            $profileImage = $profileRequest->file('profile_image');
+            $imagePath = $profileImage->store('profile_images', 'public'); // ストレージに保存
+
+            // 古い画像を削除
+            if ($user->profile && $user->profile->profile_image) {
+                Storage::disk('public')->delete($user->profile->profile_image);
+            }
+
+            $profileValidated['profile_image'] = $imagePath;
+        }
+
+        // ユーザー名更新（usersテーブルのnameカラムを更新）
+        if (isset($addressValidated['name'])) {
+            $user->update(['name' => $addressValidated['name']]); // ユーザー名を更新
+            unset($addressValidated['name']);
+        }
+
+        // 住所情報更新（Profileテーブルの住所情報）
+        dd('Updating profile with:', $addressValidated);
+        $user->profile()->update($addressValidated); // Profileテーブルの住所情報を更新
+
+        // 更新完了とともにリダイレクト
+        return redirect()->route('mypage');
     }
 }

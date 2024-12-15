@@ -4,25 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/sells/create.css') }}">
 @endsection
 
-@section('header')
-    <form class="header-search-form" action="">
-        <input class="search-input" type="text" placeholder="なにをお探しですか？">
-    </form>
-    <nav class="header-nav">
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/login') }}">ログアウト</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/mypage') }}">マイページ</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link-sell" href="{{ url('/sell') }}">出品</a>
-            </li>
-        </ul>
-    </nav>
-@endsection
-
 @section('content')
     <form action="{{ url('/sell') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -37,9 +18,9 @@
                     <label class="sell-image-button" class="sell-image-button" for="sell-image-input">
                         画像を選択する
                     </label>
-                    <input class="sell-image-input" name="item-image" id="sell-image-input" type="file">
+                    <input class="sell-image-input" name="item_image" id="sell-image-input" type="file">
                 </div>
-                @error('item-image')
+                @error('item_image')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
@@ -127,15 +108,15 @@
                 <h3 class="sell-info-title">商品名と説明</h3>
                 <div class="sell-info-item">
                     <p class="sell-info-label">商品名</p>
-                    <input class="sell-info-input" name="item-name" type="text">
-                    @error('item-name')
+                    <input class="sell-info-input" name="item_name" type="text">
+                    @error('item_name')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="sell-info-item">
                     <p class="sell-info-label">商品の説明</p>
-                    <textarea class="sell-info-textarea" name="item-description"></textarea>
-                    @error('item-description')
+                    <textarea class="sell-info-textarea" name="item_description"></textarea>
+                    @error('item_description')
                         <p class="error-message">{{ $message }}</p>
                     @enderror
                 </div>

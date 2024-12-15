@@ -25,19 +25,21 @@ class AddressController extends Controller
         }
 
         // ビューに item と address を渡す
-        return view('purchase.confirm', compact('item', 'address'));
+        return view('purchase.edit', compact('item', 'address'));
     }
 
-    // 住所更新処理
     public function update(AddressRequest $request, $item_id)
     {
         // バリデーション後の処理
         $validated = $request->validated();
 
-        // 住所の更新処理など
-        $address = Address::findOrFail($item_id);
+        // item_idで関連する住所を取得
+        $address = Address::where('item_id', $item_id)->firstOrFail();
+
+        // 住所を更新
         $address->update($validated);
 
-        return redirect()->route('purchase.confirm', ['item_id' => $item_id]);
+        // リダイレクト
+        return redirect()->route('item.purchase', ['item_id' => $item_id]);
     }
 }

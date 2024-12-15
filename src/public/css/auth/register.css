@@ -1,5 +1,13 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    .header-search-form {
+        display: none;
+    }
+
+    .header-nav {
+        display: none;
+    }
+
     .register-container {
         display: flex;
         flex-direction: column;
@@ -71,6 +79,14 @@
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
+    .header-search-form {
+        display: none;
+    }
+
+    .header-nav {
+        display: none;
+    }
+
     .register-container {
         display: flex;
         flex-direction: column;

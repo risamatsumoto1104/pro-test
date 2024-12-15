@@ -25,13 +25,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/sell', [ItemController::class, 'create']);
     Route::post('/sell', [ItemController::class, 'storeItem']);
 
+    // 送付先住所変更ページ
+    Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('purchase.address.edit');
+    Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update'])->name('purchase.address.update');
+
     // 商品購入画面
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm'])->name('item.purchase');
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
-
-    // 送付先住所変更ページ
-    Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('purchase.address');
-    Route::patch('/purchase/address/{item_id}', [AddressController::class, 'update']);
 
     // プロフィール関連画面
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage');

@@ -9,6 +9,12 @@ class Comment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'item_id',
+        'content'
+    ];
+
     // 主キー名を変更
     protected $primaryKey = 'comment_id';
 
