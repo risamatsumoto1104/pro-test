@@ -23,12 +23,19 @@ class AddressRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
+        $rules = [
             'postal_code' => 'required|regex:/\A[0-9]{3}-[0-9]{4}\z/',
             'address' => 'required',
             'building' => 'required'
         ];
+
+        // ビューやリクエストパラメータに基づいて条件を設定
+        if (request()->routeIs('mypage.profile.edit')) {
+            // 'mypage.profile.edit' からのリクエストには name を必須にする
+            $rules['name'] = 'required';
+        }
+
+        return $rules;
     }
 
     public function messages()

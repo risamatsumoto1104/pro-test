@@ -36,8 +36,12 @@ class ProfileController extends Controller
     // プロフィール設定画面を表示
     public function edit()
     {
+        // ログイン中のユーザーを取得
         $user = Auth::user();
-        return view('mypage.profile.edit', compact('user'));
+        // ユーザーに関連するプロフィール情報を取得
+        $profile = $user->profile;
+
+        return view('mypage.profile.edit', compact('user', 'profile'));
     }
 
     public function update(ProfileRequest $profileRequest, AddressRequest $addressRequest)
@@ -67,11 +71,16 @@ class ProfileController extends Controller
             unset($addressValidated['name']);
         }
 
-        // 住所情報更新（Profileテーブルの住所情報）
-        dd('Updating profile with:', $addressValidated);
-        $user->profile()->update($addressValidated); // Profileテーブルの住所情報を更新
+        // プロフィール更新または作成
+        $addressValidated['profile_image'] = $profileValidated['profile_image'] ?? null; // 画像も保存
+        if ($user->profile) {
+            $user->profile()->update($addressValidated);
+        } else {
+            $addressValidated['user_id'] = $user->user_id;
+            $user->profile()->create($addressValidated);
+        }
 
         // 更新完了とともにリダイレクト
-        return redirect()->route('mypage');
+        return redirect()->route('home');
     }
 }

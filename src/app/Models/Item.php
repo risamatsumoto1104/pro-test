@@ -36,8 +36,7 @@ class Item extends Model
     // 「商品」対「カテゴリー」（多対多）
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id')
-            ->using(CategoryItem::class); // 中間テーブルモデルを指定
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
     }
 
     // 「商品」対「いいね」（1対多）
@@ -61,7 +60,6 @@ class Item extends Model
     // 「商品」対「送付先」（多対多）
     public function addresses()
     {
-        return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id')
-            ->using(AddressItem::class); // 中間テーブルモデルを指定
+        return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id');
     }
 }

@@ -9,7 +9,7 @@ class AddressItem extends Model
 {
     use HasFactory;
 
-    protected $table = 'address_item_table'; // 中間テーブル名
+    protected $table = 'address_item'; // 中間テーブル名
 
     protected $fillable = [
         'item_id', // items テーブルとの関連

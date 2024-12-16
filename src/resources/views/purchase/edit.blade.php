@@ -15,7 +15,7 @@
             <div class="form-group">
                 <p class="form-label">郵便番号</p>
                 <input class="form-input" name="postal_code" type="text"
-                    value="{{ old('postal_code', $address->postal_code ?? '') }}">
+                    value="{{ old('postal_code', $profile->postal_code ?? '') }}">
                 @error('postal_code')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -23,7 +23,7 @@
             <div class="form-group">
                 <p class="form-label">住所</p>
                 <input class="form-input" name="address" type="text"
-                    value="{{ old('address', $address->address ?? '') }}">
+                    value="{{ old('address', $profile->address ?? '') }}">
                 @error('address')
                     <p class="error-message">{{ $message }}</p>
                 @enderror
@@ -31,7 +31,7 @@
             <div class="form-group">
                 <p class="form-label">建物名</p>
                 <input class="form-input" name="building" type="text"
-                    value="{{ old('building', $address->building ?? '') }}">
+                    value="{{ old('building', $profile->building ?? '') }}">
                 @error('building')
                     <p class="error-message">{{ $message }}</p>
                 @enderror

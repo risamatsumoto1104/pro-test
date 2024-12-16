@@ -29,7 +29,7 @@ class Address extends Model
     // Itemとの関連を定義
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'address_item_table', 'address_id', 'item_id');
+        return $this->belongsToMany(Item::class, 'address_item', 'address_id', 'item_id');
     }
 
     // 購入履歴

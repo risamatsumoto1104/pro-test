@@ -3,12 +3,10 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Auth;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -48,18 +46,11 @@ class CreateNewUser implements CreatesNewUsers
             'password.confirmed' => 'パスワードと一致しません',
         ])->validate();
 
-        // ユーザー作成
+        // ユーザーを作成し、そのインスタンスを返す
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
-
-        // ユーザー作成後の処理
-        // ログイン
-        Auth::login($user);
-
-        // プロフィール設定画面にリダイレクト
-        return Redirect::route('mypage.profile');
     }
 }

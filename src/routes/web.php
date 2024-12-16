@@ -6,8 +6,11 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\RegisteredUserController;
 
 // 未認証ユーザーがアクセスできるルート
+// ユーザー登録
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware(['guest']);
 // 商品一覧画面
 Route::get('/', [ItemController::class, 'index'])->name('home');
 // 商品検索
@@ -19,11 +22,11 @@ Route::get('/item/{item_id}', [ItemController::class, 'showItem']);
 // ログインユーザーのみがアクセスできるルート
 Route::middleware('auth')->group(function () {
     // 商品詳細画面にコメントを投稿
-    Route::post('/item/{item_id}', [ItemController::class, 'storeComment']);
+    Route::post('/item/{item_id}', [ItemController::class, 'storeComment'])->name('item.comment');
 
     // 商品出品画面
-    Route::get('/sell', [ItemController::class, 'create']);
-    Route::post('/sell', [ItemController::class, 'storeItem']);
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.sell.create');
+    Route::post('/sell', [ItemController::class, 'storeItem'])->name('item.sell.store');
 
     // 送付先住所変更ページ
     Route::get('/purchase/address/{item_id}', [AddressController::class, 'edit'])->name('purchase.address.edit');

@@ -19,6 +19,6 @@ class Category extends Model
     // Itemとの関連を定義
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'category_item_table', 'category_id', 'item_id');
+        return $this->belongsToMany(Item::class, 'category_item', 'category_id', 'item_id');
     }
 }
