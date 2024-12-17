@@ -14,7 +14,7 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->middleware
 // 商品一覧画面
 Route::get('/', [ItemController::class, 'index'])->name('home');
 // 商品検索
-Route::get('/search', [ItemController::class, 'search']);
+Route::get('/search', [ItemController::class, 'search'])->name('item.search');
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'showItem']);
 

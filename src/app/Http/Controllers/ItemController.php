@@ -57,7 +57,14 @@ class ItemController extends Controller
     // 商品一覧ベージの検索
     public function search(Request $request)
     {
-        return view('item.search');
+        // 検索結果を取得
+        $searchResults = Item::KeywordSearch($request->keyword)->get();
+
+        // タブが設定されていない場合、デフォルトで'recommend'を使用
+        $tab = $request->query('tab', 'recommend');
+
+        // ビューに検索結果とタブを渡す
+        return view('item.index', compact('searchResults', 'tab'));
     }
 
 

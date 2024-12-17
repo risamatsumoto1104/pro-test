@@ -27,6 +27,13 @@ class Item extends Model
         return $this->sold_at !== null;
     }
 
+    public function scopeKeywordSearch($query, $keyword)
+    {
+        if (!empty($keyword)) {
+            $query->where('item_name', 'like', '%' . $keyword . '%');
+        }
+    }
+
     // 出品者
     public function seller()
     {

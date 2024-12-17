@@ -14,10 +14,16 @@
 <body class="page-wrapper">
     <header class="header-container">
         <h1 class="header-logo-container">
-            <img class="header-logo" src="{{ asset('logo.svg') }}" alt="COACHTECHロゴ">
+            <a href="{{ route('home') }}">
+                <img class="header-logo" src="{{ asset('logo.svg') }}" alt="COACHTECHロゴ">
+            </a>
         </h1>
-        <form class="header-search-form" action="">
-            <input class="search-input" type="text" placeholder="なにをお探しですか？">
+        <form class="header-search-form" action="{{ route('item.search') }}" method="get">
+            <input class="search-input" type="text" name="keyword" value="{{ request('keyword') }}"
+                placeholder="なにをお探しですか？">
+            @if (isset($tab))
+                <input type="hidden" name="tab" value="{{ $tab }}">
+            @endif
         </form>
         <nav class="header-nav">
             <ul class="nav-list">
