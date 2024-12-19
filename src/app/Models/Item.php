@@ -16,7 +16,8 @@ class Item extends Model
         'price',
         'description',
         'condition',
-        'item_image'
+        'item_image',
+        'likes_count'
     ];
 
     // 主キー名を変更
@@ -47,7 +48,7 @@ class Item extends Model
     }
 
     // 「商品」対「いいね」（1対多）
-    public function likes()
+    public function itemLikes()
     {
         return $this->hasMany(Like::class, 'item_id');
     }

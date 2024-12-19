@@ -75,22 +75,74 @@ class ItemController extends Controller
         $item = Item::with([
             'categories',
             'comments.userProfile',
-            'likes'
+            'itemLikes'
         ])
             // likes（いいね）とcomments（コメント）の数を計算して取得
-            ->withCount(['likes', 'comments'])
+            ->withCount(['itemLikes', 'comments'])
             // 指定されたIDに対応する商品データをデータベースから取得
             ->findOrFail($item_id);
 
-        // 取得したデータ（$item）をitems.showビューに渡す
-        return view('item.show', compact('item'));
+        // ログインしている場合に「いいね」済みか確認
+        $liked = false;
+        if (Auth::check()) {
+            $liked = $item->itemLikes->where('user_id', Auth::id())->isNotEmpty();
+        }
+
+        // 取得したデータ（$item, $liked）をビューに渡す
+        return view('item.show', compact('item', 'liked'));
+    }
+
+    // いいね機能
+    public function toggleLike($item_id)
+    {
+        // ログインユーザーがいるかいないかを判定
+        $user = Auth::user();
+
+        // 商品が存在するかチェック
+        $item = Item::findOrFail($item_id);
+
+        // 既にいいねがあるか確認
+        $like = Like::where('item_id', $item_id)
+            ->where('user_id', $user ? $user->user_id : null) // ログインしている場合、user_idを判定
+            ->first();
+
+        // いいねが存在しない場合は新規作成
+        if (!$like) {
+            Like::create([
+                'item_id' => $item_id,
+                'user_id' => $user ? $user->user_id : null, // 未認証の場合、user_idはnull
+            ]);
+            $liked = true;
+        } else {
+            // いいねがある場合は削除
+            $like->delete();
+            $liked = false;
+        }
+
+        // 商品のいいね数を再取得
+        $likeCount = $item->itemLikes()->count();
+
+        // レスポンスとして、いいねの数とアイコンの状態を返す
+        return response()->json([
+            'likeCount' => $likeCount,
+            'liked' => $liked,
+        ]);
     }
 
 
     // 商品の詳細よりコメントの保存
     public function storeComment(CommentRequest $request, $item_id)
     {
-        return redirect('/item/' . $item_id);
+        $item = Item::findOrFail($item_id);
+
+        // コメントを保存
+        $item->comments()->create([
+            'user_id' => auth()->user()->user_id,  // ログインユーザーのID
+            'content' => $request->comment,        // コメント内容
+        ]);
+
+        // 商品詳細ページにリダイレクト
+        return redirect()->route('items.show', ['item_id' => $item_id]);
     }
 
 
