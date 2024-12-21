@@ -26,12 +26,11 @@
                     <p class="item-name">{{ $item->item_name }}</p>
                 </div>
             @endforeach
-            {{-- タブがmylistの場合 --}}
         @elseif ($tab === 'mylist')
             @if (auth()->check())
                 {{-- ログイン済みの場合、マイリストを表示 --}}
-                @if ($items->isNotEmpty())
-                    @foreach ($items ?? [] as $item)
+                @if (($items ?? collect())->isNotEmpty())
+                    @foreach ($items as $item)
                         <div class="item">
                             <a href="{{ url('item/' . $item->item_id) }}">
                                 <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
@@ -44,17 +43,25 @@
                         </div>
                     @endforeach
                 @else
-                    <p class="no-items-message">「いいね」した商品はありません。</p>
+                    {{-- 「いいね」した商品がない場合 --}}
+                    <p class="no-likes-message">「いいね」した商品はありません。</p>
                 @endif
             @else
                 {{-- ログインしていない場合 --}}
                 <p class="no-items-message">ログインしてください。</p>
             @endif
         @endif
-
+    </div>
+    <div class="search-results-container">
         {{-- 検索結果がある場合 --}}
-        @if (isset($searchResults) && $searchResults->isNotEmpty())
-            <div class="search-results">
+        @if (isset($searchResults))
+            <style>
+                .no-likes-message {
+                    display: none;
+                }
+            </style>
+
+            @if ($searchResults->isNotEmpty())
                 @foreach ($searchResults as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
@@ -67,10 +74,10 @@
                         <p class="item-name">{{ $item->item_name }}</p>
                     </div>
                 @endforeach
-            </div>
-        @elseif (isset($searchResults) && $searchResults->isEmpty())
-            {{-- 検索結果が空の場合 --}}
-            <p class="no-items-message">該当する商品がありません。</p>
+            @elseif ($searchResults->isEmpty())
+                {{-- 検索結果が空の場合 --}}
+                <p class="no-items-message">該当する商品がありません。</p>
+            @endif
         @endif
     </div>
 @endsection

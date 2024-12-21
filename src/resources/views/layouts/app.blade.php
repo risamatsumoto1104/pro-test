@@ -20,11 +20,9 @@
             </a>
         </h1>
         <form class="header-search-form" action="{{ route('item.search') }}" method="get">
-            <input class="search-input" type="text" name="keyword" value="{{ request('keyword') }}"
+            <input class="search-input" type="text" name="keyword" value="{{ old('keyword', $keyword) }}"
                 placeholder="なにをお探しですか？">
-            @if (isset($tab))
-                <input type="hidden" name="tab" value="{{ $tab }}">
-            @endif
+            <input type="hidden" name="tab" value="{{ $tab }}" />
         </form>
         <nav class="header-nav">
             <ul class="nav-list">

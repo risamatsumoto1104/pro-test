@@ -17,12 +17,13 @@ Route::get('/', [ItemController::class, 'index'])->name('home');
 Route::get('/search', [ItemController::class, 'search'])->name('item.search');
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'showItem'])->name('items.show');
-// いいね機能
-Route::post('/item/{item_id}/like', [ItemController::class, 'toggleLike'])->name('item.toggleLike');
 
 
 // ログインユーザーのみがアクセスできるルート
 Route::middleware('auth')->group(function () {
+    // いいね機能
+    Route::post('/item/{item_id}/like', [ItemController::class, 'toggleLike'])->name('item.toggleLike');
+
     // 商品詳細画面にコメントを投稿
     Route::post('/item/{item_id}', [ItemController::class, 'storeComment'])->name('item.comment');
 

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\User;
 
 
 class ItemsTableSeeder extends Seeder
@@ -21,7 +20,7 @@ class ItemsTableSeeder extends Seeder
             'item_name' => '腕時計',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
-            'item_image' => '腕時計.jpg',
+            'item_image' => 'watch.jpg',
             'condition' => '良好'
         ];
         DB::table('items')->insert($param);

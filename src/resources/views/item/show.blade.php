@@ -19,10 +19,16 @@
                 <p class="item-overview-price">{{ number_format($item->price) }}</p>
                 <div class="item-overview-icon-container">
                     <div class="item-overview-like">
+                        <!-- いいねアイコン -->
                         <img class="item-overview-like-icon" id="like-icon-{{ $item->item_id }}"
                             data-item-id="{{ $item->item_id }}"
-                            src="{{ asset($liked ? 'storage/星アイコン_liked.png' : 'storage/星アイコン8.png') }}" alt="星アイコン">
-                        <p class="item-overview-like-count">{{ $item->item_likes_count }}</p>
+                            src="{{ $item->itemLikes()->where('user_id', Auth::id())->exists() ? '/storage/星アイコン_liked.png' : '/storage/星アイコン8.png' }}"
+                            alt="星アイコン" onclick="toggleLike({{ $item->item_id }})">
+
+                        <!-- いいね合計数 -->
+                        <p class="item-overview-like-count" id="like-count-{{ $item->item_id }}">
+                            {{ $item->itemLikes()->count() }}
+                        </p>
                     </div>
                     <div class="item-overview-comment">
                         <img class="item-overview-comment-icon" src="{{ asset('storage/ふきだしのアイコン.png') }}" alt="ふきだしアイコン">
@@ -96,40 +102,31 @@
 
 @section('scripts')
     <script>
-        // すべてのアイコンに対してクリックイベントを設定
-        document.querySelectorAll('.item-overview-like-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
-                const itemId = this.getAttribute('data-item-id');
-                const liked = this.getAttribute('data-liked') === 'true';
+        // いいねの切り替え処理
+        function toggleLike(itemId) {
+            // ログインしていない場合、ログイン画面にリダイレクト
+            if (!@json(Auth::check())) {
+                window.location.href = '/login';
+                return;
+            }
 
-                // いいねの状態をトグルするリクエストを送信
-                fetch(`/item/${itemId}/like`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                .getAttribute('content'),
-                        },
-                        body: JSON.stringify({
-                            liked: liked
-                        })
+            // いいねのリクエストを送信
+            fetch(`/item/${itemId}/like`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        _method: 'POST'
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        // アイコンの状態やいいね数を更新
-                        const likeIcon = document.getElementById(`like-icon-${itemId}`);
-                        likeIcon.src = data.liked ? '/storage/星アイコン_liked.png' : '/storage/星アイコン8.png';
-
-                        document.querySelector('.item-overview-like-count').textContent =
-                            `${data.likeCount}`;
-
-                        // アイコンのデータ属性を更新
-                        likeIcon.setAttribute('data-liked', data.liked);
-                    })
-                    .catch(error => {
-                        console.error('いいね処理に失敗しました:', error);
-                    });
-            });
-        });
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // アイコンのパスといいね数を更新
+                    document.getElementById(`like-icon-${itemId}`).src = data.iconPath;
+                    document.getElementById(`like-count-${itemId}`).innerText = data.likeCount;
+                })
+                .catch(error => console.error('Error:', error));
+        }
     </script>
 @endsection

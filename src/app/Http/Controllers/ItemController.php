@@ -19,52 +19,53 @@ class ItemController extends Controller
 
         // 'recommend'がデフォルト
         $tab = $request->query('tab', 'recommend');
+        $keyword = $request->query('keyword', ''); // 検索キーワードを取得
 
         // 商品一覧のデータの取得
         $items = Item::query()
-
             // タブがmylistの場合
             ->when($tab === 'mylist', function ($query) use ($user) {
                 // ログイン済みユーザーの場合
                 if ($user) {
-                    // Likeテーブルから、ログイン中のユーザーが「いいね」した商品のitem_idをリスト形式で取得
                     $likedItemIds = Like::where('user_id', $user->user_id)->pluck('item_id');
-                    // 取得したリストをwhereInで指定して、該当する商品だけをItemテーブルから取得
-                    return $query->whereIn('id', $likedItemIds);
+                    return $query->whereIn('item_id', $likedItemIds);
                 }
-                // 未認証の場合・・・空の結果を返す
                 return $query->whereRaw('1 = 0');
             })
-
             // タブがrecommendの場合
             ->when($tab === 'recommend', function ($query) use ($user) {
                 // ログイン済みユーザーの場合
                 if ($user) {
-                    // ユーザーが出品した商品を除外（seller_user_idがログイン中のユーザーのseller_user_idと異なる商品だけを取得）
                     return $query->where('seller_user_id', '!=', $user->seller_user_id);
                 }
-                // 未認証の場合・・・条件を付けずにすべての商品を取得
                 return $query;
+            })
+            // キーワード検索
+            ->when($keyword, function ($query) use ($keyword) {
+                return $query->where('item_name', 'like', '%' . $keyword . '%');
             })
             // $itemsに、条件に一致する商品が格納
             ->get();
 
-        // ビューitem.indexに、$itemsと$tabを渡して表示
-        return view('item.index', compact('items', 'tab'));
+        // ビューitem.indexに、$itemsと$tab、検索キーワードを渡して表示
+        return view('item.index', compact('items', 'tab', 'keyword'));
     }
 
 
     // 商品一覧ベージの検索
     public function search(Request $request)
     {
+        // 検索キーワードを取得
+        $keyword = $request->query('keyword', ''); // キーワードがリクエストに存在しない場合は空文字
+
         // 検索結果を取得
-        $searchResults = Item::KeywordSearch($request->keyword)->get();
+        $searchResults = Item::where('item_name', 'like', '%' . $keyword . '%')->get();
 
         // タブが設定されていない場合、デフォルトで'recommend'を使用
         $tab = $request->query('tab', 'recommend');
 
-        // ビューに検索結果とタブを渡す
-        return view('item.index', compact('searchResults', 'tab'));
+        // ビューに検索結果とタブ、キーワードを渡す
+        return view('item.index', compact('searchResults', 'tab', 'keyword'));
     }
 
 
@@ -95,37 +96,39 @@ class ItemController extends Controller
     // いいね機能
     public function toggleLike($item_id)
     {
-        // ログインユーザーがいるかいないかを判定
+        // 認証済みのユーザーを取得
         $user = Auth::user();
 
-        // 商品が存在するかチェック
+        // 商品を取得
         $item = Item::findOrFail($item_id);
 
-        // 既にいいねがあるか確認
-        $like = Like::where('item_id', $item_id)
-            ->where('user_id', $user ? $user->user_id : null) // ログインしている場合、user_idを判定
+        // 既にいいねしているか確認
+        $like = Like::where('user_id', $user->user_id)
+            ->where('item_id', $item->item_id)
             ->first();
 
-        // いいねが存在しない場合は新規作成
-        if (!$like) {
-            Like::create([
-                'item_id' => $item_id,
-                'user_id' => $user ? $user->user_id : null, // 未認証の場合、user_idはnull
-            ]);
-            $liked = true;
-        } else {
-            // いいねがある場合は削除
+        // いいねの追加または解除
+        if ($like) {
+            // いいねを解除
             $like->delete();
             $liked = false;
+        } else {
+            // いいねを追加
+            $item->itemLikes()->create(['user_id' => $user->user_id]);
+            $liked = true;
         }
 
-        // 商品のいいね数を再取得
+        // 商品のいいね合計数を取得
         $likeCount = $item->itemLikes()->count();
 
-        // レスポンスとして、いいねの数とアイコンの状態を返す
+        // いいねアイコンのパスを設定
+        $iconPath = $liked ? '/storage/星アイコン_liked.png' : '/storage/星アイコン8.png';
+
+        // JSONでレスポンスを返す
         return response()->json([
-            'likeCount' => $likeCount,
             'liked' => $liked,
+            'likeCount' => $likeCount,
+            'iconPath' => $iconPath
         ]);
     }
 
