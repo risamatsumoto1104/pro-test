@@ -34,7 +34,7 @@
 
     .items-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3列に均等に配置 */
+        grid-template-columns: repeat(4, 1fr); /* 4列に均等に配置 */
         font-family: Inter;
         font-size: 25px;
         font-weight: 400;
@@ -42,7 +42,7 @@
 
     .search-results-container {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3列に均等に配置 */
+        grid-template-columns: repeat(4, 1fr); /* 4列に均等に配置 */
         font-family: Inter;
         font-size: 16px;
         font-weight: 400;
@@ -63,14 +63,17 @@
 
     /* Sold */
     .item-name-sold {
+        width: 280px;
+        height: 280px;
         font-size: 36px;
         font-weight: 900;
         color: #ff0000;
         background-color: rgba(255, 255, 255, 0.8);
         padding: 5px 10px;
+        margin: 0;
         border-radius: 5px;
         position: absolute;
-        top: 20%;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
@@ -163,15 +166,17 @@
 
     /* Sold */
     .item-name-sold {
-        width: 100px;
-        text-align: center;
-        font-size: 36px;
+        width: 195px;
+        height: 195px;
+        font-size: 30px;
         font-weight: 900;
         color: #ff0000;
         background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        margin: 0;
         border-radius: 5px;
         position: absolute;
-        top: 15%;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;

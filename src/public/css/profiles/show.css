@@ -1,59 +1,5 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
-    .header-search-form {
-        width: 33.3%;
-        height: 82px;
-    }
-
-    /* 検索入力欄 */
-    .search-input {
-        width: 100%;
-        height: 50px;
-        margin: 16px 0;
-        padding-left: 15px;
-        font-family: Inter;
-        font-size: 24px;
-        font-weight: 400;
-        color: #000000;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .header-nav {
-        width: 33.3%;
-        height: 82px;
-    }
-
-    .nav-list {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%;
-        margin: 0 10%;
-    }
-
-    /* ログアウト、マイページ、出品リンク */
-    .nav-link,
-    .nav-link-sell {
-        text-decoration: none;
-        font-family: Inter;
-        font-size: 24px;
-        font-weight: 400;
-        color: #ffffff;
-    }
-
-    /* 出品リンク */
-    .nav-link-sell {
-        text-decoration: none;
-        font-family: Inter;
-        font-size: 24px;
-        font-weight: 400;
-        color: #000000;
-        background-color: #ffffff;
-        padding: 7px 26px;
-        border-radius: 4px;
-    }
-
     .profile-container {
         font-family: Inter;
         display: flex;
@@ -118,10 +64,17 @@
     }
 
     /* 出品した商品、購入した商品 */
-    .mypage-link {
+    .sell-link,
+    .buy-link {
         margin: 0 0 0 5%;
         text-decoration: none;
         color: #5f5f5f;
+    }
+
+    /* クリックされたリンクのスタイル（アクティブリンク） */
+    .sell-link.active-link,
+    .buy-link.active-link {
+        color: #ff0000; /* 赤色 */
     }
 
     .no-items-message {
@@ -132,9 +85,9 @@
         margin-left: 10%;
     }
 
-    .items-form {
+    .items-container {
         display: grid;
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: repeat(4, 1fr); /* 4列に均等に配置 */
         font-family: Inter;
         font-size: 25px;
         font-weight: 400;
@@ -156,14 +109,17 @@
 
     /* Sold */
     .item-name-sold {
+        width: 280px;
+        height: 280px;
         font-size: 36px;
         font-weight: 900;
         color: #ff0000;
         background-color: rgba(255, 255, 255, 0.8);
         padding: 5px 10px;
+        margin: 0;
         border-radius: 5px;
         position: absolute;
-        top: 20%;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
@@ -177,60 +133,6 @@
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
-    .header-search-form {
-        width: 33.3%;
-        height: 69px;
-    }
-
-    /* 検索入力欄 */
-    .search-input {
-        width: 100%;
-        height: 42px;
-        margin: 16px 0;
-        padding-left: 15px;
-        font-family: Inter;
-        font-size: 12px;
-        font-weight: 400;
-        color: #000000;
-        border: none;
-        border-radius: 5px;
-    }
-
-    .header-nav {
-        width: 33.3%;
-        height: 69px;
-    }
-
-    .nav-list {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 100%;
-        margin: 0 10%;
-    }
-
-    /* ログアウト、マイページ、出品リンク */
-    .nav-link,
-    .nav-link-sell {
-        text-decoration: none;
-        font-family: Inter;
-        font-size: 12px;
-        font-weight: 400;
-        color: #ffffff;
-    }
-
-    /* 出品リンク */
-    .nav-link-sell {
-        text-decoration: none;
-        font-family: Inter;
-        font-size: 12px;
-        font-weight: 400;
-        color: #000000;
-        background-color: #ffffff;
-        padding: 7px 16px;
-        border-radius: 4px;
-    }
-
     .profile-container {
         font-family: Inter;
         display: flex;
@@ -295,10 +197,17 @@
     }
 
     /* 出品した商品、購入した商品 */
-    .mypage-link {
+    .sell-link,
+    .buy-link {
         margin: 0 0 0 5%;
         text-decoration: none;
         color: #5f5f5f;
+    }
+
+    /* クリックされたリンクのスタイル（アクティブリンク） */
+    .sell-link.active-link,
+    .buy-link.active-link {
+        color: #ff0000; /* 赤色 */
     }
 
     .no-items-message {
@@ -309,11 +218,11 @@
         margin-left: 10%;
     }
 
-    .items-form {
+    .items-container {
         display: grid;
-        grid-template-columns: 33.3% 33.3% 33.3%;
+        grid-template-columns: repeat(3, 1fr); /* 3列に均等に配置 */
         font-family: Inter;
-        font-size: 16px;
+        font-size: 25px;
         font-weight: 400;
     }
 
@@ -333,15 +242,17 @@
 
     /* Sold */
     .item-name-sold {
-        width: 100px;
-        text-align: center;
-        font-size: 36px;
+        width: 195px;
+        height: 195px;
+        font-size: 30px;
         font-weight: 900;
         color: #ff0000;
         background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px 10px;
+        margin: 0;
         border-radius: 5px;
         position: absolute;
-        top: 15%;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
         z-index: 2;
@@ -350,5 +261,6 @@
     /* 商品名 */
     .item-name {
         margin: 0;
+        font-size: 16px;
     }
 }

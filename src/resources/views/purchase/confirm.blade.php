@@ -22,15 +22,17 @@
                     <div class="purchase-payment">
                         <h3 class="purchase-payment-title">支払方法</h3>
                         <div class="purchase-payment-select-container">
-                            <select class="purchase-payment-select" name="payment_method">
-                                <option value="">選択してください</option>
-                                <option value="">コンビニ支払い</option>
-                                <option value="">ガード支払い</option>
+                            <select class="purchase-payment-select" name="payment_method" id="payment-method-select">
+                                <option value="" selected>選択してください</option>
+                                <option value="コンビニ支払い">コンビニ支払い</option>
+                                <option value="カード支払い">カード支払い</option>
                             </select>
                         </div>
                         @error('payment_method')
                             <p class="error-message">{{ $message }}</p>
                         @enderror
+                        <!-- 隠しフィールドとして address_id を送信 -->
+                        <input type="hidden" name="address_id" value="{{ $address->address_id ?? '' }}">
                     </div>
                     <div class="purchase-address">
                         <div class="purchase-address-header">
@@ -44,7 +46,7 @@
                             <p class="purchase-address-main">{{ $address->address }}</p>
                             <p class="purchase-address-building">{{ $address->building }}</p>
                         @else
-                            @error('shipping_address')
+                            @error('address_id')
                                 <p class="error-message">{{ $message }}</p>
                             @enderror
                         @endif
@@ -61,11 +63,30 @@
                     </tr>
                     <tr class="purchase-summary-row">
                         <th class="purchase-summary-label">支払方法</th>
-                        <td class="purchase-summary-payment">コンビニ払い</td>
+                        <td class="purchase-summary-payment" id="summary-payment-method">選択してください</td>
                     </tr>
                 </table>
                 <input class="purchase-button" type="submit" value="購入する">
+                <!-- エラーメッセージ表示 -->
+                @if ($errors->has('error'))
+                    <p class="submit-error-message">{{ $errors->first('error') }}</p>
+                @endif
             </div>
         </div>
     </form>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentSelect = document.getElementById('payment-method-select');
+            const summaryPayment = document.getElementById('summary-payment-method');
+
+            paymentSelect.addEventListener('change', function() {
+                // プルダウンで選択した値を小計画面に即時反映
+                const selectedPayment = paymentSelect.value || '選択してください';
+                summaryPayment.textContent = selectedPayment;
+            });
+        });
+    </script>
 @endsection

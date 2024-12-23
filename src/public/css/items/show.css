@@ -8,6 +8,7 @@
     .item-image {
         width: 50%;
         margin: 5% 0;
+        position: relative;
     }
 
     /* 商品画像 */

@@ -22,10 +22,8 @@
 
     {{-- タブリンク --}}
     <div class="content-list-container">
-        <a class="mypage-link {{ $tab === 'sell' ? 'active-link' : '' }}"
-            href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
-        <a class="mypage-link {{ $tab === 'buy' ? 'active-link' : '' }}"
-            href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
+        <a class="sell-link" href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
+        <a class="buy-link" href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
     </div>
 
     {{-- アイテムリスト --}}
@@ -36,14 +34,16 @@
             @else
                 @foreach ($soldItems as $item)
                     <div class="item">
-                        <a href="{{ url('item/' . $item->id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->image) }}"
-                                alt="{{ $item->name }}">
+                        <a href="{{ url('item/' . $item->item_id) }}">
+                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                                alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
-                            <p class="item-name-sold">Sold</p>
+                            <a href="{{ url('item/' . $item->item_id) }}">
+                                <p class="item-name-sold">Sold</p>
+                            </a>
                         @endif
-                        <p class="item-name">{{ $item->name }}</p>
+                        <p class="item-name">{{ $item->item_name }}</p>
                     </div>
                 @endforeach
             @endif
@@ -53,14 +53,16 @@
             @else
                 @foreach ($boughtItems as $item)
                     <div class="item">
-                        <a href="{{ url('item/' . $item->id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->image) }}"
-                                alt="{{ $item->name }}">
+                        <a href="{{ url('item/' . $item->item_id) }}">
+                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                                alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
-                            <p class="item-name-sold">Sold</p>
+                            <a href="{{ url('item/' . $item->item_id) }}">
+                                <p class="item-name-sold">Sold</p>
+                            </a>
                         @endif
-                        <p class="item-name">{{ $item->name }}</p>
+                        <p class="item-name">{{ $item->item_name }}</p>
                     </div>
                 @endforeach
             @endif
@@ -71,18 +73,18 @@
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('.mypage-link');
-            const urlParams = new URLSearchParams(window.location.search);
-            const tab = urlParams.get('tab') || 'sell';
+            const sellLink = document.querySelector('.sell-link');
+            const buyLink = document.querySelector('.buy-link');
 
-            // タブのアクティブ状態を更新
-            links.forEach(link => {
-                if (link.href.includes(`tab=${tab}`)) {
-                    link.classList.add('active-link');
-                } else {
-                    link.classList.remove('active-link');
-                }
-            });
+            // URLのクエリパラメータに基づいてアクティブリンクを設定
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('tab') === 'buy') {
+                buyLink.classList.add('active-link');
+                sellLink.classList.remove('active-link');
+            } else {
+                sellLink.classList.add('active-link');
+                buyLink.classList.remove('active-link');
+            }
         });
     </script>
 @endsection

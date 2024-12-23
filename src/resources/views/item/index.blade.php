@@ -21,7 +21,9 @@
                             alt="{{ $item->item_name }}">
                     </a>
                     @if ($item->status === 'sold')
-                        <p class="item-name-sold">Sold</p>
+                        <a href="{{ url('item/' . $item->item_id) }}">
+                            <p class="item-name-sold">Sold</p>
+                        </a>
                     @endif
                     <p class="item-name">{{ $item->item_name }}</p>
                 </div>
@@ -37,7 +39,9 @@
                                     alt="{{ $item->item_name }}">
                             </a>
                             @if ($item->status === 'sold')
-                                <p class="item-name-sold">Sold</p>
+                                <a href="{{ url('item/' . $item->item_id) }}">
+                                    <p class="item-name-sold">Sold</p>
+                                </a>
                             @endif
                             <p class="item-name">{{ $item->item_name }}</p>
                         </div>
@@ -69,7 +73,9 @@
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
-                            <p class="item-name-sold">Sold</p>
+                            <a href="{{ url('item/' . $item->item_id) }}">
+                                <p class="item-name-sold">Sold</p>
+                            </a>
                         @endif
                         <p class="item-name">{{ $item->item_name }}</p>
                     </div>

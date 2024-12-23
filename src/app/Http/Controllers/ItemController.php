@@ -7,6 +7,7 @@ use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Like;
+use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
@@ -47,6 +48,15 @@ class ItemController extends Controller
             // $itemsに、条件に一致する商品が格納
             ->get();
 
+        // 売り切れ(sold)状態の判定
+        foreach ($items as $item) {
+            // 購入されているかどうか、売り切れ状態を判定
+            $isSold = Purchase::where('item_id', $item->item_id)->exists();
+            if ($isSold) {
+                $item->status = 'sold'; // 売り切れ状態に設定
+            }
+        }
+
         // ビューitem.indexに、$itemsと$tab、検索キーワードを渡して表示
         return view('item.index', compact('items', 'tab', 'keyword'));
     }
@@ -60,6 +70,15 @@ class ItemController extends Controller
 
         // 検索結果を取得
         $searchResults = Item::where('item_name', 'like', '%' . $keyword . '%')->get();
+
+        // 売り切れ(sold)状態の判定
+        foreach ($searchResults as $item) {
+            // 購入されているかどうか、売り切れ状態を判定
+            $isSold = Purchase::where('item_id', $item->item_id)->exists();
+            if ($isSold) {
+                $item->status = 'sold'; // 売り切れ状態に設定
+            }
+        }
 
         // タブが設定されていない場合、デフォルトで'recommend'を使用
         $tab = $request->query('tab', 'recommend');

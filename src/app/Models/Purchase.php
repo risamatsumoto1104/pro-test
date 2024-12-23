@@ -12,7 +12,8 @@ class Purchase extends Model
     protected $fillable = [
         'buyer_user_id',
         'item_id',
-        'address_id'
+        'address_id',
+        'payment_method'
     ];
 
     // 主キー名を変更

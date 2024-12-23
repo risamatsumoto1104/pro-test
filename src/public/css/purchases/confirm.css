@@ -179,6 +179,13 @@
         margin: 0 0 2% 8%;
         color: red;
     }
+
+    .submit-error-message {
+        font-size: 25px;
+        font-weight: 700;
+        text-align: center;
+        color: red;
+    }
 }
 
 /* タブレットのスタイル */
@@ -335,10 +342,16 @@
         text-align: center;
     }
 
-    /* 商品代金内容、支払方法内容 */
-    .purchase-summary-price,
-    .purchase-summary-payment {
+    /* 商品代金内容 */
+    .purchase-summary-price {
         font-size: 18px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* 支払方法内容 */
+    .purchase-summary-payment {
+        font-size: 16px;
         font-weight: 400;
         text-align: center;
     }
@@ -365,6 +378,13 @@
     .error-message {
         font-size: 11px;
         margin: 0 0 2% 8%;
+        color: red;
+    }
+
+    .submit-error-message {
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
         color: red;
     }
 }
