@@ -38,6 +38,11 @@
         border-radius: 50%;
     }
 
+    /* 画像が選択されたときにプレビュー画像を表示 */
+    .sell-image-wrapper.image-selected .profile-image {
+        display: block; /* 画像が選択されたら画像を表示 */
+    }
+
     /* 画像を選択するボタン */
     .profile-image-button {
         padding: 7.5px 17.5px;
@@ -121,6 +126,7 @@
         height: 150px;
         border-radius: 50%;
         background-color: #d9d9d9;
+        position: relative; /* ラッパーの位置を制御 */
     }
 
     /* プロフィール画像 */
@@ -128,6 +134,12 @@
         width: 100%;
         height: 100%;
         border-radius: 50%;
+        display: none; /* 初期状態で非表示 */
+    }
+
+    /* 画像が選択されたときにプレビュー画像を表示 */
+    .profile-image-wrapper.image-selected .profile-image {
+        display: block; /* 画像が選択されたら画像を表示 */
     }
 
     /* 画像を選択するボタン */

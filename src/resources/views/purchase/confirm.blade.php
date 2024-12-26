@@ -13,7 +13,7 @@
                 <div class="purchase-item">
                     <div class="purchase-item-info">
                         <img class="purchase-item-image" src="{{ asset('storage/' . $item->item_image) }}"
-                            alt="{{ $item->item_name }}">
+                            alt="{{ $item->item_name }}" >
                         <div class="purchase-item-details">
                             <h2 class="purchase-item-name">{{ $item->item_name }}</h2>
                             <p class="purchase-item-price">{{ number_format($item->price) }}</p>

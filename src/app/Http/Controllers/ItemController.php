@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Like;
 use App\Models\Purchase;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
@@ -171,13 +172,48 @@ class ItemController extends Controller
     // 商品の出品ページの表示
     public function create(Request $request)
     {
-        return view('sell.create');
+        // 認証済みのユーザーを取得
+        $user = Auth::user();
+
+        // カテゴリーの取得
+        $categories = Category::all();
+
+        return view('sell.create', compact('categories'));
     }
 
 
     // 出品するものを保存
     public function storeItem(ExhibitionRequest $request)
     {
-        return view('sell.create');
+        // ログインしているユーザー情報を取得
+        $user = auth()->user();
+
+        // 出品データをItemsテーブルに保存
+        $sellItem = new Item();
+        $sellItem->seller_user_id = $user->user_id; // カラム名を確認
+        $sellItem->item_name = $request->input('item_name');
+        $sellItem->brand_name = $request->input('brand_name') ?? null;
+        $sellItem->price = $request->input('price');
+        $sellItem->description = $request->input('description');
+        $sellItem->condition = $request->input('condition');
+
+        // 画像保存処理
+        if ($request->hasFile('item_image')) {
+            // ファイルを storage/app/public に保存
+            $path = $request->file('item_image')->store('item_images', 'public');
+
+            // パスを取得して保存（basenameでファイル名のみ取得）
+            $sellItem->item_image = basename($path);
+        }
+
+        $sellItem->save();
+
+        // 中間テーブルにカテゴリーを関連付け
+        if ($request->has('categories')) {
+            $sellItem->categories()->attach($request->input('categories'));
+        }
+
+        // 出品後、マイページの「出品タブ」にリダイレクト
+        return redirect()->route('mypage', ['tab' => 'sell']);
     }
 }
