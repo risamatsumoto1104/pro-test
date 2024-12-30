@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     // 商品購入画面
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'confirm'])->name('item.purchase');
     Route::post('/purchase/{item_id}', [PurchaseController::class, 'store'])->name('purchase.store');
+    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])->name('purchase.success');
 
     // プロフィール関連画面
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage');

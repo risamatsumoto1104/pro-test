@@ -13,7 +13,7 @@
                 <div class="purchase-item">
                     <div class="purchase-item-info">
                         <img class="purchase-item-image" src="{{ asset('storage/' . $item->item_image) }}"
-                            alt="{{ $item->item_name }}" >
+                            alt="{{ $item->item_name }}">
                         <div class="purchase-item-details">
                             <h2 class="purchase-item-name">{{ $item->item_name }}</h2>
                             <p class="purchase-item-price">{{ number_format($item->price) }}</p>
@@ -23,7 +23,7 @@
                         <h3 class="purchase-payment-title">支払方法</h3>
                         <div class="purchase-payment-select-container">
                             <select class="purchase-payment-select" name="payment_method" id="payment-method-select">
-                                <option value="" selected>選択してください</option>
+                                <option value="" selected disabled>選択してください</option>
                                 <option value="コンビニ支払い">コンビニ支払い</option>
                                 <option value="カード支払い">カード支払い</option>
                             </select>
