@@ -87,22 +87,33 @@ class PurchaseController extends Controller
 
     public function success(Request $request, $item_id)
     {
-        // セッションから支払い方法を取得
-        $paymentMethod = session('payment_method');
+        try {
+            // セッションから支払い方法を取得
+            $paymentMethod = session('payment_method');
 
-        // ログインしているユーザー情報と住所情報を再度取得
-        $user = auth()->user();
-        $address = Address::where('user_id', $user->user_id)->first();
+            // ログインしているユーザー情報と住所情報を再度取得
+            $user = auth()->user();
+            $address = Address::where('user_id', $user->user_id)->first();
 
-        // 購入が成功した際に、Purchaseテーブルに購入情報を保存
-        $purchase = new Purchase();
-        $purchase->buyer_user_id = $user->user_id;
-        $purchase->item_id = $item_id;
-        $purchase->address_id = $address->address_id;
-        $purchase->payment_method = $paymentMethod;
-        $purchase->save();
+            // 商品が既に購入されているか確認
+            if (Purchase::where('item_id', $item_id)->exists()) {
+                return redirect()->route('item.purchase', ['item_id' => $item_id])
+                    ->withErrors(['error' => __('この商品は既に購入済みです。')]);
+            }
 
-        // 成功ページへのリダイレクト
-        return view('purchase.success', ['item' => $item_id]);
+            // 購入が成功した際に、Purchaseテーブルに購入情報を保存
+            $purchase = new Purchase();
+            $purchase->buyer_user_id = $user->user_id;
+            $purchase->item_id = $item_id;
+            $purchase->address_id = $address->address_id;
+            $purchase->payment_method = $paymentMethod;
+            $purchase->save();
+
+            // 成功ページへのリダイレクト
+            return view('purchase.success', ['item' => $item_id]);
+        } catch (\Exception $e) {
+            return redirect()->route('item.purchase', ['item_id' => $item_id])
+                ->withErrors(['error' => __('購入情報の登録中にエラーが発生しました。')]);
+        }
     }
 }

@@ -40,4 +40,5 @@
                 <input class="submit-button" type="submit" value="更新する">
             </div>
         </form>
-    @endsection
+    </div>
+@endsection

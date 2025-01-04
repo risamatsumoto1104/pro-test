@@ -23,7 +23,7 @@
                         <h3 class="purchase-payment-title">支払方法</h3>
                         <div class="purchase-payment-select-container">
                             <select class="purchase-payment-select" name="payment_method" id="payment-method-select">
-                                <option value="" selected disabled>選択してください</option>
+                                <option value="" disabled selected>選択してください</option>
                                 <option value="コンビニ支払い">コンビニ支払い</option>
                                 <option value="カード支払い">カード支払い</option>
                             </select>
@@ -38,7 +38,9 @@
                         <div class="purchase-address-header">
                             <h3 class="purchase-address-title">配送先</h3>
                             <a class="purchase-address-link"
-                                href="{{ route('purchase.address.edit', ['item_id' => $item->item_id]) }}">変更する</a>
+                                href="{{ route('purchase.address.edit', ['item_id' => $item->item_id, 'payment_method' => old('payment_method') ?? session('payment_method')]) }}">
+                                変更する
+                            </a>
                         </div>
                         {{-- 住所情報が空の場合でもバリデーションメッセージを表示 --}}
                         @if ($address)
@@ -82,10 +84,18 @@
             const paymentSelect = document.getElementById('payment-method-select');
             const summaryPayment = document.getElementById('summary-payment-method');
 
+            // ページロード時に保存された値を復元
+            const savedPaymentMethod = localStorage.getItem('payment_method');
+            if (savedPaymentMethod) {
+                paymentSelect.value = savedPaymentMethod;
+                summaryPayment.textContent = savedPaymentMethod; // 小計画面にも反映
+            }
+
+            // セレクトボックスの値が変更された場合、ローカルストレージに保存
             paymentSelect.addEventListener('change', function() {
-                // プルダウンで選択した値を小計画面に即時反映
                 const selectedPayment = paymentSelect.value || '選択してください';
-                summaryPayment.textContent = selectedPayment;
+                localStorage.setItem('payment_method', selectedPayment);
+                summaryPayment.textContent = selectedPayment; // 小計画面にも反映
             });
         });
     </script>

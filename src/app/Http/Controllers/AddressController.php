@@ -43,7 +43,7 @@ class AddressController extends Controller
             ]
         );
 
-        // リダイレクト
+        // 購入確認ページにリダイレクト
         return redirect()->route('item.purchase', ['item_id' => $item_id]);
     }
 }

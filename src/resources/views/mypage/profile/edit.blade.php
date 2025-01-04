@@ -14,7 +14,7 @@
             <h2 class="purchase-address-title">プロフィール設定</h2>
             <div class="profile-image-container">
                 <div class="profile-image-wrapper">
-                    <img class="profile-image" src="" alt="ユーザー画像">
+                    <img class="profile-image" src="">
                     <input class="profile-image-input" name="profile_image" id="profile-image-input" type="file"
                         onchange="previewImage(event)">
                 </div>
