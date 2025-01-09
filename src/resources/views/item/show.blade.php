@@ -105,20 +105,24 @@
         // いいねの切り替え処理
         function toggleLike(itemId) {
             // ログインしていない場合、ログイン画面にリダイレクト
-            if (!@json(Auth::check())) {
+            @if (!Auth::check())
                 window.location.href = '/login';
                 return;
-            }
+            @endif
+
+            // メール認証していない場合、メール認証画面にリダイレクト
+            @if (Auth::check() && !Auth::user()->hasVerifiedEmail())
+                window.location.href = '/email/verify';
+                return;
+            @endif
 
             // いいねのリクエストを送信
             fetch(`/item/${itemId}/like`, {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        _method: 'POST'
-                    })
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json'
+                    }
                 })
                 .then(response => response.json())
                 .then(data => {
