@@ -8,17 +8,19 @@
     <form action="{{ route('purchase.store', ['item_id' => $item->item_id]) }}" method="post">
         @csrf
         <div class="purchase-container">
+
             {{-- 左列 --}}
             <div class="purchase-left">
                 <div class="purchase-item">
                     <div class="purchase-item-info">
-                        <img class="purchase-item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                        <img class="purchase-item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                             alt="{{ $item->item_name }}">
                         <div class="purchase-item-details">
                             <h2 class="purchase-item-name">{{ $item->item_name }}</h2>
                             <p class="purchase-item-price">{{ number_format($item->price) }}</p>
                         </div>
                     </div>
+
                     <div class="purchase-payment">
                         <h3 class="purchase-payment-title">支払方法</h3>
                         <div class="purchase-payment-select-container">
@@ -34,6 +36,7 @@
                         <!-- 隠しフィールドとして address_id を送信 -->
                         <input type="hidden" name="address_id" value="{{ $address->address_id ?? '' }}">
                     </div>
+
                     <div class="purchase-address">
                         <div class="purchase-address-header">
                             <h3 class="purchase-address-title">配送先</h3>
@@ -54,8 +57,8 @@
                         @endif
                     </div>
                 </div>
-
             </div>
+
             {{-- 右列 --}}
             <div class="purchase-right">
                 <table class="purchase-summary">

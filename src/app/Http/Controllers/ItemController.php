@@ -142,7 +142,7 @@ class ItemController extends Controller
         $likeCount = $item->itemLikes()->count();
 
         // いいねアイコンのパスを設定
-        $iconPath = $liked ? '/storage/星アイコン_liked.png' : '/storage/星アイコン8.png';
+        $iconPath = $liked ? '/storage/icon_images/星アイコン_liked.png' : '/storage/icon_images/星アイコン8.png';
 
         // JSONでレスポンスを返す
         return response()->json([

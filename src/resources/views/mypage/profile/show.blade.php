@@ -7,11 +7,11 @@
 @section('content')
     <div class="profile-container">
         <div class="profile-info">
-            <div class="profile-image-wrapper"
-                style="{{ $profile && $profile->profile_image ? '' : 'background-color: #d9d9d9;' }}">
-                @if ($profile && $profile->profile_image)
-                    <img class="profile-image" src="{{ asset('storage/' . $profile->profile_image) }}" alt="ユーザー画像">
-                @endif
+            <div class="profile-image-wrapper">
+                <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
+                <img class="profile-image" id="profile-image"
+                    src="{{ asset('storage/profile_images/' . ($profile && $profile->profile_image ? $profile->profile_image : 'default-profile.png')) }}"
+                    alt="ユーザー画像">
             </div>
             <div class="profile-name-wrapper">
                 <p class="profile-username">{{ $user->name }}</p>
@@ -29,13 +29,14 @@
     {{-- アイテムリスト --}}
     <div class="items-container">
         @if ($tab === 'sell')
+            {{-- 出品した商品一覧 --}}
             @if ($soldItems->isEmpty())
                 <p class="no-items-message">出品したアイテムはありません。</p>
             @else
                 @foreach ($soldItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
@@ -48,13 +49,14 @@
                 @endforeach
             @endif
         @elseif ($tab === 'buy')
+            {{-- 購入した商品一覧 --}}
             @if ($boughtItems->isEmpty())
                 <p class="no-items-message">購入したアイテムはありません。</p>
             @else
                 @foreach ($boughtItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')

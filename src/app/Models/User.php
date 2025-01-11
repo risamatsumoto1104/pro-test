@@ -38,39 +38,39 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new CustomVerifyEmailNotification());
     }
 
-    // 出品商品
+    //　主：User(1)　⇔　従：Item(N.0)
     public function items()
     {
         return $this->hasMany(Item::class, 'seller_user_id');
     }
 
-    // いいね
+    //　主：User(1)　⇔　従：Like(N.0)
     public function userLikes()
     {
         return $this->hasMany(Like::class, 'user_id');
     }
 
-    // コメント
+    //　主：User(1)　⇔　従：Comment(N.0)
     public function comments()
     {
         return $this->hasMany(Comment::class, 'user_id');
     }
 
-    // プロフィール
+    //　主：User(1)　⇔　従：Profile(1)
     public function profile()
     {
         return $this->hasOne(Profile::class, 'user_id');
     }
 
-    // 住所
-    public function addresses()
-    {
-        return $this->hasMany(Address::class, 'user_id');
-    }
-
-    // 購入履歴
+    //　主：User(1)　⇔　従：Purchase(N.0)
     public function purchases()
     {
         return $this->hasMany(Purchase::class, 'buyer_user_id');
+    }
+
+    //　主：User(1)　⇔　従：Address(N.0)
+    public function addresses()
+    {
+        return $this->hasMany(Address::class, 'user_id');
     }
 }

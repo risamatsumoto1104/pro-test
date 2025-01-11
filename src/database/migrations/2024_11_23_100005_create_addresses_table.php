@@ -16,7 +16,6 @@ class CreateAddressesTable extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id('address_id');
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
-            $table->foreignId('item_id')->constrained('items', 'item_id')->cascadeOnDelete();
             $table->string('postal_code');
             $table->string('address');
             $table->string('building');

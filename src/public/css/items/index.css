@@ -84,6 +84,7 @@
         margin: 0;
     }
 
+    /* 「いいね」した商品はありません。メッセージ */
     .no-likes-message {
         font-size: 24px;
         font-weight: 700;
@@ -92,6 +93,7 @@
         margin-left: 10%;
     }
 
+    /* 該当する商品がありません。メッセージ */
     .no-items-message {
         font-size: 24px;
         font-weight: 700;
@@ -187,6 +189,7 @@
         margin: 0;
     }
 
+    /* 「いいね」した商品はありません。メッセージ */
     .no-likes-message {
         font-size: 20px;
         font-weight: 700;
@@ -195,6 +198,7 @@
         margin-left: 10%;
     }
 
+    /* 該当する商品がありません。メッセージ */
     .no-items-message {
         font-size: 20px;
         font-weight: 700;

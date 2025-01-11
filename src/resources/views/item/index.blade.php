@@ -17,7 +17,7 @@
             @foreach ($items ?? [] as $item)
                 <div class="item">
                     <a href="{{ url('item/' . $item->item_id) }}">
-                        <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                        <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                             alt="{{ $item->item_name }}">
                     </a>
                     @if ($item->status === 'sold')
@@ -35,7 +35,7 @@
                     @foreach ($items as $item)
                         <div class="item">
                             <a href="{{ url('item/' . $item->item_id) }}">
-                                <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                                <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                                     alt="{{ $item->item_name }}">
                             </a>
                             @if ($item->status === 'sold')
@@ -56,6 +56,7 @@
             @endif
         @endif
     </div>
+
     <div class="search-results-container">
         {{-- 検索結果がある場合 --}}
         @if (isset($searchResults))
@@ -69,7 +70,7 @@
                 @foreach ($searchResults as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')

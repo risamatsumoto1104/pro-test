@@ -45,10 +45,12 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
+        // GETメソッドで/email/verifyにアクセスしたときに表示するviewファイル
         Fortify::verifyEmailView(function () {
-            return view('auth.verify-email'); // メール認証ページのカスタムビュー
+            return view('auth.verify-email');
         });
 
+        // FortifyLoginRequest を LoginRequest に置き換える。
         $this->app->bind(FortifyLoginRequest::class, LoginRequest::class);
     }
 }

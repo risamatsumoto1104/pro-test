@@ -74,7 +74,7 @@
     /* クリックされたリンクのスタイル（アクティブリンク） */
     .sell-link.active-link,
     .buy-link.active-link {
-        color: #ff0000; /* 赤色 */
+        color: #ff0000;
     }
 
     .no-items-message {
@@ -207,7 +207,7 @@
     /* クリックされたリンクのスタイル（アクティブリンク） */
     .sell-link.active-link,
     .buy-link.active-link {
-        color: #ff0000; /* 赤色 */
+        color: #ff0000;
     }
 
     .no-items-message {

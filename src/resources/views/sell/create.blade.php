@@ -114,6 +114,7 @@
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     imgElement.src = e.target.result; // 選択された画像を表示
+                    imgElement.style.display = 'block'; // 画像を表示
                 };
                 reader.readAsDataURL(input.files[0]); // 画像をデータURLとして読み込む
             }

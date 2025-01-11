@@ -11,10 +11,15 @@
         @method('PATCH')
 
         <div class="purchase-address-container">
+
             <h2 class="purchase-address-title">プロフィール設定</h2>
+
             <div class="profile-image-container">
                 <div class="profile-image-wrapper">
-                    <img class="profile-image" src="">
+                    <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
+                    <img class="profile-image" id="profile-image"
+                        src="{{ asset('storage/profile_images/' . ($profile && $profile->profile_image ? $profile->profile_image : 'default-profile.png')) }}"
+                        alt="ユーザー画像">
                     <input class="profile-image-input" name="profile_image" id="profile-image-input" type="file"
                         onchange="previewImage(event)">
                 </div>
@@ -25,6 +30,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">ユーザー名</p>
                 <input class="form-input" name="name" type="text" value="{{ old('name', $user->name ?? '') }}">
@@ -32,6 +38,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">郵便番号</p>
                 <input class="form-input" name="postal_code" type="text"
@@ -40,6 +47,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">住所</p>
                 <input class="form-input" name="address" type="text"
@@ -48,6 +56,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">建物名</p>
                 <input class="form-input" name="building" type="text"
@@ -56,6 +65,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-submit">
                 <input class="submit-button" type="submit" value="更新する">
             </div>
@@ -67,16 +77,19 @@
     <script>
         function previewImage(event) {
             var input = event.target; // 画像選択されたinput
-            var wrapper = document.querySelector('.profile-image-wrapper'); // 画像のラッパー
-            var imgElement = document.querySelector('.profile-image'); // 画像表示の要素
+            var profileImg = document.querySelector('#profile-image'); // プロフィール画像
+            var reader = new FileReader();
 
+            // 画像が選択されていれば画像表示エレメントを作成
             if (input.files && input.files[0]) {
-                var reader = new FileReader();
                 reader.onload = function(e) {
-                    imgElement.src = e.target.result; // 選択された画像を表示
-                    wrapper.classList.add('image-selected'); // ラッパーにimage-selectedクラスを追加
+                    // プロフィール画像を新しい画像に更新
+                    profileImg.src = e.target.result; // 選択した画像を表示
                 };
                 reader.readAsDataURL(input.files[0]); // 画像をデータURLとして読み込む
+            } else {
+                // 画像が選択されていない場合はデフォルト画像を表示
+                profileImg.src = "{{ asset('storage/profile_images/default-profile.png') }}";
             }
         }
     </script>

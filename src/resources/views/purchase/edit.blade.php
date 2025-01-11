@@ -6,7 +6,9 @@
 
 @section('content')
     <div class="purchase-address-container">
+
         <h2 class="purchase-address-title">住所の変更</h2>
+
         <form class="purchase-address-form" action="{{ route('purchase.address.update', ['item_id' => $item->item_id]) }}"
             method="POST">
             @csrf
@@ -20,6 +22,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">住所</p>
                 <input class="form-input" name="address" type="text"
@@ -28,6 +31,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">建物名</p>
                 <input class="form-input" name="building" type="text"
@@ -36,6 +40,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-submit">
                 <input class="submit-button" type="submit" value="更新する">
             </div>

@@ -23,11 +23,7 @@ class Item extends Model
     // 主キー名を変更
     protected $primaryKey = 'item_id';
 
-    public function getIsSoldAttribute()
-    {
-        return $this->sold_at !== null;
-    }
-
+    // 部分一致検索
     public function scopeKeywordSearch($query, $keyword)
     {
         if (!empty($keyword)) {
@@ -35,37 +31,37 @@ class Item extends Model
         }
     }
 
-    // 出品者
-    public function seller()
-    {
-        return $this->belongsTo(User::class, 'seller_user_id');
-    }
-
-    // 「商品」対「カテゴリー」（多対多）
-    public function categories()
-    {
-        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
-    }
-
-    // 「商品」対「いいね」（1対多）
+    // 主：Item(1)　⇔　従：Like(N.0)
     public function itemLikes()
     {
         return $this->hasMany(Like::class, 'item_id');
     }
 
-    // 「商品」対「コメント」（1対多）
+    // 主：Item(1)　⇔　従：Comment(N.0)
     public function comments()
     {
         return $this->hasMany(Comment::class, 'item_id');
     }
 
-    // 購入履歴
+    // 主：Item(1)　⇔　従：Purchase(1)
     public function purchases()
     {
-        return $this->hasMany(Purchase::class, 'item_id');
+        return $this->hasOne(Purchase::class, 'item_id');
     }
 
-    // 「商品」対「送付先」（多対多）
+    // 主：User(1)　⇔　従：Item(N.0)
+    public function seller()
+    {
+        return $this->belongsTo(User::class, 'seller_user_id');
+    }
+
+    // 主：Item(N.0)　⇔　従：Category(N.0)、中間テーブル（category_item）
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_item', 'item_id', 'category_id');
+    }
+
+    //　主：Item(N.0)　⇔　従：Address(N.0)、中間テーブル（address_item）
     public function addresses()
     {
         return $this->belongsToMany(Address::class, 'address_item', 'item_id', 'address_id');

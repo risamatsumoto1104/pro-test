@@ -17,13 +17,13 @@ class Like extends Model
     // 主キー名を変更
     protected $primaryKey = 'like_id';
 
-    // ユーザー
+    // 主：User(1)　⇔　従：Like(N.0)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // 商品
+    // 主：Item(1)　⇔　従：Like(N.0)
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id');

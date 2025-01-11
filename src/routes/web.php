@@ -21,8 +21,10 @@ Route::get('/search', [ItemController::class, 'search'])->name('item.search');
 // 商品詳細画面
 Route::get('/item/{item_id}', [ItemController::class, 'showItem'])->name('items.show');
 
+
 // ログインユーザーのみがアクセスできるルート
 Route::middleware('auth')->group(function () {
+    //  メール認証通知の表示と送信
     Route::get('/email/verify', function () {
         $user = Auth::user();
 
@@ -35,10 +37,11 @@ Route::middleware('auth')->group(function () {
         return view('auth.verify-email');
     })->name('verification.notice');
 
+    // メール内のリンクをクリックしたときにアクセスされるもの
     Route::get('/email/verify/{user_id}/{hash}', [AuthenticatedSessionController::class, 'verify'])
+        // 署名付きURL
         ->middleware(['signed'])
         ->name('verification.verify');
-
 
     // メール認証再送信
     Route::post('/email/resend', function () {
@@ -56,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('mypage.profile');
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('mypage.profile.update');
 });
+
 
 // ログイン済みかつメール認証済みのユーザーのみがアクセスできるルート
 Route::middleware(['auth', 'verified'])->group(function () {

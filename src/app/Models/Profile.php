@@ -20,7 +20,7 @@ class Profile extends Model
     // 主キー名を変更
     protected $primaryKey = 'profile_id';
 
-    // ユーザー
+    // 主：User(1)　⇔　従：Profile(1)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

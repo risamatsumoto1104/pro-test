@@ -6,7 +6,9 @@
 
 @section('content')
     <div class="register-container">
+
         <h2 class="register-title">会員登録</h2>
+
         <form class="register-form" action="{{ url('/register') }}" method="POST">
             @csrf
             <div class="form-group">
@@ -16,6 +18,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">メールアドレス</p>
                 <input class="form-input" name="email" type="text" value="{{ old('email') }}">
@@ -23,6 +26,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">パスワード</p>
                 <input class="form-input" name="password" type="password">
@@ -30,6 +34,7 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-group">
                 <p class="form-label">確認用パスワード</p>
                 <input class="form-input" name="password_confirmation" type="password">
@@ -37,10 +42,12 @@
                     <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>
+
             <div class="form-submit">
                 <input class="submit-button" type="submit" value="登録する">
             </div>
         </form>
+
         <a class="login-link" href="{{ url('/login') }}">ログインはこちら</a>
     </div>
 @endsection

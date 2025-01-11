@@ -42,7 +42,7 @@ class ProfileController extends Controller
     }
 
     // プロフィール設定画面を表示
-    public function edit()
+    public function edit(Request $request)
     {
         // ログイン中のユーザーを取得
         $user = Auth::user();
@@ -62,15 +62,14 @@ class ProfileController extends Controller
 
         // 画像処理
         if ($profileRequest->hasFile('profile_image')) {
-            $profileImage = $profileRequest->file('profile_image');
-            $imagePath = $profileImage->store('profile_images', 'public'); // ストレージに保存
+            $imagePath = $profileRequest->file('profile_image')->store('profile_images', 'public');
 
             // 古い画像を削除
             if ($user->profile && $user->profile->profile_image) {
-                Storage::disk('public')->delete($user->profile->profile_image);
+                Storage::disk('public')->delete('profile_images/' . $user->profile->profile_image);
             }
 
-            $profileValidated['profile_image'] = $imagePath;
+            $profileValidated['profile_image'] = basename($imagePath);
         }
 
         // ユーザー名更新（usersテーブルのnameカラムを更新）

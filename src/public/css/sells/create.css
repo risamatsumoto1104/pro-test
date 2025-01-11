@@ -65,12 +65,14 @@
 
     /* 画像選択後に画像を表示し、ボタンを背面に */
     .sell-image-wrapper.image-selected .sell-image-button {
-        display: none; /* 画像選択後はボタンを非表示に */
+        /* 画像選択後はボタンを非表示に */
+        display: none;
     }
 
     /* 画像が選択されたときにプレビュー画像を表示 */
     .sell-image-wrapper.image-selected .sell-item-image {
-        display: block; /* 画像が選択されたら画像を表示 */
+        /* 画像が選択されたら画像を表示 */
+        display: block;
     }
 
     .sell-image-input {
@@ -282,12 +284,14 @@
 
     /* 画像選択後に画像を表示し、ボタンを背面に */
     .sell-image-wrapper.image-selected .sell-image-button {
-        display: none; /* 画像選択後はボタンを非表示に */
+        /* 画像選択後はボタンを非表示に */
+        display: none;
     }
 
     /* 画像が選択されたときにプレビュー画像を表示 */
     .sell-image-wrapper.image-selected .sell-item-image {
-        display: block; /* 画像が選択されたら画像を表示 */
+        /* 画像が選択されたら画像を表示 */
+        display: block;
     }
 
     .sell-image-input {

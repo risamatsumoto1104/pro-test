@@ -14,16 +14,19 @@
 
 <body class="page-wrapper">
     <header class="header-container">
+
         <h1 class="header-logo-container">
             <a href="{{ route('home') }}">
                 <img class="header-logo" src="{{ asset('logo.svg') }}" alt="COACHTECHロゴ">
             </a>
         </h1>
+
         <form class="header-search-form" action="{{ route('item.search') }}" method="get">
             <input class="search-input" type="text" name="keyword" value="{{ old('keyword', $keyword ?? '') }}"
                 placeholder="なにをお探しですか？">
             <input type="hidden" name="tab" value="{{ $tab ?? '' }}" />
         </form>
+
         <nav class="header-nav">
             <ul class="nav-list">
                 <li class="nav-item">

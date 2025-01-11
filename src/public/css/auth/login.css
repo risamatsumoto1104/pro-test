@@ -1,9 +1,11 @@
 /* デスクトップパソコンのスタイル */
 @media (min-width: 1400px) and (max-width: 1540px) {
+    /* 共通ヘッダー検索 */
     .header-search-form {
         display: none;
     }
 
+    /* 共通ヘッダーnav */
     .header-nav {
         display: none;
     }
@@ -67,7 +69,7 @@
         border-radius: 5px;
     }
 
-    /* ログインリンク */
+    /* 会員登録リンク */
     .register-link {
         font-size: 20px;
         font-weight: 400;
@@ -79,10 +81,12 @@
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
+    /* 共通ヘッダー検索 */
     .header-search-form {
         display: none;
     }
 
+    /* 共通ヘッダーnav */
     .header-nav {
         display: none;
     }
@@ -146,7 +150,7 @@
         border-radius: 5px;
     }
 
-    /* ログインリンク */
+    /* 会員登録リンク */
     .register-link {
         font-size: 20px;
         font-weight: 400;

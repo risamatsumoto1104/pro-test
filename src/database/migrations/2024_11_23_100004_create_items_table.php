@@ -22,7 +22,6 @@ class CreateItemsTable extends Migration
             $table->text('description');
             $table->string('condition');
             $table->string('item_image');
-            $table->unsignedBigInteger('likes_count')->default(0);
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });

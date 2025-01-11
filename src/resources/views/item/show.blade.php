@@ -8,7 +8,8 @@
     <div class="item-content">
         {{-- 左列 --}}
         <div class="item-image">
-            <img class="item-image-img" src="{{ asset('storage/' . $item->item_image) }}" alt="{{ $item->item_name }}">
+            <img class="item-image-img" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                alt="{{ $item->item_name }}">
         </div>
 
         {{-- 右列 --}}
@@ -22,7 +23,7 @@
                         <!-- いいねアイコン -->
                         <img class="item-overview-like-icon" id="like-icon-{{ $item->item_id }}"
                             data-item-id="{{ $item->item_id }}"
-                            src="{{ $item->itemLikes()->where('user_id', Auth::id())->exists() ? '/storage/星アイコン_liked.png' : '/storage/星アイコン8.png' }}"
+                            src="{{ $item->itemLikes()->where('user_id', Auth::id())->exists() ? '/storage/icon_images/星アイコン_liked.png' : '/storage/icon_images/星アイコン8.png' }}"
                             alt="星アイコン" onclick="toggleLike({{ $item->item_id }})">
 
                         <!-- いいね合計数 -->
@@ -31,11 +32,13 @@
                         </p>
                     </div>
                     <div class="item-overview-comment">
-                        <img class="item-overview-comment-icon" src="{{ asset('storage/ふきだしのアイコン.png') }}" alt="ふきだしアイコン">
+                        <img class="item-overview-comment-icon" src="{{ asset('storage/icon_images/ふきだしのアイコン.png') }}"
+                            alt="ふきだしアイコン">
                         <p class="item-overview-comment-count">{{ $item->comments_count }}</p>
                     </div>
                 </div>
             </div>
+
             <form class="item-purchase-submit" action="{{ route('item.purchase', ['item_id' => $item->item_id]) }}"
                 method="GET">
                 <input class="item-purchase-button" type="submit" value="購入手続きへ">
@@ -56,6 +59,7 @@
                         @endforeach
                     </div>
                 </div>
+
                 <div class="item-info-condition">
                     <h4 class="item-info-condition-title">商品の状態</h4>
                     <p class="item-info-condition-value">{{ $item->condition }}</p>
@@ -71,8 +75,8 @@
                         <div class="item-comment-image-wrapper">
                             <!-- ユーザー画像の表示（画像がない場合はプレースホルダー表示） -->
                             <img class="item-comment-user-img"
-                                src="{{ asset('storage/' . $comment->user->profile_image) }}" alt="ユーザー画像"
-                                onerror="this.style.display='none'; this.parentElement.classList.add('item-comment-user-img-placeholder');">
+                                src="{{ asset('storage/profile_images/' . ($comment->user->profile ? $comment->user->profile->profile_image : 'default-profile.png')) }}"
+                                alt="ユーザー画像">
                         </div>
                         <p class="item-comment-user-name">{{ $comment->user->name }}</p> <!-- ユーザー名表示 -->
                     </div>
