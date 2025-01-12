@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Verified;
 use App\Models\User;
@@ -10,7 +11,7 @@ use App\Models\User;
 class AuthenticatedSessionController extends Controller
 {
     // ログイン処理（メール認証できるようにカスタマイズ）
-    public function store(Request $request)
+    public function store(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -30,7 +31,8 @@ class AuthenticatedSessionController extends Controller
 
         // 認証失敗
         return back()->withErrors([
-            'email' => 'ログイン情報が正しくありません。',
+            'email' => 'ログイン情報が登録されていません。',
+            'password' => 'ログイン情報が登録されていません。',
         ]);
     }
 

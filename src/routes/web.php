@@ -58,6 +58,9 @@ Route::middleware('auth')->group(function () {
     // 初回登録後、プロフィール画面にリダイレクトする場合
     Route::get('/mypage/profile', [ProfileController::class, 'edit'])->name('mypage.profile');
     Route::patch('/mypage/profile', [ProfileController::class, 'update'])->name('mypage.profile.update');
+
+    // ログアウト
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 });
 
 
@@ -84,7 +87,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // プロフィール関連画面
     Route::get('/mypage', [ProfileController::class, 'show'])->name('mypage');
-
-    // ログアウト
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 });
