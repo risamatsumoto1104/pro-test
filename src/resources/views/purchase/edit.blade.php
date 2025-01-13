@@ -14,6 +14,9 @@
             @csrf
             @method('PATCH')
 
+            <!-- 隠しフィールドとして item_id を送信 -->
+            <input type="hidden" name="item_id" value="{{ $item->item_id }}">
+
             <div class="form-group">
                 <p class="form-label">郵便番号</p>
                 <input class="form-input" name="postal_code" type="text"

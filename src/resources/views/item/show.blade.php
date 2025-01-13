@@ -83,22 +83,18 @@
                     <p class="item-comment-text">{{ $comment->content }}</p> <!-- コメント内容表示 -->
                 @endforeach
                 {{-- コメント送信 --}}
-                @auth
-                    <form class="item-comment-form" action="{{ route('item.comment', ['item_id' => $item->item_id]) }}"
-                        method="post">
-                        @csrf
-                        <div class="item-comment-input">
-                            <p class="item-comment-label">商品へのコメント</p>
-                            <textarea class="item-comment-input-text" name="comment"></textarea>
-                        </div>
-                        @error('comment')
-                            <p class="error-message">{{ $message }}</p>
-                        @enderror
-                        <input class="item-comment-submit-button" type="submit" value="コメントを送信する">
-                    </form>
-                @else
-                    <p class="item-comment-login-notice">コメントを送信するにはログインが必要です。</p>
-                @endauth
+                <form class="item-comment-form" action="{{ route('item.comment', ['item_id' => $item->item_id]) }}"
+                    method="post">
+                    @csrf
+                    <div class="item-comment-input">
+                        <p class="item-comment-label">商品へのコメント</p>
+                        <textarea class="item-comment-input-text" name="comment"></textarea>
+                    </div>
+                    @error('comment')
+                        <p class="error-message">{{ $message }}</p>
+                    @enderror
+                    <input class="item-comment-submit-button" type="submit" value="コメントを送信する">
+                </form>
             </div>
         </div>
     </div>

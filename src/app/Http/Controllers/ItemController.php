@@ -29,8 +29,11 @@ class ItemController extends Controller
             ->when($tab === 'mylist', function ($query) use ($user) {
                 // ログイン済みユーザーの場合
                 if ($user) {
+                    // 「いいね」した商品を取得
                     $likedItemIds = Like::where('user_id', $user->user_id)->pluck('item_id');
-                    return $query->whereIn('item_id', $likedItemIds);
+                    return $query->whereIn('item_id', $likedItemIds)
+                        // 自分が出品した商品を除外
+                        ->where('seller_user_id', '!=', $user->user_id);
                 }
                 return $query->whereRaw('1 = 0');
             })
@@ -38,7 +41,7 @@ class ItemController extends Controller
             ->when($tab === 'recommend', function ($query) use ($user) {
                 // ログイン済みユーザーの場合
                 if ($user) {
-                    return $query->where('seller_user_id', '!=', $user->seller_user_id);
+                    return $query->where('seller_user_id', '!=', $user->user_id);
                 }
                 return $query;
             })
