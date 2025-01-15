@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ url('/sell') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('item.sell.store') }}" method="post" enctype="multipart/form-data">
         @csrf
 
         <!-- 隠しフィールドとして seller_user_id を送信 -->

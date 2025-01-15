@@ -106,7 +106,7 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードと一致しません']);
     }
 
-    // 全ての項目が入力されている場合、会員情報が登録され、ログイン画面に遷移される
+    // 全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移される
     public function test_user_can_register_success()
     {
 

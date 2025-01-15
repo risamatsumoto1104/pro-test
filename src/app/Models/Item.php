@@ -17,7 +17,6 @@ class Item extends Model
         'description',
         'condition',
         'item_image',
-        'likes_count'
     ];
 
     // 主キー名を変更

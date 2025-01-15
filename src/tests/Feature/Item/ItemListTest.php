@@ -61,7 +61,7 @@ class ItemListTest extends TestCase
         // トレイトメソッドを使用してシーディングを実行
         $this->seedDatabase();
 
-        // プロフィール情報を作成
+        // 送付先情報を作成
         Address::create([
             'user_id' => 1,
             'postal_code' => '111-1111',

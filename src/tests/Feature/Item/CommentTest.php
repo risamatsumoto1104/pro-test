@@ -52,13 +52,17 @@ class CommentTest extends TestCase
 
         // コメントを入力する
         // コメントボタンを押す
-        $likeResponse = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
-            'content' => 'new comment', // コメント内容
+        $commentResponse = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
+            'comment' => 'new comment', // コメント内容
         ]);
-        $likeResponse->assertStatus(200);
+        $commentResponse->assertStatus(200);
 
         // コメントが保存され、コメント数が増加する
         $this->assertEquals(1, $item->comments_count); // コメント数が1に増加していることを確認
+
+        // コメントが詳細ページに表示されていることを確認
+        $response = $this->get(route('items.show', ['item_id' => $itemId]));
+        $response->assertSee('new comment');
     }
 
     // ログイン前のユーザーはコメントを送信できない
@@ -93,10 +97,9 @@ class CommentTest extends TestCase
 
         // コメントを入力する
         // コメントボタンを押す
-        $likeResponse = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
+        $response = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
             'comment' => 'new comment', // コメント内容
         ]);
-        $likeResponse->assertStatus(200);
 
         // コメントが送信されない
         // ログイン画面にリダイレクトする
@@ -142,11 +145,11 @@ class CommentTest extends TestCase
         $response->assertStatus(200);
 
         // コメントボタンを押す
-        $likeResponse = $this->post(route('item.comment', ['item_id' => $item->item_id]));
+        $response = $this->post(route('item.comment', ['item_id' => $item->item_id]));
 
         // 商品詳細ページにリダイレクトされ、バリデーションメッセージが表示される
-        $likeResponse->assertRedirect(route('items.show', ['item_id' => $itemId]));
-        $likeResponse->assertSessionHasErrors([
+        $response->assertRedirect(route('items.show', ['item_id' => $itemId]));
+        $response->assertSessionHasErrors([
             'comment' => '商品コメントを入力してください。',
         ]);
     }
@@ -188,13 +191,13 @@ class CommentTest extends TestCase
         $longComment = str_repeat('a', 256);
 
         // コメントボタンを押す
-        $likeResponse = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
+        $response = $this->post(route('item.comment', ['item_id' => $item->item_id]), [
             'comment' => $longComment, // コメント内容
         ]);
 
         // 商品詳細ページにリダイレクトされ、バリデーションメッセージが表示される
-        $likeResponse->assertRedirect(route('items.show', ['item_id' => $itemId]));
-        $likeResponse->assertSessionHasErrors([
+        $response->assertRedirect(route('items.show', ['item_id' => $itemId]));
+        $response->assertSessionHasErrors([
             'comment' => '商品コメントは255文字以内で入力してください。',
         ]);
     }
