@@ -4,7 +4,6 @@ namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use Tests\Traits\DatabaseSeedTrait;
@@ -16,11 +15,8 @@ class ItemDetailTest extends TestCase
     // 必要な情報が表示される
     public function test_can_view_the_details_of_the_item_need()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -36,7 +32,7 @@ class ItemDetailTest extends TestCase
         $item = Item::find($itemId);
 
         // 商品詳細ページを開く(get)
-        $response = $this->get('/item' . $itemId);
+        $response = $this->get(route('items.show', ['item_id' => $itemId]));
         $response->assertStatus(200);
 
         // 商品詳細ページに情報が表示されているかを確認
@@ -63,11 +59,8 @@ class ItemDetailTest extends TestCase
     // 複数選択されたカテゴリが表示されているか
     public function test_multiple_selected_categories_can_be_displayed()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',

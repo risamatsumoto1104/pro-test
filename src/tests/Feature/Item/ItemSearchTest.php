@@ -4,7 +4,6 @@ namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Like;
@@ -17,11 +16,8 @@ class ItemSearchTest extends TestCase
     // 「商品名」で部分一致検索ができる
     public function test_can_search_for_partial_matches_by_item_name()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -49,11 +45,8 @@ class ItemSearchTest extends TestCase
     // 検索状態がマイリストでも保持されている
     public function test_search_state_can_be_maintained_in_my_list()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',

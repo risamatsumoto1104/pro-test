@@ -4,7 +4,6 @@ namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
@@ -19,11 +18,11 @@ class MyListTest extends TestCase
     // マイリスト一覧にていいねした商品だけが表示される
     public function test_user_can_get_only_items_liked()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
+
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -34,7 +33,7 @@ class MyListTest extends TestCase
 
         $myUser = User::create([
             'name' => 'MY User',
-            'email' => 'mytest@example.com',
+            'email' => 'mytest1@example.com',
             'email_verified_at' => now(), // これでメール認証済みとする
             'password' => bcrypt('password1234'),
         ]);
@@ -67,24 +66,31 @@ class MyListTest extends TestCase
     // マイリスト一覧にて購入済み商品は「Sold」と表示される
     public function test_purchased_items_is_sold()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
-        $user = User::create([
+        // データベースをリセット
+        $this->resetDatabase();
+
+        User::create([
             'name' => 'Test User',
             'email' => 'test2@example.com',
             'email_verified_at' => now(), // これでメール認証済みとする
             'password' => bcrypt('password123'),
         ]);
 
+        $myUser = User::create([
+            'name' => 'MY User',
+            'email' => 'mytest2@example.com',
+            'email_verified_at' => now(), // これでメール認証済みとする
+            'password' => bcrypt('password1234'),
+        ]);
+
         // トレイトメソッドを使用してシーディングを実行
         $this->seedDatabase();
 
         // ユーザーにログインをする
-        $this->actingAs($user);
+        $this->actingAs($myUser);
 
         // 送付先情報を作成
         Address::create([
@@ -98,13 +104,13 @@ class MyListTest extends TestCase
 
         // 商品をいいねする
         Like::create([
-            'user_id' => $user->user_id,
+            'user_id' => $myUser->user_id,
             'item_id' => $itemId,
         ]);
 
         // 購入情報を作成
         Purchase::create([
-            'buyer_user_id' => 1,
+            'buyer_user_id' => $myUser->user_id,
             'item_id' => $itemId,
             'address_id' => 1,
             'payment_method' => 'カード支払い',
@@ -112,12 +118,18 @@ class MyListTest extends TestCase
 
         // マイリスト一覧を開く(get)
         // (いいねされた）購入済み商品を表示する
-        $response = $this->get('/?tab=mylist');
+        $response = $this->get(route('home', ['tab' => 'mylist']));
         $response->assertStatus(200);
 
+        // 購入済み商品のステータスが「Sold」であることを確認
+        $response->assertSee('Sold');
+
+        // 最初の商品のIDを取得
+        $soldItemId = $response->original['items']->first()->item_id;
+
         // 購入済み商品に「Sold」のラベルが表示される
-        $response->assertViewHas('items', function ($items) use ($itemId) {
-            $soldItem = $items->firstWhere('item_id', $itemId);
+        $response->assertViewHas('items', function ($items) use ($soldItemId) {
+            $soldItem = $items->firstWhere('item_id', $soldItemId);
             return $soldItem && $soldItem->status === 'sold';
         });
     }
@@ -125,11 +137,11 @@ class MyListTest extends TestCase
     // マイリスト一覧にて自分が出品した商品は表示されない
     public function test_my_item_is_not_listed()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
+
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',
@@ -172,10 +184,8 @@ class MyListTest extends TestCase
     // 未認証の場合は何も表示されない
     public function items_cannot_be_displayed_without_authentication()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         // トレイトメソッドを使用してシーディングを実行
         $this->seedDatabase();

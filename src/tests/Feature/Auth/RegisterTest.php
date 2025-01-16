@@ -12,6 +12,9 @@ class RegisterTest extends TestCase
     // 名前が入力されていない場合、バリデーションメッセージが表示される
     public function test_name_is_required()
     {
+        // データベースをリセット
+        $this->resetDatabase();
+
         // 会員登録ページを開く (get)
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -31,6 +34,9 @@ class RegisterTest extends TestCase
     // メールアドレスが入力されていない場合、バリデーションメッセージが表示される
     public function test_email_is_required()
     {
+        // データベースをリセット
+        $this->resetDatabase();
+
         // 会員登録ページを開く (get)
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -50,6 +56,9 @@ class RegisterTest extends TestCase
     // パスワードが入力されていない場合、バリデーションメッセージが表示される
     public function test_password_is_required()
     {
+        // データベースをリセット
+        $this->resetDatabase();
+
         // 会員登録ページを開く (get)
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -68,6 +77,9 @@ class RegisterTest extends TestCase
     // パスワードが7文字以下の場合、バリデーションメッセージが表示される
     public function test_password_is_min_8()
     {
+        // データベースをリセット
+        $this->resetDatabase();
+
         // 会員登録ページを開く (get)
         $response = $this->get('/register');
         $response->assertStatus(200);
@@ -88,6 +100,8 @@ class RegisterTest extends TestCase
     // パスワードが確認用パスワードと一致しない場合、バリデーションメッセージが表示される
     public function test_password_confirmation_is_must_match()
     {
+        // データベースをリセット
+        $this->resetDatabase();
 
         // 会員登録ページを開く (get)
         $response = $this->get('/register');
@@ -109,6 +123,8 @@ class RegisterTest extends TestCase
     // 全ての項目が入力されている場合、会員情報が登録され、プロフィール設定画面に遷移される
     public function test_user_can_register_success()
     {
+        // データベースをリセット
+        $this->resetDatabase();
 
         // 会員登録ページを開く (get)
         $response = $this->get('/register');

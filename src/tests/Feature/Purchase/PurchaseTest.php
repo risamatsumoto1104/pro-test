@@ -4,7 +4,6 @@ namespace Tests\Feature\Purchase;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Address;
@@ -33,29 +32,8 @@ class PurchaseTest extends TestCase
                 'url' => 'https://mock.stripe.com/checkout/session/12345',
             ]);
 
-        // 外部キー制約を無効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // テーブルのデータをリセット（truncate）
-        DB::table('users')->truncate();
-        DB::table('categories')->truncate();
-        DB::table('items')->truncate();
-        DB::table('category_item')->truncate();
-        DB::table('purchases')->truncate();
-        DB::table('address_item')->truncate();
-        DB::table('addresses')->truncate();
-
-        // 外部キー制約を再度有効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        // auto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE purchases AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE address_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE addresses AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -150,29 +128,8 @@ class PurchaseTest extends TestCase
                 'url' => 'https://mock.stripe.com/checkout/session/123',
             ]);
 
-        // 外部キー制約を無効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // テーブルのデータをリセット（truncate）
-        DB::table('users')->truncate();
-        DB::table('categories')->truncate();
-        DB::table('items')->truncate();
-        DB::table('category_item')->truncate();
-        DB::table('purchases')->truncate();
-        DB::table('address_item')->truncate();
-        DB::table('addresses')->truncate();
-
-        // 外部キー制約を再度有効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        // auto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE purchases AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE address_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE addresses AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -278,29 +235,8 @@ class PurchaseTest extends TestCase
                 'url' => 'https://mock.stripe.com/checkout/session/345',
             ]);
 
-        // 外部キー制約を無効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        // テーブルのデータをリセット（truncate）
-        DB::table('users')->truncate();
-        DB::table('categories')->truncate();
-        DB::table('items')->truncate();
-        DB::table('category_item')->truncate();
-        DB::table('purchases')->truncate();
-        DB::table('address_item')->truncate();
-        DB::table('addresses')->truncate();
-
-        // 外部キー制約を再度有効化
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-        // auto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE purchases AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE address_item AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE addresses AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',

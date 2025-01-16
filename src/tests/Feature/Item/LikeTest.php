@@ -4,7 +4,6 @@ namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use Tests\Traits\DatabaseSeedTrait;
@@ -19,11 +18,8 @@ class LikeTest extends TestCase
         // メール認証ミドルウェアを無効化
         $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',
@@ -64,12 +60,8 @@ class LikeTest extends TestCase
         // メール認証ミドルウェアを無効化
         $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
-        DB::table('likes')->truncate();
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',
@@ -111,12 +103,8 @@ class LikeTest extends TestCase
         // メール認証ミドルウェアを無効化
         $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
-        DB::table('likes')->truncate();
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',

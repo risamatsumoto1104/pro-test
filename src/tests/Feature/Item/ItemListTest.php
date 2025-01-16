@@ -4,7 +4,6 @@ namespace Tests\Feature\Item;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Purchase;
@@ -18,11 +17,8 @@ class ItemListTest extends TestCase
     // 全商品を取得できる(未認証でも閲覧可能）
     public function test_can_get_all_the_item()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -46,11 +42,8 @@ class ItemListTest extends TestCase
     // 購入済み商品は「Sold」と表示される
     public function test_purchased_items_is_sold()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         User::create([
             'name' => 'Test User',
@@ -93,11 +86,8 @@ class ItemListTest extends TestCase
     // 自分が出品した商品は表示されない
     public function test_my_item_is_not_listed()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE categories AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE items AUTO_INCREMENT = 1;');
-        DB::statement('ALTER TABLE category_item AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',

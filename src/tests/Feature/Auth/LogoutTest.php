@@ -4,7 +4,6 @@ namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class LogoutTest extends TestCase
@@ -14,8 +13,8 @@ class LogoutTest extends TestCase
     // ログアウトができる
     public function test_user_can_logout()
     {
-        // データベースのauto_incrementをリセット
-        DB::statement('ALTER TABLE users AUTO_INCREMENT = 1;');
+        // データベースをリセット
+        $this->resetDatabase();
 
         $user = User::create([
             'name' => 'Test User',
