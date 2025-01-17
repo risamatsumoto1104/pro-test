@@ -13,6 +13,11 @@ abstract class TestCase extends BaseTestCase
     // テスト用のデータベースを初期化
     protected function resetDatabase()
     {
+        $this->artisan('config:clear');
+        $this->artisan('cache:clear');
+        $this->artisan('route:clear');
+        $this->artisan('view:clear');
+
         // 外部キー制約を無効化
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 

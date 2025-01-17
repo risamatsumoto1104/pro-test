@@ -75,7 +75,7 @@
                         <div class="item-comment-image-wrapper">
                             <!-- ユーザー画像の表示（画像がない場合はプレースホルダー表示） -->
                             <img class="item-comment-user-img"
-                                src="{{ asset('storage/profile_images/' . ($comment->user->profile ? $comment->user->profile->profile_image : 'default-profile.png')) }}"
+                                src="{{ asset('storage/profile_images/' . ($comment->user->profile->profile_image ?? 'default-profile.png')) }}"
                                 alt="ユーザー画像">
                         </div>
                         <p class="item-comment-user-name">{{ $comment->user->name }}</p> <!-- ユーザー名表示 -->

@@ -116,7 +116,7 @@ item_id | item_name
 カード保有者の名前：任意の氏名
 ```
 
-- 支払を押した後、http://localhost/purchase/success/{item_id}に接続します。
+- 支払を押した後、http://localhost/purchase/success/{item_id} に接続します。
 - stripe 公式ページの「取引」より成功を確認してください。
 
 **コンビニ支払いを選択して「購入ボタン」を押下した場合のテスト**
@@ -129,7 +129,7 @@ item_id | item_name
 ```
 
 - 支払を押した後、テスト環境でのコンビニ決済画面に接続します。
-- 実際の支払はできない為、http://localhost/purchase/success/{item_id}に接続して、購入を完了させて下さい。
+- 実際の支払はできない為、http://localhost/purchase/success/{item_id} に接続して、購入を完了させて下さい。
 - stripe 公式ページの「取引」より成功を確認してください。※取引が成功するまでに 3 分かかります。
 
 ## PHPunit を用いたテスト

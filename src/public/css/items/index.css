@@ -81,6 +81,7 @@
 
     /* 商品名 */
     .item-name {
+        font-size: 24px;
         margin: 0;
     }
 
@@ -186,6 +187,7 @@
 
     /* 商品名 */
     .item-name {
+        font-size: 20px;
         margin: 0;
     }
 

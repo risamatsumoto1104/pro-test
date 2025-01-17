@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PurchaseRequest;
 use Illuminate\Http\Request;
 use App\Models\Item;
+use App\Models\Profile;
 use App\Models\Address;
+use App\Models\AddressItem;
 use App\Models\Purchase;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
@@ -27,7 +29,7 @@ class PurchaseController extends Controller
         return view('purchase.confirm', [
             'item' => $item,
             'address' => $address ?? (object) [
-                'id' => '',
+                'address_id' => '',
                 'postal_code' => '',
                 'address' => '',
                 'building' => ''
@@ -38,20 +40,51 @@ class PurchaseController extends Controller
     // 購入処理
     public function store(PurchaseRequest $request, $item_id)
     {
+        // ログインしているユーザー情報を取得
+        $user = auth()->user();
+
+        // 商品情報を取得
+        $item = Item::findOrFail($item_id);
+
+        // 同じ商品が既に購入されているか確認
+        $existingPurchase = Purchase::where('item_id', $item_id)->first();
+        if ($existingPurchase) {
+            return redirect()->back()->withErrors(['error' => 'この商品は既に購入されています。']);
+        }
+
+        // ユーザーの住所情報をProfileテーブルから取得
+        $addressData = Profile::where('user_id', $user->user_id)->first();
+
+        if (!$addressData) {
+            // 住所情報がProfileに存在しない場合、エラーを返す
+            return redirect()->back()->withErrors(['error' => '住所情報が設定されていません。']);
+        }
+
+        // Addressテーブルに保存または更新
+        $address = Address::updateOrCreate(
+            ['user_id' => $user->user_id], // user_idで検索
+            [
+                'postal_code' => $addressData->postal_code,
+                'address' => $addressData->address,
+                'building' => $addressData->building,
+            ]
+        );
+
+        // Addressが保存されたか確認
+        if (!$address->address_id) {
+            return redirect()->back()->withErrors(['error' => '住所情報の保存に失敗しました。']);
+        }
+
+        // AddressItemテーブルに保存または更新
+        AddressItem::updateOrCreate(
+            ['item_id' => $item->item_id], // item_idで検索
+            [
+                'item_id' => $item_id,
+                'address_id' => $address->address_id, // address_idがnullでないか確認
+            ]
+        );
+
         try {
-            // ログインしているユーザー情報を取得
-            $user = auth()->user();
-
-            // 商品情報と住所情報を取得
-            $item = Item::findOrFail($item_id);
-            $address = Address::where('user_id', $user->user_id)->first();
-
-            // 同じ商品が既に購入されているか確認
-            $existingPurchase = Purchase::where('item_id', $item_id)->first();
-            if ($existingPurchase) {
-                return redirect()->back()->withErrors(['error' => 'この商品は既に購入されています。']);
-            }
-
             // 支払い方法の設定
             $paymentMethod = $request->input('payment_method');
             $paymentMethodType = $paymentMethod === 'カード支払い' ? ['card'] : ['konbini'];
@@ -91,7 +124,7 @@ class PurchaseController extends Controller
             // セッションから支払い方法を取得
             $paymentMethod = session('payment_method');
 
-            // ログインしているユーザー情報と住所情報を再度取得
+            // ログインしているユーザー情報と住所情報を取得
             $user = auth()->user();
             $address = Address::where('user_id', $user->user_id)->first();
 

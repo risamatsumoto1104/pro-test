@@ -7,20 +7,33 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Address;
+use App\Models\AddressItem;
+use App\Models\Profile;
 use App\Models\Purchase;
 use Tests\Traits\DatabaseSeedTrait;
 use Mockery;
 use Stripe\Stripe;
+use Stripe\Checkout\Session;
+
 
 class PurchaseTest extends TestCase
 {
     use RefreshDatabase, DatabaseSeedTrait;
 
-    // 「購入する」ボタンを押下すると購入が完了する
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function test_to_complete_purchase_by_pressing_the_button()
     {
-        // メール認証ミドルウェアを無効化
-        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
+        // データベースをリセット
+        $this->resetDatabase();
+
+        // セッションをリセット
+        session()->flush();
+
+        // モックをリセット
+        Mockery::close();
 
         Stripe::setApiKey('sk_test_mock_key');
 
@@ -29,11 +42,12 @@ class PurchaseTest extends TestCase
         $stripeSessionMock->shouldReceive('create')
             ->once() // createが1回呼ばれることを確認
             ->andReturn((object) [
-                'url' => 'https://mock.stripe.com/checkout/session/12345',
+                'url' => 'https://mock.stripe.com/checkout/session/1',
             ]);
 
-        // データベースをリセット
-        $this->resetDatabase();
+
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
         User::create([
             'name' => 'Test User',
@@ -49,23 +63,35 @@ class PurchaseTest extends TestCase
             'password' => bcrypt('password1234'),
         ]);
 
-        // トレイトメソッドを使用してシーディングを実行
-        $this->seedDatabase();
-
-        // 送付先情報を作成
-        $myAddress = Address::create([
+        $myProfile = Profile::create([
             'user_id' => $myUser->user_id,
             'postal_code' => '111-1111',
             'address' => 'test address',
             'building' => 'test building',
         ]);
 
-        // ユーザーにログインをする
-        $this->actingAs($myUser);
+        // トレイトメソッドを使用してシーディングを実行
+        $this->seedDatabase();
 
         // テスト用として商品IDを設定
         $itemId = 1;
         $item = Item::find($itemId);
+
+        // 送付先情報を作成
+        $myAddress = Address::create([
+            'user_id' => $myProfile->user_id,
+            'postal_code' => $myProfile->postal_code,
+            'address' => $myProfile->address,
+            'building' => $myProfile->building,
+        ]);
+
+        AddressItem::create([
+            'item_id' => $itemId,
+            'address_id' => $myAddress->address_id,
+        ]);
+
+        // ユーザーにログインをする
+        $this->actingAs($myUser);
 
         // 商品購入ページを開く(get)
         $response = $this->get(route('item.purchase', ['item_id' => $itemId]));
@@ -90,7 +116,7 @@ class PurchaseTest extends TestCase
         ]);
 
         // 正しくStripeの決済ページに遷移することを確認
-        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/12345');
+        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/1');
 
         // 購入が完了する
         // 購入完了ページにに遷移
@@ -112,11 +138,20 @@ class PurchaseTest extends TestCase
         ]);
     }
 
-    // 購入した商品は商品一覧画面にて「sold」と表示される
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function test_purchased_items_is_sold()
     {
-        // メール認証ミドルウェアを無効化
-        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
+        // データベースをリセット
+        $this->resetDatabase();
+
+        // セッションをリセット
+        session()->flush();
+
+        // モックをリセット
+        Mockery::close();
 
         Stripe::setApiKey('sk_test_mock_key');
 
@@ -125,11 +160,12 @@ class PurchaseTest extends TestCase
         $stripeSessionMock->shouldReceive('create')
             ->once() // createが1回呼ばれることを確認
             ->andReturn((object) [
-                'url' => 'https://mock.stripe.com/checkout/session/123',
+                'url' => 'https://mock.stripe.com/checkout/session/2',
             ]);
 
-        // データベースをリセット
-        $this->resetDatabase();
+
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
         User::create([
             'name' => 'Test User',
@@ -145,23 +181,35 @@ class PurchaseTest extends TestCase
             'password' => bcrypt('password1234'),
         ]);
 
-        // トレイトメソッドを使用してシーディングを実行
-        $this->seedDatabase();
-
-        // 送付先情報を作成
-        $myAddress = Address::create([
+        $myProfile = Profile::create([
             'user_id' => $myUser->user_id,
             'postal_code' => '111-1111',
             'address' => 'test address',
             'building' => 'test building',
         ]);
 
-        // ユーザーにログインをする
-        $this->actingAs($myUser);
+        // トレイトメソッドを使用してシーディングを実行
+        $this->seedDatabase();
 
         // テスト用として商品IDを設定
         $itemId = 1;
         $item = Item::find($itemId);
+
+        // 送付先情報を作成
+        $myAddress = Address::create([
+            'user_id' => $myProfile->user_id,
+            'postal_code' => $myProfile->postal_code,
+            'address' => $myProfile->address,
+            'building' => $myProfile->building,
+        ]);
+
+        AddressItem::create([
+            'item_id' => $itemId,
+            'address_id' => $myAddress->address_id,
+        ]);
+
+        // ユーザーにログインをする
+        $this->actingAs($myUser);
 
         // 商品購入ページを開く(get)
         $response = $this->get(route('item.purchase', ['item_id' => $itemId]));
@@ -186,7 +234,7 @@ class PurchaseTest extends TestCase
         ]);
 
         // 正しくStripeの決済ページに遷移することを確認
-        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/123');
+        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/2');
 
         // 購入が完了する
         // 購入完了ページにに遷移
@@ -214,16 +262,20 @@ class PurchaseTest extends TestCase
         });
     }
 
-    // 「プロフィール/購入した商品一覧」に追加されている
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function test_added_to_purchased_items_list()
     {
-        // モックをリセット
-        Mockery::close();
+        // データベースをリセット
+        $this->resetDatabase();
+
         // セッションをリセット
         session()->flush();
 
-        // メール認証ミドルウェアを無効化
-        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
+        // モックをリセット
+        Mockery::close();
 
         Stripe::setApiKey('sk_test_mock_key');
 
@@ -232,11 +284,11 @@ class PurchaseTest extends TestCase
         $stripeSessionMock->shouldReceive('create')
             ->once() // createが1回呼ばれることを確認
             ->andReturn((object) [
-                'url' => 'https://mock.stripe.com/checkout/session/345',
+                'url' => 'https://mock.stripe.com/checkout/session/3',
             ]);
 
-        // データベースをリセット
-        $this->resetDatabase();
+        // メール認証ミドルウェアを無効化
+        $this->withoutMiddleware([\Illuminate\Auth\Middleware\EnsureEmailIsVerified::class]);
 
         User::create([
             'name' => 'Test User',
@@ -252,23 +304,35 @@ class PurchaseTest extends TestCase
             'password' => bcrypt('password1234'),
         ]);
 
-        // トレイトメソッドを使用してシーディングを実行
-        $this->seedDatabase();
-
-        // 送付先情報を作成
-        $myAddress = Address::create([
+        $myProfile = Profile::create([
             'user_id' => $myUser->user_id,
             'postal_code' => '111-1111',
             'address' => 'test address',
             'building' => 'test building',
         ]);
 
-        // ユーザーにログインをする
-        $this->actingAs($myUser);
+        // トレイトメソッドを使用してシーディングを実行
+        $this->seedDatabase();
 
         // テスト用として商品IDを設定
         $itemId = 1;
         $item = Item::find($itemId);
+
+        // 送付先情報を作成
+        $myAddress = Address::create([
+            'user_id' => $myProfile->user_id,
+            'postal_code' => $myProfile->postal_code,
+            'address' => $myProfile->address,
+            'building' => $myProfile->building,
+        ]);
+
+        AddressItem::create([
+            'item_id' => $itemId,
+            'address_id' => $myAddress->address_id,
+        ]);
+
+        // ユーザーにログインをする
+        $this->actingAs($myUser);
 
         // 商品購入ページを開く(get)
         $response = $this->get(route('item.purchase', ['item_id' => $itemId]));
@@ -293,7 +357,7 @@ class PurchaseTest extends TestCase
         ]);
 
         // 正しくStripeの決済ページに遷移することを確認
-        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/345');
+        $purchaseResponse->assertRedirect('https://mock.stripe.com/checkout/session/3');
 
         // 購入が完了する
         // 購入完了ページにに遷移

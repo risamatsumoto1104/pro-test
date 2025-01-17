@@ -9,6 +9,9 @@
         @csrf
         <div class="purchase-container">
 
+            <!-- 隠しフィールドとして buyer_user_id を送信 -->
+            <input type="hidden" name="buyer_user_id" value="{{ auth()->user()->user_id }}">
+
             {{-- 左列 --}}
             <div class="purchase-left">
                 <div class="purchase-item">
@@ -29,32 +32,31 @@
                                 <option value="コンビニ支払い">コンビニ支払い</option>
                                 <option value="カード支払い">カード支払い</option>
                             </select>
+                            </select>
                         </div>
                         @error('payment_method')
                             <p class="error-message">{{ $message }}</p>
                         @enderror
-                        <!-- 隠しフィールドとして address_id を送信 -->
-                        <input type="hidden" name="address_id" value="{{ $address->address_id ?? '' }}">
                     </div>
+
+                    <!-- 隠しフィールドとして address_id を送信 -->
+                    <input type="hidden" name="address_id" value="{{ $address->address_id ?? '' }}">
 
                     <div class="purchase-address">
                         <div class="purchase-address-header">
                             <h3 class="purchase-address-title">配送先</h3>
                             <a class="purchase-address-link"
-                                href="{{ route('purchase.address.edit', ['item_id' => $item->item_id, 'payment_method' => old('payment_method') ?? session('payment_method')]) }}">
+                                href="{{ route('purchase.address.edit', ['item_id' => $item->item_id]) }}">
                                 変更する
                             </a>
                         </div>
                         {{-- 住所情報が空の場合でもバリデーションメッセージを表示 --}}
-                        @if ($address)
-                            <p class="purchase-address-postal">〒{{ $address->postal_code }}</p>
-                            <p class="purchase-address-main">{{ $address->address }}</p>
-                            <p class="purchase-address-building">{{ $address->building }}</p>
-                        @else
-                            @error('address_id')
-                                <p class="error-message">{{ $message }}</p>
-                            @enderror
-                        @endif
+                        <p class="purchase-address-postal">〒{{ $address->postal_code }}</p>
+                        <p class="purchase-address-main">{{ $address->address }}</p>
+                        <p class="purchase-address-building">{{ $address->building }}</p>
+                        @error('address_id')
+                            <p class="error-message">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -86,20 +88,31 @@
         document.addEventListener('DOMContentLoaded', function() {
             const paymentSelect = document.getElementById('payment-method-select');
             const summaryPayment = document.getElementById('summary-payment-method');
+            const storedPaymentMethod = localStorage.getItem('payment_method');
 
-            // ページロード時に保存された値を復元
-            const savedPaymentMethod = localStorage.getItem('payment_method');
-            if (savedPaymentMethod) {
-                paymentSelect.value = savedPaymentMethod;
-                summaryPayment.textContent = savedPaymentMethod; // 小計画面にも反映
+            // ページロード時にローカルストレージから取得した値を設定
+            if (storedPaymentMethod) {
+                paymentSelect.value = storedPaymentMethod;
+                summaryPayment.textContent = storedPaymentMethod; // 小計にも反映
+            } else {
+                paymentSelect.value = ''; // ローカルストレージに値がなければ初期値を設定
+                summaryPayment.textContent = '選択してください'; // 初期状態に戻す
             }
 
             // セレクトボックスの値が変更された場合、ローカルストレージに保存
             paymentSelect.addEventListener('change', function() {
-                const selectedPayment = paymentSelect.value || '選択してください';
+                const selectedPayment = paymentSelect.value;
                 localStorage.setItem('payment_method', selectedPayment);
-                summaryPayment.textContent = selectedPayment; // 小計画面にも反映
+                summaryPayment.textContent = selectedPayment; // 小計にも反映
             });
+
+            // ログアウトフォームの送信前に localStorage をクリア
+            const logoutForm = document.querySelector('form[action="/logout"]');
+            if (logoutForm) {
+                logoutForm.addEventListener('submit', function() {
+                    localStorage.removeItem('payment_method'); // 支払い方法の選択情報を削除
+                });
+            }
         });
     </script>
 @endsection

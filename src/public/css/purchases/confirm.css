@@ -152,9 +152,16 @@
         text-align: center;
     }
 
-    /* 商品代金内容、支払方法内容 */
-    .purchase-summary-value {
+    /* 商品代金内容 */
+    .purchase-summary-price {
         font-size: 24px;
+        font-weight: 400;
+        text-align: center;
+    }
+
+    /* 支払方法内容 */
+    .purchase-summary-payment {
+        font-size: 20px;
         font-weight: 400;
         text-align: center;
     }
