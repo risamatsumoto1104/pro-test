@@ -45,6 +45,12 @@ class AddressController extends Controller
                 'building' => $validated['building'],
                 'user_id' => Auth::id(),
             ]);
+
+            // 中間テーブル（address_item）に保存
+            AddressItem::updateOrCreate(
+                ['item_id' => $item->item_id], // item_idが存在する場合は更新、存在しない場合は新規作成
+                ['address_id' => $address->address_id]
+            );
         } else {
             // 住所が存在する場合は更新
             $address->update([
@@ -52,13 +58,13 @@ class AddressController extends Controller
                 'address' => $validated['address'],
                 'building' => $validated['building'],
             ]);
-        }
 
-        // 中間テーブル（address_item）に保存
-        AddressItem::updateOrCreate(
-            ['item_id' => $item->item_id], // item_idが存在する場合は更新、存在しない場合は新規作成
-            ['address_id' => $address->address_id]
-        );
+            // 中間テーブル（address_item）に保存
+            AddressItem::updateOrCreate(
+                ['item_id' => $item->item_id], // item_idが存在する場合は更新、存在しない場合は新規作成
+                ['address_id' => $address->address_id]
+            );
+        }
 
         // 購入確認ページにリダイレクト
         return redirect()->route('item.purchase', ['item_id' => $item_id]);

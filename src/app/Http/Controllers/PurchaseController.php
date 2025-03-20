@@ -64,29 +64,17 @@ class PurchaseController extends Controller
             return redirect()->back()->withErrors(['error' => '住所情報が設定されていません。']);
         }
 
-        // Addressテーブルを更新
-        $address = Address::updateOrCreate(
-            ['user_id' => $user->user_id], // user_idで検索
-            [
-                'postal_code' => $addressData->postal_code,
-                'address' => $addressData->address,
-                'building' => $addressData->building,
-            ]
-        );
-
-        // Addressが保存されたか確認
-        if (!$address->address_id) {
-            return redirect()->back()->withErrors(['error' => '住所情報の保存に失敗しました。']);
+        $addressItem = AddressItem::where('item_id', $item->item_id)->first();
+        if (!$addressItem) {
+            $address = Address::where('user_id', $user->user_id)->first();
+            if ($address) {
+                // AddressItemテーブルに保存
+                AddressItem::create([
+                    'item_id' => $item_id, // item_idを指定
+                    'address_id' => $address->address_id, // 正しいaddress_idを指定
+                ]);
+            }
         }
-
-        // AddressItemテーブルに保存または更新
-        AddressItem::updateOrCreate(
-            ['item_id' => $item->item_id], // item_idで検索
-            [
-                'item_id' => $item_id,
-                'address_id' => $address->address_id, // address_idがnullでないか確認
-            ]
-        );
 
         try {
             // 支払い方法の設定
