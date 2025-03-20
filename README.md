@@ -22,11 +22,8 @@
 composer install
 ```
 
-3. 「.env.example」ファイルをコピーして「.env」ファイルを作成します。
-
-```bash
-cp .env.example .env
-```
+3. 「.env.example」ファイルをコピーして「.env」ファイルを作成します。  
+   `cp src/.env.example src/.env`
 
 4.権限の変更
 
@@ -70,24 +67,14 @@ php artisan key:generate --env=testing
 php artisan config:clear
 ```
 
-7. 本番環境（.env）と、テスト環境（.env.testing）の APP_KEY= を削除。  
-   新たなアプリケーションキーを作成します。  
-   キャッシュの削除も行ってください。
-
-```bash
-php artisan key:generate
-php artisan key:generate --env=testing
-php artisan config:clear
-```
-
-8. マイグレーションファイルと、ダミーデータの作成を行います。  
+7. マイグレーションファイルと、ダミーデータの作成を行います。  
    初年度でのユーザー数 1000 人達成を目標としていますが、今回は 10 名（ユーザー）で作成します。
 
 ```bash
 php artisan migrate --seed
 ```
 
-9. storege 内のファイルを使用するため、シンボリックリンクを作成します。
+8. storege 内のファイルを使用するため、シンボリックリンクを作成します。
 
 ```bash
 php artisan storage:link
