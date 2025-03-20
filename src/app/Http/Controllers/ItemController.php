@@ -72,8 +72,18 @@ class ItemController extends Controller
         // 検索キーワードを取得
         $keyword = $request->query('keyword', ''); // キーワードがリクエストに存在しない場合は空文字
 
+        // ログインしているユーザー情報を取得
+        $user = auth()->user();
+
         // 検索結果を取得
-        $searchResults = Item::where('item_name', 'like', '%' . $keyword . '%')->get();
+        $searchResults = Item::where('item_name', 'like', '%' . $keyword . '%');
+
+        // ログインしている場合、出品した商品を除外
+        if ($user) {
+            $searchResults = $searchResults->where('seller_user_id', '!=', $user->user_id);
+        }
+
+        $searchResults = $searchResults->get();
 
         // 売り切れ(sold)状態の判定
         foreach ($searchResults as $item) {
@@ -145,7 +155,7 @@ class ItemController extends Controller
         $likeCount = $item->itemLikes()->count();
 
         // いいねアイコンのパスを設定
-        $iconPath = $liked ? '/storage/icon_images/星アイコン_liked.png' : '/storage/icon_images/星アイコン8.png';
+        $iconPath = $liked ? '/icon_images/星アイコン_liked.png' : '/icon_images/星アイコン8.png';
 
         // JSONでレスポンスを返す
         return response()->json([
@@ -203,7 +213,7 @@ class ItemController extends Controller
         // 画像保存処理
         if ($request->hasFile('item_image')) {
             // ファイルを storage/app/public に保存
-            $path = $request->file('item_image')->store('item_images', 'public');
+            $path = $request->file('item_image')->store('public');
 
             // パスを取得して保存（basenameでファイル名のみ取得）
             $sellItem->item_image = basename($path);

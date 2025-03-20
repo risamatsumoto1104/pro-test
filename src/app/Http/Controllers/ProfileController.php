@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -62,11 +63,11 @@ class ProfileController extends Controller
 
         // 画像処理
         if ($profileRequest->hasFile('profile_image')) {
-            $imagePath = $profileRequest->file('profile_image')->store('profile_images', 'public');
+            $imagePath = $profileRequest->file('profile_image')->store('public');
 
             // 古い画像を削除
             if ($user->profile && $user->profile->profile_image) {
-                Storage::disk('public')->delete('profile_images/' . $user->profile->profile_image);
+                Storage::disk('public')->delete($user->profile->profile_image);
             }
 
             $profileValidated['profile_image'] = basename($imagePath);
@@ -86,6 +87,16 @@ class ProfileController extends Controller
             $addressValidated['user_id'] = $user->user_id;
             $user->profile()->create($addressValidated);
         }
+
+        // **Addressテーブルに保存または更新**
+        Address::updateOrCreate(
+            ['user_id' => $user->user_id], // `user_id` で検索
+            [
+                'postal_code' => $addressValidated['postal_code'] ?? null,
+                'address' => $addressValidated['address'] ?? null,
+                'building' => $addressValidated['building'] ?? null,
+            ]
+        );
 
         // 更新完了とともにリダイレクト
         return redirect()->route('home');

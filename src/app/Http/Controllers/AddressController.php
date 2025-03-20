@@ -35,7 +35,7 @@ class AddressController extends Controller
         $item = Item::findOrFail($item_id);
 
         // 住所を更新または新規作成
-        $address = Address::where('user_id', Auth::id())->first();
+        $address = AddressItem::where('item_id', $item)->first();
 
         if (!$address) {
             // 住所が存在しない場合は新規作成

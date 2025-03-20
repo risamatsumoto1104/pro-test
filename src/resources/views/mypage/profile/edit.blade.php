@@ -18,7 +18,9 @@
                 <div class="profile-image-wrapper">
                     <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
                     <img class="profile-image" id="profile-image"
-                        src="{{ asset('storage/profile_images/' . ($profile && $profile->profile_image ? $profile->profile_image : 'default-profile.png')) }}"
+                        src="{{ $profile && $profile->profile_image
+                            ? asset('storage/' . $profile->profile_image)
+                            : asset('profile_images/default-profile.png') }}"
                         alt="ユーザー画像">
                     <input class="profile-image-input" name="profile_image" id="profile-image-input" type="file"
                         onchange="previewImage(event)">
@@ -89,7 +91,7 @@
                 reader.readAsDataURL(input.files[0]); // 画像をデータURLとして読み込む
             } else {
                 // 画像が選択されていない場合はデフォルト画像を表示
-                profileImg.src = "{{ asset('storage/profile_images/default-profile.png') }}";
+                profileImg.src = "{{ asset('profile_images/default-profile.png') }}";
             }
         }
     </script>

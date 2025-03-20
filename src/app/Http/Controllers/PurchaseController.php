@@ -9,7 +9,6 @@ use App\Models\Profile;
 use App\Models\Address;
 use App\Models\AddressItem;
 use App\Models\Purchase;
-use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Exception;
 
@@ -23,7 +22,12 @@ class PurchaseController extends Controller
 
         // ユーザーの住所情報を取得（ログインユーザーを想定）
         $user = auth()->user();
-        $address = Address::where('user_id', $user->user_id)->first();
+        $addressItem = AddressItem::where('item_id', $item->item_id)->first();
+        if ($addressItem) {
+            $address = Address::where('address_id', $addressItem->address_id)->first();
+        } else {
+            $address = Address::where('user_id', $user->user_id)->first();
+        }
 
         // 必要な情報をビューに渡す
         return view('purchase.confirm', [
@@ -60,7 +64,7 @@ class PurchaseController extends Controller
             return redirect()->back()->withErrors(['error' => '住所情報が設定されていません。']);
         }
 
-        // Addressテーブルに保存または更新
+        // Addressテーブルを更新
         $address = Address::updateOrCreate(
             ['user_id' => $user->user_id], // user_idで検索
             [

@@ -10,7 +10,9 @@
             <div class="profile-image-wrapper">
                 <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
                 <img class="profile-image" id="profile-image"
-                    src="{{ asset('storage/profile_images/' . ($profile && $profile->profile_image ? $profile->profile_image : 'default-profile.png')) }}"
+                    src="{{ $profile && $profile->profile_image
+                        ? asset('storage/' . $profile->profile_image)
+                        : asset('profile_images/default-profile.png') }}"
                     alt="ユーザー画像">
             </div>
             <div class="profile-name-wrapper">
@@ -36,7 +38,7 @@
                 @foreach ($soldItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
@@ -56,7 +58,7 @@
                 @foreach ($boughtItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                            <img class="item-image" src="{{ asset('item_images/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')

@@ -17,7 +17,10 @@
             @foreach ($items ?? [] as $item)
                 <div class="item">
                     <a href="{{ url('item/' . $item->item_id) }}">
-                        <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                        <img class="item-image"
+                            src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                ? asset('item_images/' . $item->item_image)
+                                : asset('storage/' . $item->item_image) }}"
                             alt="{{ $item->item_name }}">
                     </a>
                     @if ($item->status === 'sold')
@@ -35,7 +38,7 @@
                     @foreach ($items as $item)
                         <div class="item">
                             <a href="{{ url('item/' . $item->item_id) }}">
-                                <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                                <img class="item-image" src="{{ asset('item_images/' . $item->item_image) }}"
                                     alt="{{ $item->item_name }}">
                             </a>
                             @if ($item->status === 'sold')
@@ -70,7 +73,10 @@
                 @foreach ($searchResults as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+                            <img class="item-image"
+                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                    ? asset('item_images/' . $item->item_image)
+                                    : asset('storage/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')

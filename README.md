@@ -4,9 +4,13 @@
 
 **Docker ビルド**
 
-1. `git clone git@github.com:risamatsumoto1104/coachtech-fleamarket.git`
-2. DockerDesktop アプリを立ち上げる
-3. `docker-compose up -d --build`
+1. コマンドラインにて  
+   `git clone git@github.com:risamatsumoto1104/coachtech-fleamarket.git`
+2. `cd coachtech-fleamarket`
+3. `code .`
+4. DockerDesktop アプリを立ち上げる
+5. VScode 内にて  
+   `docker-compose up -d --build`
 
 **Laravel 環境構築**
 
@@ -24,7 +28,14 @@ composer install
 cp .env.example .env
 ```
 
-4. .env に以下の環境変数を変更。  
+4.権限の変更
+
+```bash
+chown -R www-data:www-data /var/www/storage
+chmod -R 775 /var/www/storage
+```
+
+5. .env に以下の環境変数を変更。  
    strip 決済を使用しているため、.env ファイルに STRIPE_KEY=(公開可能キー)と STRIPE_SECRET=（シークレットキー）を追加してください。
 
 ```text
@@ -35,12 +46,21 @@ DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=test@example.com
+MAIL_FROM_NAME="${APP_NAME}"
+
 # Stripe keys（追加）
 STRIPE_KEY=pk_test_..................
 STRIPE_SECRET=sk_test_.................
 ```
 
-5. 本番環境と、テスト環境の APP_KEY=にを削除。  
+6. 本番環境と、テスト環境の APP_KEY=にを削除。  
    新たなアプリケーションキーを作成します。  
    キャッシュの削除も行ってください。
 
@@ -50,17 +70,42 @@ php artisan key:generate --env=testing
 php artisan config:clear
 ```
 
-6. マイグレーションファイルと、ダミーデータの作成を行います。
+7. 本番環境（.env）と、テスト環境（.env.testing）の APP_KEY= を削除。  
+   新たなアプリケーションキーを作成します。  
+   キャッシュの削除も行ってください。
+
+```bash
+php artisan key:generate
+php artisan key:generate --env=testing
+php artisan config:clear
+```
+
+8. マイグレーションファイルと、ダミーデータの作成を行います。  
+   初年度でのユーザー数 1000 人達成を目標としていますが、今回は 10 名（ユーザー）で作成します。
 
 ```bash
 php artisan migrate --seed
 ```
 
-7. storege 内のファイルを使用するため、シンボリックリンクを作成します。
+9. storege 内のファイルを使用するため、シンボリックリンクを作成します。
 
 ```bash
 php artisan storage:link
 ```
+
+## テストアカウント
+
+email: それぞれの mail アドレス  
+password: password
+
+- 登録処理：http://localhost/register
+- ログイン：http://localhost/login
+
+---
+
+## ER 図
+
+![alt](er.png)
 
 ## 使用技術(実行環境)
 
@@ -134,16 +179,29 @@ item_id | item_name
 
 ## PHPunit を用いたテスト
 
-1. PHP コンテナ内にログイン  
-   `docker-compose exec php bash`
+1. mysql コンテナ内にログイン  
+   `docker exec -it コンテナID bash`
 
-2.テスト用のマイグレーションファイルを作成します。
+2．root ユーザーでログインして、テスト用データベースを作成します。  
+ password: root
+
+```bash
+mysql -u root -p
+
+CREATE DATABASE demo_test;
+SHOW DATABASES;
+```
+
+3．php コンテナ内にログイン  
+ `docker-compose exec php bash`
+
+4．テスト用のマイグレーションファイルを作成をします。
 
 ```bash
 php artisan migrate --env=testing
 ```
 
-3. 以下のテストを行います。テストを実行してください。
+5. 以下のテストを行います。テストを実行してください。
 
 - 会員登録機能
 - ログイン機能
@@ -164,10 +222,6 @@ php artisan migrate --env=testing
 ```bash
 vendor/bin/phpunit
 ```
-
-## ER 図
-
-![alt](er.png)
 
 ## URL
 

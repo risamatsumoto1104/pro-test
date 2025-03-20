@@ -8,7 +8,10 @@
     <div class="item-content">
         {{-- 左列 --}}
         <div class="item-image">
-            <img class="item-image-img" src="{{ asset('storage/item_images/' . $item->item_image) }}"
+            <img class="item-image-img"
+                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                    ? asset('item_images/' . $item->item_image)
+                    : asset('storage/' . $item->item_image) }}"
                 alt="{{ $item->item_name }}">
         </div>
 
@@ -23,7 +26,7 @@
                         <!-- いいねアイコン -->
                         <img class="item-overview-like-icon" id="like-icon-{{ $item->item_id }}"
                             data-item-id="{{ $item->item_id }}"
-                            src="{{ $item->itemLikes()->where('user_id', Auth::id())->exists() ? '/storage/icon_images/星アイコン_liked.png' : '/storage/icon_images/星アイコン8.png' }}"
+                            src="{{ asset('icon_images/' . ($item->itemLikes()->where('user_id', Auth::id())->exists() ? '星アイコン_liked.png' : '星アイコン8.png')) }}"
                             alt="星アイコン" onclick="toggleLike({{ $item->item_id }})">
 
                         <!-- いいね合計数 -->
@@ -32,7 +35,7 @@
                         </p>
                     </div>
                     <div class="item-overview-comment">
-                        <img class="item-overview-comment-icon" src="{{ asset('storage/icon_images/ふきだしのアイコン.png') }}"
+                        <img class="item-overview-comment-icon" src="{{ asset('icon_images/ふきだしのアイコン.png') }}"
                             alt="ふきだしアイコン">
                         <p class="item-overview-comment-count">{{ $item->comments_count }}</p>
                     </div>
@@ -75,7 +78,9 @@
                         <div class="item-comment-image-wrapper">
                             <!-- ユーザー画像の表示（画像がない場合はプレースホルダー表示） -->
                             <img class="item-comment-user-img"
-                                src="{{ asset('storage/profile_images/' . ($comment->user->profile->profile_image ?? 'default-profile.png')) }}"
+                                src="{{ $comment->user->profile->profile_image
+                                    ? asset('storage/' . $comment->user->profile->profile_image)
+                                    : asset('profile_images/default-profile.png') }}"
                                 alt="ユーザー画像">
                         </div>
                         <p class="item-comment-user-name">{{ $comment->user->name }}</p> <!-- ユーザー名表示 -->
