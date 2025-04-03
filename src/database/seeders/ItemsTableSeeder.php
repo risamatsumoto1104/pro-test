@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,8 +16,11 @@ class ItemsTableSeeder extends Seeder
      */
     public function run()
     {
+        $user1 = User::where('email', 'user1@example.com')->first();  // ユーザー1を取得
+        $user2 = User::where('email', 'user2@example.com')->first();  // ユーザー2を取得
+
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user1->user_id,
             'item_name' => '腕時計',
             'price' => 15000,
             'description' => 'スタイリッシュなデザインのメンズ腕時計',
@@ -26,7 +30,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user1->user_id,
             'item_name' => 'HDD',
             'price' => 5000,
             'description' => '高速で信頼性の高いハードディスク',
@@ -36,7 +40,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user1->user_id,
             'item_name' => '玉ねぎ3束',
             'price' => 300,
             'description' => '新鮮な玉ねぎ3束のセット',
@@ -46,7 +50,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user1->user_id,
             'item_name' => '革靴',
             'price' => 4000,
             'description' => 'クラシックなデザインの革靴',
@@ -56,7 +60,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user1->user_id,
             'item_name' => 'ノートPC',
             'price' => 45000,
             'description' => '高性能なノートパソコン',
@@ -66,7 +70,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user2->user_id,
             'item_name' => 'マイク',
             'price' => 8000,
             'description' => '高音質のレコーディング用マイク',
@@ -76,7 +80,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user2->user_id,
             'item_name' => 'ショルダーバッグ',
             'price' => 3500,
             'description' => 'おしゃれなショルダーバッグ',
@@ -86,7 +90,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user2->user_id,
             'item_name' => 'タンブラー',
             'price' => 500,
             'description' => '使いやすいタンブラー',
@@ -96,7 +100,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user2->user_id,
             'item_name' => 'コーヒーミル',
             'price' => 4000,
             'description' => '手動のコーヒーミル',
@@ -106,7 +110,7 @@ class ItemsTableSeeder extends Seeder
         DB::table('items')->insert($param);
 
         $param = [
-            'seller_user_id' => 1,
+            'seller_user_id' => $user2->user_id,
             'item_name' => 'メイクセット',
             'price' => 2500,
             'description' => '便利なメイクアップセット',

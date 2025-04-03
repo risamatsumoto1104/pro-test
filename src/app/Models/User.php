@@ -73,4 +73,16 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Address::class, 'user_id');
     }
+
+    //　主：User(1)　⇔　従：ChatMessage(N.0)
+    public function chatMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
+    }
+
+    //　主：User(1)　⇔　従：Rating(N.0)
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class, 'evaluator_id');
+    }
 }
