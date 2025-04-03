@@ -5,8 +5,8 @@
 **Docker ビルド**
 
 1. コマンドラインにて  
-   `git clone git@github.com:risamatsumoto1104/coachtech-fleamarket.git`
-2. `cd coachtech-fleamarket`
+   `git clone git@github.com:risamatsumoto1104/pro-test.git`
+2. `cd pro-test`
 3. `code .`
 4. DockerDesktop アプリを立ち上げる
 5. VScode 内にて  
@@ -25,14 +25,7 @@ composer install
 3. 「.env.example」ファイルをコピーして「.env」ファイルを作成します。  
    `cp src/.env.example src/.env`
 
-4.権限の変更
-
-```bash
-chown -R www-data:www-data /var/www/storage
-chmod -R 775 /var/www/storage
-```
-
-5. .env に以下の環境変数を変更。  
+4. .env に以下の環境変数を変更。  
    strip 決済を使用しているため、.env ファイルに STRIPE_KEY=(公開可能キー)と STRIPE_SECRET=（シークレットキー）を追加してください。
 
 ```text
@@ -57,7 +50,7 @@ STRIPE_KEY=pk_test_..................
 STRIPE_SECRET=sk_test_.................
 ```
 
-6. 本番環境と、テスト環境の APP_KEY=にを削除。  
+5. 本番環境と、テスト環境の APP_KEY=にを削除。  
    新たなアプリケーションキーを作成します。  
    キャッシュの削除も行ってください。
 
@@ -67,14 +60,14 @@ php artisan key:generate --env=testing
 php artisan config:clear
 ```
 
-7. マイグレーションファイルと、ダミーデータの作成を行います。  
+6. マイグレーションファイルと、ダミーデータの作成を行います。  
    初年度でのユーザー数 1000 人達成を目標としていますが、今回は 10 名（ユーザー）で作成します。
 
 ```bash
 php artisan migrate --seed
 ```
 
-8. storege 内のファイルを使用するため、シンボリックリンクを作成します。
+7. storege 内のファイルを使用するため、シンボリックリンクを作成します。
 
 ```bash
 php artisan storage:link
@@ -96,7 +89,7 @@ password: password
 
 ## 使用技術(実行環境)
 
-- DockerCompose 3.8
+- DockerCompose 4.0
 - Laravel 8.x
 - nginx 1.21.1
 - PHP 7.4.9
