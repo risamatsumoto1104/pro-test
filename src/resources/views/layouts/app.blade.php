@@ -49,6 +49,8 @@
         @yield('content')
     </main>
 
+    @yield('modals')
+
     @yield('scripts')
 </body>
 

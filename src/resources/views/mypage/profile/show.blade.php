@@ -17,6 +17,13 @@
             </div>
             <div class="profile-name-wrapper">
                 <p class="profile-username">{{ $user->name }}</p>
+                <div class="rating-modal-stars">
+                    <p class="rating-modal-star">&#9733;</p>
+                    <p class="rating-modal-star">&#9733;</p>
+                    <p class="rating-modal-star">&#9733;</p>
+                    <p class="rating-modal-star">&#9733;</p>
+                    <p class="rating-modal-star">&#9733;</p>
+                </div>
             </div>
         </div>
         <a class="profile-edit-link" href="{{ url('/mypage/profile') }}">プロフィールを編集</a>
@@ -26,6 +33,10 @@
     <div class="content-list-container">
         <a class="sell-link" href="{{ route('mypage', ['tab' => 'sell']) }}">出品した商品</a>
         <a class="buy-link" href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
+        <div class="trading-link-container">
+            <a class="trading-link" href="{{ route('mypage', ['tab' => 'trading']) }}">取引中の商品</a>
+            <p class="notification-icon">1</p>
+        </div>
     </div>
 
     {{-- アイテムリスト --}}
@@ -38,7 +49,10 @@
                 @foreach ($soldItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('storage/' . $item->item_image) }}"
+                            <img class="item-image"
+                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                    ? asset('item_images/' . $item->item_image)
+                                    : asset('storage/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
@@ -58,7 +72,10 @@
                 @foreach ($boughtItems as $item)
                     <div class="item">
                         <a href="{{ url('item/' . $item->item_id) }}">
-                            <img class="item-image" src="{{ asset('item_images/' . $item->item_image) }}"
+                            <img class="item-image"
+                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                    ? asset('item_images/' . $item->item_image)
+                                    : asset('storage/' . $item->item_image) }}"
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')

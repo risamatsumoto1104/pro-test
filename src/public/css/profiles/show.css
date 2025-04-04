@@ -33,8 +33,26 @@
     .profile-username {
         font-size: 36px;
         font-weight: 700;
-        margin-left: 20%;
+        margin: 20px 0 20px 20%;
         white-space: nowrap;
+    }
+
+    /* ★全体 */
+    .rating-modal-stars {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    /* ★単体 */
+    .rating-modal-star {
+        width: 40px;
+        height: 40px;
+        color: rgba(217, 217, 217, 1);
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0;
     }
 
     /* プロフィールを編集ボタン */
@@ -63,7 +81,7 @@
         font-weight: 700;
     }
 
-    /* 出品した商品、購入した商品 */
+    /* タブ */
     .sell-link,
     .buy-link {
         margin: 0 0 0 5%;
@@ -71,10 +89,36 @@
         color: #5f5f5f;
     }
 
+    .trading-link-container {
+        display: flex;
+        align-items: center;
+        margin: 0 0 0 5%;
+    }
+
+    .trading-link {
+        text-decoration: none;
+        color: #5f5f5f;
+    }
+
     /* クリックされたリンクのスタイル（アクティブリンク） */
     .sell-link.active-link,
-    .buy-link.active-link {
+    .buy-link.active-link,
+    .trading-link.active-link {
         color: #ff0000;
+    }
+
+    /* 通知マーク */
+    .notification-icon {
+        width: 27px;
+        height: 27px;
+        background-color: rgba(255, 0, 0, 1);
+        border-radius: 10px;
+        font-size: 24px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 1);
+        padding: 2px 5.375px;
+        line-height: 27px;
+        margin: 0 10px;
     }
 
     .no-items-message {
