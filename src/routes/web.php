@@ -92,9 +92,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // 取引チャット画面
     Route::get('/mypage/chat/{item_id}/{user_id}', [ChatController::class, 'show'])->name('mypage.chat.show');
-    Route::post('/mypage/chat/{item_id}/{user_id}', [ChatController::class, 'store'])->name('mypage.chat.store');
-    Route::patch('/mypage/chat/{item_id}/{user_id}', [ChatController::class, 'update'])->name('mypage.chat.update');
-    Route::delete('/mypage/chat/{item_id}/{user_id}', [ChatController::class, 'destroy'])->name('mypage.chat.destroy');
+    Route::post('/mypage/chat/{item_id}/{user_id}/{sender_id}/{role}', [ChatController::class, 'store'])->name('mypage.chat.store');
+    Route::patch('/mypage/chat/{item_id}/{user_id}/{chat_id}', [ChatController::class, 'update'])->name('mypage.chat.update');
+    Route::delete('/mypage/chat/{item_id}/{user_id}/{chat_id}', [ChatController::class, 'destroy'])->name('mypage.chat.destroy');
 
     // 評価機能
     Route::post('/ratings/{item_id}/{user_id}', [RatingController::class, 'store'])->name('ratings.store');

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
 
-
 class ProfileController extends Controller
 {
     // プロフィール画面の表示
@@ -22,11 +21,15 @@ class ProfileController extends Controller
 
         // 出品した商品一覧
         $soldItems = Item::where('seller_user_id', $user->user_id)->get();
+        // soldItems から item_id の配列を抽出
+        $soldItemIds = $soldItems->pluck('item_id');
 
         // 購入した商品一覧
         $boughtItems = Purchase::where('buyer_user_id', $user->user_id)
             ->join('items', 'purchases.item_id', '=', 'items.item_id')
             ->get(['items.*']);
+        // boughtItems から item_id の配列を抽出
+        $boughtItemIds = $boughtItems->pluck('item_id');
 
         // 購入した商品について「売り切れ(sold)」状態を判定
         foreach ($boughtItems as $item) {
@@ -36,10 +39,37 @@ class ProfileController extends Controller
             }
         }
 
+        // 取引中の商品
+        if ($soldItemIds->isNotEmpty()) {
+            $soldTradingItems = Item::whereIn('item_id', $soldItemIds)
+                ->whereHas('purchase', function ($query) {
+                    $query->whereNotNull('buyer_user_id');
+                })
+                ->whereDoesntHave('rating', function ($query) {
+                    $query->where('evaluator_id', auth()->id())
+                        ->orWhereNull('evaluator_id');
+                })
+                ->with('purchase')
+                ->get();
+        } else {
+            $soldTradingItems = collect();
+        }
+
+        if ($boughtItemIds->isNotEmpty()) {
+            $boughtTradingItems = Item::whereIn('item_id', $boughtItemIds)
+                ->whereDoesntHave('rating', function ($query) {
+                    $query->where('evaluator_id', auth()->id())
+                        ->orWhereNull('evaluator_id');
+                })
+                ->get();
+        } else {
+            $boughtTradingItems = collect();
+        }
+
         // タブの状態
         $tab = $request->get('tab', 'sell');
 
-        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'tab'));
+        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'soldTradingItems', 'boughtTradingItems', 'tab'));
     }
 
     // プロフィール設定画面を表示

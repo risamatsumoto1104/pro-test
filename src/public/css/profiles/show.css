@@ -144,6 +144,20 @@
         position: relative;
     }
 
+    .trading-item {
+        width: 290px;
+        height: 351.5px;
+        margin: 5% 0 0 10%;
+        position: relative;
+    }
+
+    .sell-item,
+    .buy-item {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
     /* 商品画像 */
     .item-image {
         width: 290px;

@@ -2,6 +2,8 @@
 @media (min-width: 1400px) and (max-width: 1540px) {
     /* モーダル画面全体 */
     .rating-modal-container {
+        display: none;
+
         position: fixed;
         top: 40%;
         left: 40%;

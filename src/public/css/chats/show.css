@@ -12,7 +12,7 @@
 
     .buyer-container,
     .seller-container {
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         font-family: Inter;
     }
@@ -20,14 +20,20 @@
     /* 左列全体 */
     .sidebar {
         width: 17%;
-        height: 100%;
         background-color: #868686;
         text-align: center;
+        overflow-y: auto; /* スクロールできる */
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: #000000;
     }
 
     /* サイドバータイトル */
     .sidebar-title {
-        font-size: 30px;
+        font-size: 25px;
         font-weight: 400;
         color: #ffffff;
     }
@@ -42,14 +48,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0 10px;
     }
 
     /* サイドバーボタン　文字 */
     .item-link {
+        max-width: 100%;
+        white-space: nowrap; /* 改行しない */
+        overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
         text-decoration: none;
         color: #000000;
-        font-size: 24px;
-        font-weight: 400;
     }
 
     /* 右列全体 */
@@ -148,11 +156,13 @@
     /* メッセージ全体 */
     .message-container {
         margin: 20px 30px;
+        padding-bottom: 30px;
     }
 
     /* メッセージ　左側 */
     .left-user-message-container {
         width: 40%;
+        margin-bottom: 30px;
     }
 
     .left-user-details {
@@ -165,6 +175,7 @@
         width: 40%;
         text-align: right;
         margin-left: 60%;
+        margin-bottom: 30px;
     }
 
     .right-user-details {
@@ -201,6 +212,18 @@
         color: rgba(0, 0, 0, 1);
     }
 
+    .left-user-img,
+    .right-user-img {
+        width: 400px;
+        height: 300px;
+    }
+
+    .message-actions {
+        display: flex;
+        justify-content: right;
+        align-items: center;
+    }
+
     /* 「編集」「削除」ボタン */
     .edit-button,
     .delete-button {
@@ -215,8 +238,12 @@
 
     /* コンテンツ内フッター */
     .footer {
-        height: 10%;
-        margin: 0 30px;
+        position: fixed;
+        bottom: 0;
+        width: 83%;
+        padding: 0 30px;
+        background-color: #ffffff;
+        z-index: 100;
     }
 
     /* エラーメッセージ */
@@ -227,14 +254,31 @@
         margin: 0 20px;
     }
 
-    .message-form {
+    .confirm-container,
+    .update-confirm-container {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+
+    /* 画像送信確認画面 */
+    .image-upload-preview,
+    .update-image-upload-preview {
+        width: 200px;
+        height: 100px;
+        border: solid 1px rgba(95, 95, 95, 1);
+    }
+
+    .submit-container,
+    .update-submit-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
     /* チャット入力欄 */
-    .message-input {
+    .message-input,
+    .update-message-input {
         width: 850px;
         height: 44px;
         border: solid 1px rgba(95, 95, 95, 1);
@@ -246,95 +290,44 @@
         padding: 10px 20px;
     }
 
-    /* 「画像を追加」ボタン */
-    .image-upload-button {
+    .image-upload-container,
+    .update-image-upload-container {
         width: 143px;
         height: 44px;
-        background-color: #ffffff;
         border-radius: 10px;
         border: solid 2px rgba(255, 85, 85, 1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* 「画像を追加」ボタン */
+    .image-upload-button,
+    .update-image-upload-button {
         font-family: Inter;
         font-size: 20px;
         font-weight: 700;
         color: rgba(255, 85, 85, 1);
     }
 
-    /* 送信アイコン */
-    .send-icon {
-        width: 80px;
-        height: 61px;
+    .image-upload-input,
+    .update-image-upload-input {
+        display: none;
     }
 
-    /* モーダル画面全体 */
-    .rating-modal-container {
-        position: fixed;
-        top: 40%;
-        left: 40%;
-        z-index: 9999;
-        width: 598px;
-        height: 367px;
-        background-color: rgba(253, 252, 230, 1);
-        border: solid 1px rgba(0, 0, 0, 1);
-        border-radius: 15px;
-        font-family: Inter;
-    }
-
-    /* 完了メッセージ */
-    .rating-modal-completion-message {
-        font-size: 35px;
-        font-weight: 400;
-        color: rgba(0, 0, 0, 1);
-        margin-left: 20px;
-    }
-
-    .rating-modal-details {
-        border-top: solid 1px rgba(0, 0, 0, 1);
-        border-bottom: solid 1px rgba(0, 0, 0, 1);
-    }
-
-    /* 質問メッセージ */
-    .rating-modal-question-message {
-        font-size: 20px;
-        font-weight: 400;
-        color: rgba(134, 134, 134, 1);
-        margin-left: 20px;
-    }
-
-    /* ★全体 */
-    .rating-modal-stars {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 20px;
-    }
-
-    /* ★単体 */
-    .rating-modal-star {
-        width: 100px;
-        height: 100px;
-        color: rgba(217, 217, 217, 1);
-        font-size: 100px;
-        line-height: 100px;
-        margin: 0;
-    }
-
-    /* 「送信する」ボタン　枠 */
-    .rating-modal-form {
-        text-align: right;
-        margin: 10px 20px;
-    }
-
-    /* 「送信する」ボタン */
-    .rating-modal-submit {
-        width: 127px;
-        height: 49px;
-        background-color: rgba(255, 130, 130, 1);
+    /* 送信ボタン */
+    .submit-button,
+    .update-submit-button {
         border: none;
-        border-radius: 5px;
-        font-family: Inter;
-        font-size: 24px;
-        font-weight: 400;
-        color: rgba(255, 255, 255, 1);
+        background-color: #ffffff;
+        padding: 0;
+    }
+
+    /* 送信アイコン */
+    .send-icon,
+    .update-send-icon {
+        width: 80px;
+        height: 60px;
     }
 }
 

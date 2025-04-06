@@ -43,7 +43,7 @@ class Item extends Model
     }
 
     // 主：Item(1)　⇔　従：Purchase(1)
-    public function purchases()
+    public function purchase()
     {
         return $this->hasOne(Purchase::class, 'item_id');
     }

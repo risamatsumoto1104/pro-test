@@ -11,7 +11,9 @@
                 <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
                 <img class="profile-image" id="profile-image"
                     src="{{ $profile && $profile->profile_image
-                        ? asset('storage/' . $profile->profile_image)
+                        ? (file_exists(storage_path('storage/' . $profile->profile_image))
+                            ? asset('storage/' . $profile->profile_image)
+                            : asset('profile_images/' . $profile->profile_image))
                         : asset('profile_images/default-profile.png') }}"
                     alt="ユーザー画像">
             </div>
@@ -87,6 +89,42 @@
                     </div>
                 @endforeach
             @endif
+        @elseif ($tab === 'trading')
+            {{-- 取引中の商品 --}}
+            @if ($soldTradingItems->isEmpty() && $boughtTradingItems->isEmpty())
+                <p class="no-items-message">取引中の商品はありません。</p>
+            @else
+                @foreach ($soldTradingItems as $item)
+                    {{-- 出品したもの --}}
+                    <div class="trading-item">
+                        <p class="sell-item">【出品した商品】</p>
+                        <a
+                            href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->purchase->buyer_user_id]) }}">
+                            <img class="item-image"
+                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                    ? asset('item_images/' . $item->item_image)
+                                    : asset('storage/' . $item->item_image) }}"
+                                alt="{{ $item->item_name }}">
+                        </a>
+                        <p class="item-name">{{ $item->item_name }}</p>
+                    </div>
+                @endforeach
+                @foreach ($boughtTradingItems as $item)
+                    {{-- 購入したもの --}}
+                    <div class="trading-item">
+                        <p class="buy-item">【購入した商品】</p>
+                        <a
+                            href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->seller_user_id]) }}">
+                            <img class="item-image"
+                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                    ? asset('item_images/' . $item->item_image)
+                                    : asset('storage/' . $item->item_image) }}"
+                                alt="{{ $item->item_name }}">
+                        </a>
+                        <p class="item-name">{{ $item->item_name }}</p>
+                    </div>
+                @endforeach
+            @endif
         @endif
     </div>
 @endsection
@@ -96,15 +134,19 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sellLink = document.querySelector('.sell-link');
             const buyLink = document.querySelector('.buy-link');
+            const tradingLink = document.querySelector('.trading-link');
 
             // URLのクエリパラメータに基づいてアクティブリンクを設定
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('tab') === 'buy') {
                 buyLink.classList.add('active-link');
                 sellLink.classList.remove('active-link');
+            } else if (urlParams.get('tab') === 'trading') {
+                tradingLink.classList.add('active-link');
+                buyLink.classList.remove('active-link');
             } else {
                 sellLink.classList.add('active-link');
-                buyLink.classList.remove('active-link');
+                tradingLink.classList.remove('active-link');
             }
         });
     </script>

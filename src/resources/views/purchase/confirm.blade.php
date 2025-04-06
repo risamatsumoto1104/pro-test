@@ -16,7 +16,10 @@
             <div class="purchase-left">
                 <div class="purchase-item">
                     <div class="purchase-item-info">
-                        <img class="purchase-item-image" src="{{ asset('item_images/' . $item->item_image) }}"
+                        <img class="purchase-item-image"
+                            src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                ? asset('item_images/' . $item->item_image)
+                                : asset('storage/' . $item->item_image) }}"
                             alt="{{ $item->item_name }}">
                         <div class="purchase-item-details">
                             <h2 class="purchase-item-name">{{ $item->item_name }}</h2>

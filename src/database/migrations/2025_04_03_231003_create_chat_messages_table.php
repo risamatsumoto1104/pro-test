@@ -18,7 +18,8 @@ class CreateChatMessagesTable extends Migration
             $table->foreignId('sender_id')->constrained('users', 'user_id')->cascadeOnDelete();
             $table->foreignId('item_id')->constrained('items', 'item_id')->cascadeOnDelete();
             $table->enum('sender_role', ['buyer', 'seller']);
-            $table->string('message');
+            $table->string('chat_message');
+            $table->string('message_image')->nullable();
             $table->timestamp('created_at')->useCurrent()->nullable();
             $table->timestamp('updated_at')->useCurrent()->nullable();
         });
