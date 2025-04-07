@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
+use App\Models\ChatMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -42,34 +43,95 @@ class ProfileController extends Controller
         // 取引中の商品
         if ($soldItemIds->isNotEmpty()) {
             $soldTradingItems = Item::whereIn('item_id', $soldItemIds)
+                // 出品商品が購入されているか確認
                 ->whereHas('purchase', function ($query) {
-                    $query->whereNotNull('buyer_user_id');
+                    $query->whereNotNull('buyer_user_id'); //buyer_user_idがnullでない
                 })
+                // 出品商品が評価されていないか確認
                 ->whereDoesntHave('rating', function ($query) {
                     $query->where('evaluator_id', auth()->id())
-                        ->orWhereNull('evaluator_id');
+                        ->orWhereNull('evaluator_id'); //自分が評価していない
                 })
-                ->with('purchase')
-                ->get();
+                ->with(['purchase', 'chatMessages'])
+                ->get()
+                ->map(function ($item) {
+                    $item->item_role = 'sold';
+                    return $item;
+                });
+
+            // 自分が出品者
+            $soldChatUnreadCounts = $soldTradingItems->mapWithKeys(function ($soldTradingItem) {
+                $count = ChatMessage::where('item_id', $soldTradingItem->item_id)
+                    ->where('sender_role', 'buyer') //相手
+                    ->where('is_read', 0) // 未読のもののみ
+                    ->count();
+
+                return [$soldTradingItem->item_id => $count];
+            });
         } else {
             $soldTradingItems = collect();
+            $soldChatUnreadCounts = collect();
         }
 
         if ($boughtItemIds->isNotEmpty()) {
             $boughtTradingItems = Item::whereIn('item_id', $boughtItemIds)
+                // 購入者（自分）が評価していないか確認
                 ->whereDoesntHave('rating', function ($query) {
-                    $query->where('evaluator_id', auth()->id())
-                        ->orWhereNull('evaluator_id');
+                    $query->where('evaluator_role', 'buyer')
+                        ->orWhereNull('evaluator_role');
                 })
-                ->get();
+                // 出品者が評価していないか確認
+                ->whereDoesntHave('rating', function ($query) {
+                    $query->where('evaluator_role', 'seller')
+                        ->orWhereNull('evaluator_role');
+                })
+                ->with(['chatMessages'])
+                ->get()
+                ->map(function ($item) {
+                    $item->item_role = 'bought';
+                    return $item;
+                });
+
+            // 自分が購入者
+            $boughtChatUnreadCounts = $boughtTradingItems->mapWithKeys(function ($boughtTradingItem) {
+                $count = ChatMessage::where('item_id', $boughtTradingItem->item_id)
+                    ->where('sender_role', 'seller') //相手
+                    ->where('is_read', 0) // 未読のもののみ
+                    ->count();
+
+                return [$boughtTradingItem->item_id => $count];
+            });
         } else {
             $boughtTradingItems = collect();
+            $boughtChatUnreadCounts = collect();
         }
+
+        $allTradingItems = $soldTradingItems
+            ->merge($boughtTradingItems)
+            ->merge($boughtTradingItems)
+            // 未読メッセージの有無と、最新メッセージ作成日時で並べ替え
+            ->sortByDesc(function ($item) use ($user) {
+                // 相手発信の未読メッセージがあれば優先
+                $hasUnread = $item->chatMessages->filter(function ($message) use ($user) {
+                    return $message->sender_id != $user->user_id && $message->is_read == 0;
+                })->isNotEmpty();
+
+                // 未読メッセージがあれば、先に並べる
+                $unreadPriority = $hasUnread ? 1 : 0;
+
+                // 最新メッセージ日時を取得
+                $latestMessage = $item->chatMessages->sortByDesc('created_at')->first();
+                $latestMessageTime = $latestMessage ? $latestMessage->created_at : null;
+
+                // 未読メッセージの有無で優先順位を付け、最新メッセージ日時で並べ替え
+                return [$unreadPriority, $latestMessageTime];
+            })
+            ->values(); // キーを振り直す（オプション）
 
         // タブの状態
         $tab = $request->get('tab', 'sell');
 
-        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'soldTradingItems', 'boughtTradingItems', 'tab'));
+        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'allTradingItems', 'soldChatUnreadCounts', 'boughtChatUnreadCounts', 'tab'));
     }
 
     // プロフィール設定画面を表示

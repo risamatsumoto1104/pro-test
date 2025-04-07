@@ -25,7 +25,7 @@ class ChatMessage extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // 主：Item(1)　⇔　従：chatMessage(1)
+    // 主：Item(1)　⇔　従：chatMessage(N)
     public function item()
     {
         return $this->belongsTo(Item::class, 'item_id');

@@ -158,6 +158,28 @@
         font-weight: 700;
     }
 
+    .item-image-container {
+        width: 290px;
+        height: 290px;
+        position: relative;
+    }
+
+    /* 未読通知 */
+    .unread-item-notification {
+        position: absolute;
+        z-index: 2;
+        margin: 3px;
+        width: 27px;
+        height: 27px;
+        background-color: rgba(255, 0, 0, 1);
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 1);
+        padding: 1px 7.5px;
+        line-height: 27px;
+    }
+
     /* 商品画像 */
     .item-image {
         width: 290px;
@@ -186,6 +208,8 @@
     /* 商品名 */
     .item-name {
         margin: 0;
+        white-space: nowrap; /* 改行しない */
+        overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
     }
 }
 

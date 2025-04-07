@@ -37,7 +37,12 @@
         <a class="buy-link" href="{{ route('mypage', ['tab' => 'buy']) }}">購入した商品</a>
         <div class="trading-link-container">
             <a class="trading-link" href="{{ route('mypage', ['tab' => 'trading']) }}">取引中の商品</a>
-            <p class="notification-icon">1</p>
+            @if (($soldChatUnreadCounts ?? collect())->sum() + ($boughtChatUnreadCounts ?? collect())->sum() > 0)
+                <p class="notification-icon">
+                    {{ ($soldChatUnreadCounts ?? collect())->sum() + ($boughtChatUnreadCounts ?? collect())->sum() }}</p>
+            @else
+                <p class="notification-icon" style="display: none;"></p>
+            @endif
         </div>
     </div>
 
@@ -91,38 +96,59 @@
             @endif
         @elseif ($tab === 'trading')
             {{-- 取引中の商品 --}}
-            @if ($soldTradingItems->isEmpty() && $boughtTradingItems->isEmpty())
+            @if ($allTradingItems->isEmpty())
                 <p class="no-items-message">取引中の商品はありません。</p>
             @else
-                @foreach ($soldTradingItems as $item)
-                    {{-- 出品したもの --}}
-                    <div class="trading-item">
-                        <p class="sell-item">【出品した商品】</p>
-                        <a
-                            href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->purchase->buyer_user_id]) }}">
-                            <img class="item-image"
-                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
-                                    ? asset('item_images/' . $item->item_image)
-                                    : asset('storage/' . $item->item_image) }}"
-                                alt="{{ $item->item_name }}">
-                        </a>
-                        <p class="item-name">{{ $item->item_name }}</p>
-                    </div>
-                @endforeach
-                @foreach ($boughtTradingItems as $item)
-                    {{-- 購入したもの --}}
-                    <div class="trading-item">
-                        <p class="buy-item">【購入した商品】</p>
-                        <a
-                            href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->seller_user_id]) }}">
-                            <img class="item-image"
-                                src="{{ file_exists(public_path('item_images/' . $item->item_image))
-                                    ? asset('item_images/' . $item->item_image)
-                                    : asset('storage/' . $item->item_image) }}"
-                                alt="{{ $item->item_name }}">
-                        </a>
-                        <p class="item-name">{{ $item->item_name }}</p>
-                    </div>
+                @foreach ($allTradingItems as $item)
+                    @if ($item->item_role === 'sold')
+                        {{-- 出品したもの --}}
+                        <div class="trading-item">
+                            <p class="sell-item">【出品した商品】</p>
+                            <a
+                                href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->purchase->buyer_user_id]) }}">
+                                <div class="item-image-container">
+                                    {{-- 未読メッセージのカウント --}}
+                                    @if ($soldChatUnreadCounts[$item->item_id] > 0)
+                                        <p class="unread-item-notification">
+                                            {{ $soldChatUnreadCounts[$item->item_id] ?? 0 }}
+                                        </p>
+                                    @else
+                                        <p class="unread-item-notification" style="display: none;"></p>
+                                    @endif
+                                    <img class="item-image"
+                                        src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                            ? asset('item_images/' . $item->item_image)
+                                            : asset('storage/' . $item->item_image) }}"
+                                        alt="{{ $item->item_name }}">
+                                </div>
+                            </a>
+                            <p class="item-name">{{ $item->item_name }}</p>
+                        </div>
+                    @elseif($item->item_role === 'bought')
+                        {{-- 購入したもの --}}
+                        <div class="trading-item">
+                            <p class="buy-item">【購入した商品】</p>
+                            <a
+                                href="{{ route('mypage.chat.show', ['item_id' => $item->item_id, 'user_id' => $item->seller_user_id]) }}">
+                                <div class="item-image-container">
+                                    {{-- 未読メッセージのカウント --}}
+                                    @if ($boughtChatUnreadCounts[$item->item_id] > 0)
+                                        <p class="unread-item-notification">
+                                            {{ $boughtChatUnreadCounts[$item->item_id] ?? 0 }}
+                                        </p>
+                                    @else
+                                        <p class="unread-item-notification" style="display: none;"></p>
+                                    @endif
+                                    <img class="item-image"
+                                        src="{{ file_exists(public_path('item_images/' . $item->item_image))
+                                            ? asset('item_images/' . $item->item_image)
+                                            : asset('storage/' . $item->item_image) }}"
+                                        alt="{{ $item->item_name }}">
+                                </div>
+                            </a>
+                            <p class="item-name">{{ $item->item_name }}</p>
+                        </div>
+                    @endif
                 @endforeach
             @endif
         @endif

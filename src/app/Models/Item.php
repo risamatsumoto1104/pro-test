@@ -48,10 +48,10 @@ class Item extends Model
         return $this->hasOne(Purchase::class, 'item_id');
     }
 
-    // 主：Item(1)　⇔　従：chatMessage(1)
-    public function chatMessage()
+    // 主：Item(1)　⇔　従：chatMessage(N)
+    public function chatMessages()
     {
-        return $this->hasOne(ChatMessage::class, 'item_id');
+        return $this->hasMany(ChatMessage::class, 'item_id');
     }
 
     // 主：Item(1)　⇔　従：rating(1)

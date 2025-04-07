@@ -26,11 +26,20 @@ class ChatController extends Controller
         $otherProfile = Profile::with('user')->findOrFail($userId);
         $myProfile = Profile::with('user')->findOrFail($user->user_id);
 
+        // チャットメッセージを取得
         $chatMessages = ChatMessage::with('sender')
             ->where('item_id', $itemId)
             ->whereIn('sender_id', [$userId, $user->user_id])
             ->orderBy('created_at', 'asc')
             ->get();
+
+        // メッセージを表示したら未読のものを既読に更新
+        $chatMessages->where('sender_id', '!=', $user->user_id) // 受信メッセージのみ
+            ->where('is_read', false) // 未読のもののみ
+            ->each(function ($message) {
+                $message->is_read = true;
+                $message->save();
+            });
 
         // 出品した商品一覧
         $soldItems = Item::where('seller_user_id', $user->user_id)->get();
