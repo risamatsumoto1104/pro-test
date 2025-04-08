@@ -16,7 +16,7 @@
             {{-- おすすめを表示 --}}
             @foreach ($items ?? [] as $item)
                 <div class="item">
-                    <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
+                    <a href="{{ route('items.show', ['item_id' => $item->item_id]) }}">
                         <img class="item-image"
                             src="{{ file_exists(public_path('item_images/' . $item->item_image))
                                 ? asset('item_images/' . $item->item_image)
@@ -24,7 +24,7 @@
                             alt="{{ $item->item_name }}">
                     </a>
                     @if ($item->status === 'sold')
-                        <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
+                        <a href="{{ route('items.show', ['item_id' => $item->item_id]) }}">
                             <p class="item-name-sold">Sold</p>
                         </a>
                     @endif
@@ -37,12 +37,12 @@
                 @if (($items ?? collect())->isNotEmpty())
                     @foreach ($items as $item)
                         <div class="item">
-                            <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
+                            <a href="{{ route('items.show', ['item_id' => $item->item_id]) }}">
                                 <img class="item-image" src="{{ asset('item_images/' . $item->item_image) }}"
                                     alt="{{ $item->item_name }}">
                             </a>
                             @if ($item->status === 'sold')
-                                <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
+                                <a href="{{ route('items.show', ['item_id' => $item->item_id]) }}">
                                     <p class="item-name-sold">Sold</p>
                                 </a>
                             @endif

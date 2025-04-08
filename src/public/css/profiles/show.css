@@ -258,8 +258,36 @@
     .profile-username {
         font-size: 22px;
         font-weight: 700;
-        margin-left: 20%;
+        margin: 20px 0 20px 10%;
         white-space: nowrap;
+    }
+
+    /* ★全体 */
+    .rating-stars {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    /* ★単体　評価なし */
+    .rating-star {
+        width: 40px;
+        height: 40px;
+        color: rgba(217, 217, 217, 1);
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0;
+    }
+
+    /* ★単体　評価あり */
+    .rating-star-active {
+        width: 40px;
+        height: 40px;
+        color: rgba(255, 240, 72, 1);
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0;
     }
 
     /* プロフィールを編集ボタン */
@@ -296,10 +324,36 @@
         color: #5f5f5f;
     }
 
+    .trading-link-container {
+        display: flex;
+        align-items: center;
+        margin: 0 0 0 5%;
+    }
+
+    .trading-link {
+        text-decoration: none;
+        color: #5f5f5f;
+    }
+
     /* クリックされたリンクのスタイル（アクティブリンク） */
     .sell-link.active-link,
-    .buy-link.active-link {
+    .buy-link.active-link,
+    .trading-link.active-link {
         color: #ff0000;
+    }
+
+    /* 通知マーク */
+    .notification-icon {
+        width: 27px;
+        height: 27px;
+        background-color: rgba(255, 0, 0, 1);
+        border-radius: 10px;
+        font-size: 24px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 1);
+        padding: 2px 5.375px;
+        line-height: 27px;
+        margin: 0 10px;
     }
 
     .no-items-message {
@@ -323,6 +377,42 @@
         height: 268px;
         margin: 5% 0 0 10%;
         position: relative;
+    }
+
+    .trading-item {
+        width: 205px;
+        height: 268px;
+        margin: 5% 0 0 10%;
+        position: relative;
+    }
+
+    .sell-item,
+    .buy-item {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .item-image-container {
+        width: 205px;
+        height: 205px;
+        position: relative;
+    }
+
+    /* 未読通知 */
+    .unread-item-notification {
+        position: absolute;
+        z-index: 2;
+        margin: 3px;
+        width: 27px;
+        height: 27px;
+        background-color: rgba(255, 0, 0, 1);
+        border-radius: 50%;
+        font-size: 16px;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 1);
+        padding: 1px 7.5px;
+        line-height: 27px;
     }
 
     /* 商品画像 */
@@ -353,6 +443,7 @@
     /* 商品名 */
     .item-name {
         margin: 0;
-        font-size: 16px;
+        white-space: nowrap; /* 改行しない */
+        overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
     }
 }

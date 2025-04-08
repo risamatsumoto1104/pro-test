@@ -79,4 +79,79 @@
 
 /* タブレットのスタイル */
 @media (min-width: 768px) and (max-width: 850px) {
+    /* モーダル画面全体 */
+    .rating-modal-container {
+        position: fixed;
+        top: 40%;
+        left: 35%;
+        z-index: 9999;
+        width: 398px;
+        height: 244px;
+        background-color: rgba(253, 252, 230, 1);
+        border: solid 1px rgba(0, 0, 0, 1);
+        border-radius: 15px;
+        font-family: Inter;
+    }
+
+    /* 完了メッセージ */
+    .rating-modal-completion-message {
+        font-size: 20px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 1);
+        margin-left: 20px;
+    }
+
+    .rating-modal-details {
+        border-top: solid 1px rgba(0, 0, 0, 1);
+        border-bottom: solid 1px rgba(0, 0, 0, 1);
+    }
+
+    /* 質問メッセージ */
+    .rating-modal-question-message {
+        font-size: 18px;
+        font-weight: 400;
+        color: rgba(134, 134, 134, 1);
+        margin-left: 20px;
+    }
+
+    /* ★全体 */
+    .rating-modal-stars {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 20px;
+    }
+
+    /* ★単体 */
+    .rating-modal-star {
+        width: 65px;
+        height: 65px;
+        color: rgba(217, 217, 217, 1);
+        font-size: 65px;
+        line-height: 65px;
+        margin: 0;
+    }
+
+    .rating-modal-star.active {
+        color: rgba(255, 240, 72, 1);
+    }
+
+    /* 「送信する」ボタン　枠 */
+    .rating-modal-form {
+        text-align: right;
+        margin: 5px 20px;
+    }
+
+    /* 「送信する」ボタン */
+    .rating-modal-submit {
+        width: 85px;
+        height: 32px;
+        background-color: rgba(255, 130, 130, 1);
+        border: none;
+        border-radius: 5px;
+        font-family: Inter;
+        font-size: 16px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 1);
+    }
 }

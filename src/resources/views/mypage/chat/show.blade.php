@@ -33,7 +33,7 @@
                         <div class="chat-room-left-container">
                             <img class="chat-room-user-img"
                                 src="{{ $otherProfile && $otherProfile->profile_image
-                                    ? (file_exists(storage_path('storage/' . $otherProfile->profile_image))
+                                    ? (file_exists(public_path('storage/' . $otherProfile->profile_image))
                                         ? asset('storage/' . $otherProfile->profile_image)
                                         : asset('profile_images/' . $otherProfile->profile_image))
                                     : asset('profile_images/default-profile.png') }}"
@@ -65,7 +65,7 @@
                                     <div class="left-user-details">
                                         <img class="left-user-message-img"
                                             src="{{ $otherProfile && $otherProfile->profile_image
-                                                ? (file_exists(storage_path('storage/' . $otherProfile->profile_image))
+                                                ? (file_exists(public_path('storage/' . $otherProfile->profile_image))
                                                     ? asset('storage/' . $otherProfile->profile_image)
                                                     : asset('profile_images/' . $otherProfile->profile_image))
                                                 : asset('profile_images/default-profile.png') }}"
@@ -88,7 +88,7 @@
                                         <p class="right-user-name">{{ $myProfile->user->name }}</p>
                                         <img class="right-user-message-img"
                                             src="{{ $myProfile && $myProfile->profile_image
-                                                ? (file_exists(storage_path('storage/' . $myProfile->profile_image))
+                                                ? (file_exists(public_path('storage/' . $myProfile->profile_image))
                                                     ? asset('storage/' . $myProfile->profile_image)
                                                     : asset('profile_images/' . $myProfile->profile_image))
                                                 : asset('profile_images/default-profile.png') }}"
@@ -240,7 +240,7 @@
                         <div class="chat-room-left-container">
                             <img class="chat-room-user-img"
                                 src="{{ $otherProfile && $otherProfile->profile_image
-                                    ? (file_exists(storage_path('storage/' . $otherProfile->profile_image))
+                                    ? (file_exists(public_path('storage/' . $otherProfile->profile_image))
                                         ? asset('storage/' . $otherProfile->profile_image)
                                         : asset('profile_images/' . $otherProfile->profile_image))
                                     : asset('profile_images/default-profile.png') }}"
@@ -269,7 +269,7 @@
                                     <div class="left-user-details">
                                         <img class="left-user-message-img"
                                             src="{{ $otherProfile && $otherProfile->profile_image
-                                                ? (file_exists(storage_path('storage/' . $otherProfile->profile_image))
+                                                ? (file_exists(public_path('storage/' . $otherProfile->profile_image))
                                                     ? asset('storage/' . $otherProfile->profile_image)
                                                     : asset('profile_images/' . $otherProfile->profile_image))
                                                 : asset('profile_images/default-profile.png') }}"
@@ -292,7 +292,7 @@
                                         <p class="right-user-name">{{ $myProfile->user->name }}</p>
                                         <img class="right-user-message-img"
                                             src="{{ $myProfile && $myProfile->profile_image
-                                                ? (file_exists(storage_path('storage/' . $myProfile->profile_image))
+                                                ? (file_exists(public_path('storage/' . $myProfile->profile_image))
                                                     ? asset('storage/' . $myProfile->profile_image)
                                                     : asset('profile_images/' . $myProfile->profile_image))
                                                 : asset('profile_images/default-profile.png') }}"
