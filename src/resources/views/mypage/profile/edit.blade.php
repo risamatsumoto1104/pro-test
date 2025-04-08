@@ -19,7 +19,7 @@
                     <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
                     <img class="profile-image" id="profile-image"
                         src="{{ $profile && $profile->profile_image
-                            ? (file_exists(storage_path('storage/' . $profile->profile_image))
+                            ? (file_exists(public_path('storage/' . $profile->profile_image))
                                 ? asset('storage/' . $profile->profile_image)
                                 : asset('profile_images/' . $profile->profile_image))
                             : asset('profile_images/default-profile.png') }}"

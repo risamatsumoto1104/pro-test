@@ -97,5 +97,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/mypage/chat/{item_id}/{user_id}/{chat_id}', [ChatController::class, 'destroy'])->name('mypage.chat.destroy');
 
     // 評価機能
-    Route::post('/ratings/{item_id}/{user_id}', [RatingController::class, 'store'])->name('ratings.store');
+    Route::post('/ratings/{item_id}/{user_id}/{evaluator_id}/{role}', [RatingController::class, 'store'])->name('ratings.store');
 });

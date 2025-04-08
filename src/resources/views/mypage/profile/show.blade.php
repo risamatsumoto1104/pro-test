@@ -11,7 +11,7 @@
                 <!-- プロフィール画像が登録されている場合は表示、なければデフォルト画像を表示 -->
                 <img class="profile-image" id="profile-image"
                     src="{{ $profile && $profile->profile_image
-                        ? (file_exists(storage_path('storage/' . $profile->profile_image))
+                        ? (file_exists(public_path('storage/' . $profile->profile_image))
                             ? asset('storage/' . $profile->profile_image)
                             : asset('profile_images/' . $profile->profile_image))
                         : asset('profile_images/default-profile.png') }}"
@@ -19,16 +19,22 @@
             </div>
             <div class="profile-name-wrapper">
                 <p class="profile-username">{{ $user->name }}</p>
-                <div class="rating-modal-stars">
-                    <p class="rating-modal-star">&#9733;</p>
-                    <p class="rating-modal-star">&#9733;</p>
-                    <p class="rating-modal-star">&#9733;</p>
-                    <p class="rating-modal-star">&#9733;</p>
-                    <p class="rating-modal-star">&#9733;</p>
+                <div class="rating-stars">
+                    @if ($userAverageRating !== 0)
+                        @for ($i = 1; $i <= 5; $i++)
+                            <p class="rating-star @if ($i <= round($userAverageRating)) rating-star-active @endif">
+                                &#9733;
+                            </p>
+                        @endfor
+                    @else
+                        @for ($i = 1; $i <= 5; $i++)
+                            <p class="rating-star">&#9733;</p>
+                        @endfor
+                    @endif
                 </div>
             </div>
         </div>
-        <a class="profile-edit-link" href="{{ url('/mypage/profile') }}">プロフィールを編集</a>
+        <a class="profile-edit-link" href="{{ route('mypage.profile') }}">プロフィールを編集</a>
     </div>
 
     {{-- タブリンク --}}
@@ -55,7 +61,7 @@
             @else
                 @foreach ($soldItems as $item)
                     <div class="item">
-                        <a href="{{ url('item/' . $item->item_id) }}">
+                        <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
                             <img class="item-image"
                                 src="{{ file_exists(public_path('item_images/' . $item->item_image))
                                     ? asset('item_images/' . $item->item_image)
@@ -63,7 +69,7 @@
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
-                            <a href="{{ url('item/' . $item->item_id) }}">
+                            <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
                                 <p class="item-name-sold">Sold</p>
                             </a>
                         @endif
@@ -78,7 +84,7 @@
             @else
                 @foreach ($boughtItems as $item)
                     <div class="item">
-                        <a href="{{ url('item/' . $item->item_id) }}">
+                        <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
                             <img class="item-image"
                                 src="{{ file_exists(public_path('item_images/' . $item->item_image))
                                     ? asset('item_images/' . $item->item_image)
@@ -86,7 +92,7 @@
                                 alt="{{ $item->item_name }}">
                         </a>
                         @if ($item->status === 'sold')
-                            <a href="{{ url('item/' . $item->item_id) }}">
+                            <a href="{{ route('item.purchase', ['item_id' => $item->item_id]) }}">
                                 <p class="item-name-sold">Sold</p>
                             </a>
                         @endif

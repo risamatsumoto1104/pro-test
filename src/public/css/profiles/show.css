@@ -38,18 +38,28 @@
     }
 
     /* ★全体 */
-    .rating-modal-stars {
+    .rating-stars {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin: 0 20px;
     }
 
-    /* ★単体 */
-    .rating-modal-star {
+    /* ★単体　評価なし */
+    .rating-star {
         width: 40px;
         height: 40px;
         color: rgba(217, 217, 217, 1);
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0;
+    }
+
+    /* ★単体　評価あり */
+    .rating-star-active {
+        width: 40px;
+        height: 40px;
+        color: rgba(255, 240, 72, 1);
         font-size: 40px;
         line-height: 40px;
         margin: 0;

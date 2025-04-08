@@ -79,7 +79,7 @@
                             <!-- ユーザー画像の表示（画像がない場合はプレースホルダー表示） -->
                             <img class="item-comment-user-img"
                                 src="{{ $comment->userProfile->profile_image
-                                    ? (file_exists(storage_path('storage/' . $comment->userProfile->profile_image))
+                                    ? (file_exists(public_path('storage/' . $comment->userProfile->profile_image))
                                         ? asset('storage/' . $comment->userProfile->profile_image)
                                         : asset('profile_images/' . $comment->userProfile->profile_image))
                                     : asset('profile_images/default-profile.png') }}"

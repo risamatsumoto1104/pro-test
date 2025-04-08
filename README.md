@@ -75,8 +75,23 @@ php artisan storage:link
 
 ## テストアカウント
 
-email: それぞれの mail アドレス  
-password: password
+```text
+name : user1
+email : user1@example.com
+password : password1
+```
+
+```text
+name : user2
+email : user2@example.com
+password : password2
+```
+
+```text
+name : user3
+email : user3@example.com
+password : password3
+```
 
 - 登録処理：http://localhost/register
 - ログイン：http://localhost/login
@@ -98,7 +113,7 @@ password: password
 - mailhog
 - selenium
 
-## メールを用いた認証テスト（MailHog を使用）
+## メールを用いたテスト（MailHog を使用）
 
 1. ユーザーの「新規登録」または、「ログイン」を行います。
 2. 以下を実行しようとすると、メール認証コードを送信します。
@@ -112,6 +127,12 @@ password: password
 3. メール認証コード送信完了ページに遷移したことを確認して、MailHog にてメールを確認して下さい。
 4. 「メール認証」ボタンを押下して、ブラウザにアクサスされる。  
    又は、phpMyAdmin にて登録したユーザーの email_verified_at に日付が記載されていれば成功です。
+
+---
+
+1. 購入商品について、評価を行います。
+2. 評価を行うと、出品者に通知メールを送信します。
+3. 商品一覧画面に遷移したことを確認して、MailHog にてメールを確認して下さい。
 
 ## stripe 決済テスト
 

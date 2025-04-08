@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Fortify\CreateNewUser;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,9 +17,6 @@ class RegisteredUserController extends Controller
 
         // ユーザーをログイン状態にする
         Auth::login($user);
-
-        // イベントを発火
-        event(new Registered($user));
 
         // プロフィール設定ページにリダイレクト
         return Redirect::route('mypage.profile');

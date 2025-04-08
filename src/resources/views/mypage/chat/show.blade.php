@@ -41,7 +41,7 @@
                             <h2 class="chat-room-title">「{{ $otherProfile->user->name }}」さんとの取引画面</h2>
                         </div>
                         <div class="chat-room-right-container">
-                            <button class="transaction-complete-button">取引を完了する</button>
+                            <button class="transaction-complete-button" id="completeTransactionButton">取引を完了する</button>
                         </div>
                     </div>
 
@@ -361,7 +361,7 @@
                             {{-- hidden --}}
                             <input name="sender_id" type="hidden" value="{{ $myProfile->user->user_id }}">
                             <input name="item_id" type="hidden" value="{{ $tradingItem->item_id }}">
-                            <input name="sender_role" type="hidden" value="buyer">
+                            <input name="sender_role" type="hidden" value="seller">
 
                             {{-- 送信ボタン --}}
                             <button class="submit-button" type="submit">
@@ -523,5 +523,59 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = "{{ $role }}";
+            const buyerModal = document.getElementById('buyerRatingModal');
+            const sellerModal = document.getElementById('sellerRatingModal');
+
+            let ratingInput;
+            if (role === 'buyer') {
+                ratingInput = document.getElementById('buyerRatingInput');
+            } else if (role === 'seller') {
+                ratingInput = document.getElementById('sellerRatingInput');
+            }
+            const starContainers = document.querySelectorAll('#starContainer');
+
+            // 星クリック処理（両方対応）
+            starContainers.forEach(container => {
+                const stars = container.querySelectorAll('.rating-modal-star');
+                stars.forEach(star => {
+                    star.addEventListener('click', () => {
+                        const rating = star.dataset.value;
+
+                        // セット
+                        if (ratingInput) {
+                            ratingInput.value = rating;
+                        }
+
+                        // 星の見た目更新
+                        stars.forEach(s => {
+                            s.classList.remove('active');
+                            if (s.dataset.value <= rating) {
+                                s.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            });
+
+            // 購入者（ボタンでモーダル開閉）
+            const completeButton = document.getElementById('completeTransactionButton');
+            if (role === 'buyer' && buyerModal && completeButton) {
+                let isOpen = false;
+                completeButton.addEventListener('click', () => {
+                    buyerModal.style.display = isOpen ? 'none' : 'block';
+                    isOpen = !isOpen;
+                });
+            }
+
+            // 出品者（条件が true なら自動表示）
+            @if ($role === 'seller' && $shouldShowModal)
+                if (sellerModal) {
+                    sellerModal.style.display = 'block'; // モーダルを表示
+                }
+            @endif
+        });
     </script>
 @endsection

@@ -7,6 +7,7 @@ use App\Models\ChatMessage;
 use App\Models\Item;
 use App\Models\Profile;
 use App\Models\Purchase;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -46,6 +47,7 @@ class ChatController extends Controller
         // soldItems から item_id の配列を抽出
         $soldItemIds = $soldItems->pluck('item_id');
 
+
         // 購入した商品一覧
         $boughtItems = Purchase::where('buyer_user_id', $user->user_id)
             ->join('items', 'purchases.item_id', '=', 'items.item_id')
@@ -53,6 +55,8 @@ class ChatController extends Controller
         // boughtItems から item_id の配列を抽出
         $boughtItemIds = $boughtItems->pluck('item_id');
 
+
+        $shouldShowModal = false; //初期値
         // 取引中の商品
         if ($soldItemIds->isNotEmpty()) {
             $soldTradingItems = Item::whereIn('item_id', $soldItemIds)
@@ -65,6 +69,11 @@ class ChatController extends Controller
                 })
                 ->with('purchase')
                 ->get();
+
+            // 購入者が評価したかどうかを判定
+            $shouldShowModal = Rating::where('item_id', $itemId)
+                ->where('evaluator_id', $otherProfile->user->user_id)
+                ->exists(); // 評価が存在すれば true
         } else {
             $soldTradingItems = collect();
         }
@@ -80,6 +89,7 @@ class ChatController extends Controller
             $boughtTradingItems = collect();
         }
 
+
         // 出品者か購入者かを確認
         if ($tradingItem->seller_user_id === $user->user_id) {
             // 自分が出品者
@@ -91,7 +101,7 @@ class ChatController extends Controller
             abort(403, 'アクセス権限がありません');
         }
 
-        return view('mypage.chat.show', compact('itemId', 'tradingItem', 'otherProfile', 'myProfile', 'chatMessages', 'soldTradingItems', 'boughtTradingItems', 'role'));
+        return view('mypage.chat.show', compact('itemId', 'tradingItem', 'otherProfile', 'myProfile', 'chatMessages', 'soldTradingItems', 'shouldShowModal', 'boughtTradingItems', 'role'));
     }
 
     // メッセージの投稿
@@ -110,7 +120,7 @@ class ChatController extends Controller
                 $chatContent = new ChatMessage();
                 $chatContent->sender_id = $senderId;
                 $chatContent->item_id = $itemId;
-                $chatContent->sender_role = 'buyer';
+                $chatContent->sender_role = $request->input('sender_role');
                 $chatContent->chat_message = $request->input('chat_message');
 
                 if ($request->hasFile('message_image')) {
@@ -128,7 +138,7 @@ class ChatController extends Controller
                 $chatContent = new ChatMessage();
                 $chatContent->sender_id = $senderId;
                 $chatContent->item_id = $itemId;
-                $chatContent->sender_role = 'seller';
+                $chatContent->sender_role = $request->input('sender_role');
                 $chatContent->chat_message = $request->input('chat_message');
 
                 if ($request->hasFile('message_image')) {

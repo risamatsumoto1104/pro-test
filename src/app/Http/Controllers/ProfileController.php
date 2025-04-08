@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\Rating;
 
 class ProfileController extends Controller
 {
@@ -24,6 +25,13 @@ class ProfileController extends Controller
         $soldItems = Item::where('seller_user_id', $user->user_id)->get();
         // soldItems から item_id の配列を抽出
         $soldItemIds = $soldItems->pluck('item_id');
+        // 出品者の評価平均を計算
+        $soldItemUserRating = Rating::whereIn('item_id', $soldItemIds)
+            ->where('evaluator_id', '!=', $user->user_id) //自分ではないユーザー
+            ->avg('rating');
+        // 評価があれば四捨五入、なければnullに設定
+        $soldItemUserAverageRating = $soldItemUserRating ? round($soldItemUserRating) : 0;
+
 
         // 購入した商品一覧
         $boughtItems = Purchase::where('buyer_user_id', $user->user_id)
@@ -31,6 +39,12 @@ class ProfileController extends Controller
             ->get(['items.*']);
         // boughtItems から item_id の配列を抽出
         $boughtItemIds = $boughtItems->pluck('item_id');
+        // 購入者の評価平均を計算
+        $boughtItemUserRating = Rating::whereIn('item_id', $boughtItemIds)
+            ->where('evaluator_id', '!=', $user->user_id) //自分ではないユーザー
+            ->avg('rating');
+        // 評価があれば四捨五入、なければnullに設定
+        $boughtItemUserAverageRating = $boughtItemUserRating ? round($boughtItemUserRating) : 0;
 
         // 購入した商品について「売り切れ(sold)」状態を判定
         foreach ($boughtItems as $item) {
@@ -40,8 +54,9 @@ class ProfileController extends Controller
             }
         }
 
-        // 取引中の商品
+        // 取引中（自分が評価していない）の商品
         if ($soldItemIds->isNotEmpty()) {
+            // 出品商品についての表示
             $soldTradingItems = Item::whereIn('item_id', $soldItemIds)
                 // 出品商品が購入されているか確認
                 ->whereHas('purchase', function ($query) {
@@ -59,7 +74,7 @@ class ProfileController extends Controller
                     return $item;
                 });
 
-            // 自分が出品者
+            // 出品商品についてのチャット未読数
             $soldChatUnreadCounts = $soldTradingItems->mapWithKeys(function ($soldTradingItem) {
                 $count = ChatMessage::where('item_id', $soldTradingItem->item_id)
                     ->where('sender_role', 'buyer') //相手
@@ -74,16 +89,12 @@ class ProfileController extends Controller
         }
 
         if ($boughtItemIds->isNotEmpty()) {
+            // 購入商品についての表示
             $boughtTradingItems = Item::whereIn('item_id', $boughtItemIds)
                 // 購入者（自分）が評価していないか確認
                 ->whereDoesntHave('rating', function ($query) {
-                    $query->where('evaluator_role', 'buyer')
-                        ->orWhereNull('evaluator_role');
-                })
-                // 出品者が評価していないか確認
-                ->whereDoesntHave('rating', function ($query) {
-                    $query->where('evaluator_role', 'seller')
-                        ->orWhereNull('evaluator_role');
+                    $query->where('evaluator_id', auth()->id())
+                        ->orWhereNull('evaluator_id'); //自分が評価していない
                 })
                 ->with(['chatMessages'])
                 ->get()
@@ -92,7 +103,7 @@ class ProfileController extends Controller
                     return $item;
                 });
 
-            // 自分が購入者
+            // 購入商品についてのチャット未読数
             $boughtChatUnreadCounts = $boughtTradingItems->mapWithKeys(function ($boughtTradingItem) {
                 $count = ChatMessage::where('item_id', $boughtTradingItem->item_id)
                     ->where('sender_role', 'seller') //相手
@@ -106,8 +117,8 @@ class ProfileController extends Controller
             $boughtChatUnreadCounts = collect();
         }
 
+        // 全ての商品についての並べ替え
         $allTradingItems = $soldTradingItems
-            ->merge($boughtTradingItems)
             ->merge($boughtTradingItems)
             // 未読メッセージの有無と、最新メッセージ作成日時で並べ替え
             ->sortByDesc(function ($item) use ($user) {
@@ -128,10 +139,21 @@ class ProfileController extends Controller
             })
             ->values(); // キーを振り直す（オプション）
 
+        // 評価の合算
+        $totalUserAverageRating = 0;  // 初期値
+        if ($soldItemUserAverageRating && $boughtItemUserAverageRating) {
+            $totalUserAverageRating = ($soldItemUserAverageRating) + ($boughtItemUserAverageRating);
+            // 評価があれば四捨五入、なければnullに設定
+            $userAverageRating = $totalUserAverageRating ? round($totalUserAverageRating / 2) : null;
+        } else {
+            // どちらかが0であればそのままの値を使用
+            $userAverageRating = $soldItemUserAverageRating ?: $boughtItemUserAverageRating;
+        }
+
         // タブの状態
         $tab = $request->get('tab', 'sell');
 
-        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'allTradingItems', 'soldChatUnreadCounts', 'boughtChatUnreadCounts', 'tab'));
+        return view('mypage.profile.show', compact('user', 'profile', 'soldItems', 'boughtItems', 'allTradingItems', 'soldChatUnreadCounts', 'boughtChatUnreadCounts', 'userAverageRating', 'tab'));
     }
 
     // プロフィール設定画面を表示
