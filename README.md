@@ -72,6 +72,9 @@ php artisan migrate --seed
 php artisan storage:link
 ```
 
+8. 権限の変更  
+   `sudo chmod -R 777 src/*`
+
 ## テストアカウント
 
 ```text
