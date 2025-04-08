@@ -60,8 +60,7 @@ php artisan key:generate --env=testing
 php artisan config:clear
 ```
 
-6. マイグレーションファイルと、ダミーデータの作成を行います。  
-   初年度でのユーザー数 1000 人達成を目標としていますが、今回は 10 名（ユーザー）で作成します。
+6. マイグレーションファイルと、ダミーデータの作成を行います。
 
 ```bash
 php artisan migrate --seed
