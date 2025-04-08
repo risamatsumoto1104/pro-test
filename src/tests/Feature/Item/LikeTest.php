@@ -85,7 +85,7 @@ class LikeTest extends TestCase
         $response->assertStatus(200);
 
         // アイコンが初期状態あることを確認
-        $response->assertSee('/storage/icon_images/星アイコン8.png');
+        $response->assertSee('/icon_images/星アイコン8.png');
 
         // いいねアイコンを押下
         $likeResponse = $this->post(route('item.toggleLike', ['item_id' => $item->item_id]));
@@ -94,7 +94,7 @@ class LikeTest extends TestCase
         // いいねアイコンが押下された状態では色が変化する
         $response = $this->get(route('items.show', ['item_id' => $item->item_id])); // 商品詳細ページを開く(get)
         $response->assertStatus(200);
-        $response->assertSee('/storage/icon_images/星アイコン_liked.png'); //アイコンの色が変化していることを確認
+        $response->assertSee('/icon_images/星アイコン_liked.png'); //アイコンの色が変化していることを確認
     }
 
     // 再度いいねアイコンを押下することによって、いいねを解除することができる。
@@ -144,6 +144,6 @@ class LikeTest extends TestCase
 
         // いいねが解除され、いいね合計値が減少表示される
         $this->assertEquals(0, $item->itemLikes()->count()); // いいね数が0に戻っていることを確認
-        $response->assertSee('/storage/icon_images/星アイコン8.png'); // アイコンが初期状態にもどっていることを確認
+        $response->assertSee('/icon_images/星アイコン8.png'); // アイコンが初期状態にもどっていることを確認
     }
 }

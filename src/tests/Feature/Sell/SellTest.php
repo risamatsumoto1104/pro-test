@@ -75,7 +75,8 @@ class SellTest extends TestCase
         $response->assertRedirect(route('mypage', ['tab' => 'sell']));
 
         // ストレージに画像が保存されているか確認
-        Storage::disk('public')->assertExists('item_images/' . $image->hashName());
+        Storage::disk('public')->assertExists($image->hashName());
+
         // データベースに保存された出品IDを取得
         $sellId = Item::where('seller_user_id', $user->user_id)->value('item_id');
 

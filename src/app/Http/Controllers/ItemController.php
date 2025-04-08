@@ -213,7 +213,7 @@ class ItemController extends Controller
         // 画像保存処理
         if ($request->hasFile('item_image')) {
             // ファイルを storage/app/public に保存
-            $path = $request->file('item_image')->store('public');
+            $path = $request->file('item_image')->store('', 'public');
 
             // パスを取得して保存（basenameでファイル名のみ取得）
             $sellItem->item_image = basename($path);
