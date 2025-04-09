@@ -219,6 +219,7 @@
     .item-name {
         margin: 0;
         white-space: nowrap; /* 改行しない */
+        text-overflow: ellipsis;
         overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
     }
 }
@@ -444,6 +445,7 @@
     .item-name {
         margin: 0;
         white-space: nowrap; /* 改行しない */
+        text-overflow: ellipsis;
         overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
     }
 }

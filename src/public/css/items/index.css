@@ -83,6 +83,9 @@
     .item-name {
         font-size: 24px;
         margin: 0;
+        white-space: nowrap; /* 改行しない */
+        overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
+        text-overflow: ellipsis;
     }
 
     /* 「いいね」した商品はありません。メッセージ */
@@ -189,6 +192,9 @@
     .item-name {
         font-size: 20px;
         margin: 0;
+        white-space: nowrap; /* 改行しない */
+        overflow: hidden; /* 内部の文字がはみ出すのを防ぐ */
+        text-overflow: ellipsis;
     }
 
     /* 「いいね」した商品はありません。メッセージ */
